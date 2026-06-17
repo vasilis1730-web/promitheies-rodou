@@ -3,12 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Δήμος Ρόδου · Προμήθειες υλικών</title>
+<title>Δήμος Ρόδου · Προμήθειες υλικών v6</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Commissioner:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap&subset=greek,greek-ext,latin" rel="stylesheet">
 <style>
 :root{
+  --totals-height:64px;
   --teal-900:#0E3B38; --teal-700:#15524F; --teal-600:#1B6863; --teal-500:#2A847D;
   --ink:#14201E; --muted:#56655F; --faint2:#8A9A95;
   --bg:#EDF1EF; --surface:#FFFFFF; --line:#DCE6E2; --line-2:#EAF0EE;
@@ -57,7 +58,7 @@ button{font-family:var(--font-ui);cursor:pointer}
 .icon-btn:hover{background:rgba(255,255,255,.2)}
 .icon-btn svg{width:17px;height:17px}
 .year-pill{font-family:var(--font-ui);font-weight:600;font-size:12.5px;color:#A9CFCA;border:1px solid rgba(255,255,255,.16);padding:6px 11px;border-radius:999px}
-.shell{max-width:1280px;margin:0 auto;padding:clamp(14px,2.4vw,26px) clamp(12px,3vw,30px) 96px}
+.shell{max-width:1280px;margin:0 auto;padding:clamp(14px,2.4vw,26px) clamp(12px,3vw,30px) calc(var(--totals-height) + 22px)}
 .nav{margin-bottom:14px}
 .nav-label{font-family:var(--font-ui);font-size:11px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--faint2);margin:0 2px 8px}
 .pills{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
@@ -91,10 +92,13 @@ button{font-family:var(--font-ui);cursor:pointer}
 .btn--accent:hover{background:#F8E9C8;border-color:var(--amber)}
 .btn--sum{color:#fff;background:linear-gradient(180deg,#1B6863,#15524F);border-color:#15524F}
 .btn--sum:hover{background:var(--teal-600);border-color:var(--teal-600)}
+.btn--restore{color:#0f6b4f;border-color:#a8d8c8;background:#eef9f5;font-weight:700}
+.btn--restore:hover{color:#0b5941;border-color:#58ad8e;background:#e2f5ee}
 .btn:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
 .banner{margin:0;padding:9px 18px;background:var(--amber-bg);border-bottom:1px solid var(--amber-line);color:#7a5512;font-size:12.5px;font-weight:600;font-family:var(--font-ui);display:flex;align-items:center;gap:8px}
 .banner svg{width:15px;height:15px;flex:none}
-.tablewrap{overflow:auto;max-height:calc(100vh - 360px);min-height:200px}
+.tablewrap{overflow:auto;max-height:calc(100vh - 360px - var(--totals-height));min-height:200px;scroll-padding-bottom:calc(var(--totals-height) + 18px)}
+.tablewrap::after{content:"";display:block;height:calc(var(--totals-height) + 18px);pointer-events:none}
 table.mat{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
 .mat thead th{position:sticky;top:0;z-index:2;background:#F4F8F6;color:var(--teal-700);font-family:var(--font-ui);font-weight:600;font-size:11.5px;letter-spacing:.4px;text-transform:uppercase;text-align:left;padding:11px 14px;border-bottom:1px solid var(--line);white-space:nowrap}
 .mat thead th.num{text-align:right}
@@ -118,19 +122,19 @@ table.mat{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
 .loadrow td{padding:40px;text-align:center;color:var(--muted)}
 .spin{display:inline-block;width:18px;height:18px;border:2.5px solid var(--line);border-top-color:var(--teal-500);border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:8px}
 @keyframes spin{to{transform:rotate(360deg)}}
-.totals{position:fixed;left:0;right:0;bottom:0;z-index:45;background:rgba(255,255,255,.94);backdrop-filter:saturate(1.4) blur(8px);border-top:1px solid var(--line);box-shadow:0 -6px 22px rgba(14,59,56,.08)}
-.totals-in{max-width:1280px;margin:0 auto;display:flex;align-items:stretch;padding:0 clamp(12px,3vw,30px);overflow-x:auto}
-.stat{display:flex;flex-direction:column;justify-content:center;gap:1px;padding:13px 22px 12px;border-right:1px solid var(--line-2);white-space:nowrap}
-.stat .k{font-family:var(--font-ui);font-size:10.5px;font-weight:700;letter-spacing:.9px;text-transform:uppercase;color:var(--faint2)}
-.stat .v{font-family:var(--font-data);font-weight:600;font-size:16px;font-variant-numeric:tabular-nums}
-.stat--grand{margin-left:auto;border-right:none;align-items:flex-end;background:linear-gradient(180deg,#FBFDFC,#F1F7F5);padding-left:30px}
+.totals{position:fixed;left:0;right:0;bottom:0;z-index:45;background:rgba(255,255,255,.96);backdrop-filter:saturate(1.35) blur(7px);border-top:1px solid var(--line);box-shadow:0 -4px 16px rgba(14,59,56,.08)}
+.totals-in{max-width:1280px;margin:0 auto;display:flex;align-items:center;min-height:54px;padding:0 clamp(8px,2vw,18px);overflow-x:auto}
+.stat{display:flex;flex-direction:column;justify-content:center;gap:0;padding:6px 12px;border-right:1px solid var(--line-2);white-space:nowrap}
+.stat .k{font-family:var(--font-ui);font-size:9px;font-weight:700;letter-spacing:.65px;text-transform:uppercase;color:var(--faint2)}
+.stat .v{font-family:var(--font-data);font-weight:600;font-size:14px;font-variant-numeric:tabular-nums}
+.stat--grand{margin-left:auto;border-right:none;align-items:flex-end;background:linear-gradient(180deg,#FBFDFC,#F1F7F5);padding:5px 10px 5px 16px}
 .stat--grand .k{color:var(--teal-600)}
-.stat--grand .v{font-family:var(--font-ui);font-weight:700;font-size:24px;color:var(--teal-700);letter-spacing:-.3px}
+.stat--grand .v{font-family:var(--font-ui);font-weight:700;font-size:19px;color:var(--teal-700);letter-spacing:-.2px}
 .stat--vat .v{color:var(--muted)}
-.save-state{font-family:var(--font-ui);font-size:11.5px;font-weight:600;color:var(--faint2);padding:0 14px;display:flex;align-items:center;gap:6px}
+.save-state{font-family:var(--font-ui);font-size:10px;font-weight:600;color:var(--faint2);padding:0 8px;display:flex;align-items:center;gap:4px}
 .save-state.dirty{color:var(--amber)} .save-state.saved{color:var(--good)}
-@media (max-width:760px){.stat{padding:10px 14px}.stat--grand .v{font-size:20px}}
-.toast-wrap{position:fixed;left:50%;bottom:96px;transform:translateX(-50%);z-index:60;display:flex;flex-direction:column;gap:8px;align-items:center;pointer-events:none}
+@media (max-width:760px){.stat{padding:5px 8px}.stat--grand .v{font-size:17px}.totals-in{min-height:50px}}
+.toast-wrap{position:fixed;left:50%;bottom:calc(var(--totals-height) + 12px);transform:translateX(-50%);z-index:60;display:flex;flex-direction:column;gap:8px;align-items:center;pointer-events:none}
 .toast{font-family:var(--font-ui);font-weight:600;font-size:13.5px;color:#fff;background:var(--teal-900);padding:11px 18px;border-radius:999px;box-shadow:var(--shadow-md);display:flex;align-items:center;gap:9px;animation:rise .28s cubic-bezier(.2,.7,.3,1)}
 .toast svg{width:16px;height:16px;color:#7FE0C2}
 .toast--err{background:#7a2730} .toast--err svg{color:#ffb4bd}
@@ -159,7 +163,38 @@ table.mat{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
 .self-box input{font-family:var(--font-data);font-size:12.5px;border:1px solid var(--line);border-radius:7px;padding:8px 9px}
 @media (max-width:680px){.ptitle{order:-1;width:100%}.search{flex:1}.search input{width:100%}.tablewrap{max-height:none}.urow{grid-template-columns:1fr 1fr;}.urow .un{grid-column:1 / -1}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ===== v5: εργαλεία διαχειριστή, ταξινόμηση, στόχος και αντιγραφή ===== */
+.mat thead th.sortable{cursor:pointer;user-select:none;transition:background .15s,color .15s}
+.mat thead th.sortable:hover{background:#E8F1EE;color:var(--teal-900)}
+.sort-mark{display:inline-block;min-width:12px;margin-left:5px;color:var(--teal-500);font-size:10px}
+.col-actions{width:66px;text-align:center;white-space:nowrap}
+.del-item{width:30px;height:30px;border:1px solid #E7BCC2;border-radius:7px;background:#FFF4F5;color:var(--danger);display:inline-grid;place-items:center;padding:0;transition:background .15s,border-color .15s,transform .12s}
+.del-item:hover{background:#FBE7EA;border-color:var(--danger);transform:translateY(-1px)}
+.del-item svg{width:14px;height:14px}
+.btn--danger-soft{color:var(--danger);border-color:#E7BCC2;background:#FFF7F8}
+.btn--danger-soft:hover{background:#FBEAEC;border-color:var(--danger)}
+.target-box{display:flex;flex-direction:row;gap:6px;align-items:center;margin-top:2px}
+.target-box label{font-family:var(--font-ui);font-size:8.5px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:var(--teal-600)}
+.target-line{display:flex;align-items:center;gap:5px}
+.target-line input{width:104px;border:1px solid var(--line);border-radius:6px;padding:4px 7px;text-align:right;font-family:var(--font-data);font-size:11px;font-weight:600;background:#fff;color:var(--ink)}
+.target-line input:focus{outline:none;border-color:var(--teal-500);box-shadow:0 0 0 3px rgba(42,132,125,.14)}
+.target-line button{border:1px solid var(--teal-700);background:var(--teal-700);color:#fff;border-radius:6px;padding:4px 8px;font-family:var(--font-ui);font-size:10px;font-weight:700}
+.copy-grid{display:grid;grid-template-columns:1fr;gap:10px}
+.copy-grid label{font-family:var(--font-ui);font-size:12px;font-weight:700;color:var(--muted)}
+.copy-grid select{width:100%;font-family:var(--font-data);font-size:13px;border:1px solid var(--line);border-radius:8px;padding:10px;background:#fff;color:var(--ink)}
+.copy-info{padding:11px 13px;border:1px solid var(--line-2);background:#F6FAF9;border-radius:9px;font-size:12.5px;color:var(--muted)}
+.copy-info b{color:var(--teal-700)}
+@media(max-width:900px){.target-box{align-items:flex-start}.stat--grand{align-items:flex-start}.target-line input{width:100px}}
+
+.admin-toolbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:9px 18px;background:#F3FAF7;border-bottom:1px solid #CFE7DE}
+.admin-toolbar .admin-label{font-family:var(--font-ui);font-size:10px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--teal-700);margin-right:4px}
+.admin-toolbar .btn{padding:7px 11px;font-size:12px}
+.admin-toolbar .btn--restore{box-shadow:0 0 0 2px rgba(28,122,87,.08);background:#E7F7F0;border-color:#68B99B;color:#0C6247}
+
+
 </style>
+<!-- v7: compact totals, prominent restore, integer-only quantities, target never exceeded -->
 </head>
 <body>
 
@@ -225,12 +260,24 @@ table.mat{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
         <button class="btn btn--accent" id="btnTexos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6M9 13h6M9 17h6"/></svg>Τεύχος δημοπράτησης</button>
       </div>
     </div>
+
+    <div class="admin-toolbar hidden" id="adminToolbar">
+      <span class="admin-label">Εργαλεία διαχειριστή</span>
+      <button class="btn btn--restore" id="btnRestore" title="Εμφάνιση ξανά του πλήρους καταλόγου ειδών"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>Επαναφορά όλων των ειδών</button>
+      <button class="btn" id="btnUndo" disabled title="Αναίρεση τελευταίας αλλαγής"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14 4 9l5-5"/><path d="M4 9h9a7 7 0 1 1 0 14h-2"/></svg>Αναίρεση</button>
+      <button class="btn" id="btnCopyGroup" title="Αντιγραφή της τρέχουσας ομάδας σε άλλη Δ.Ε."><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Αντιγραφή ομάδας</button>
+    </div>
     <div class="banner hidden" id="banner"></div>
     <div class="tablewrap">
       <table class="mat">
         <thead><tr>
-          <th class="ctr">Α/Α</th><th>Περιγραφή είδους</th><th class="ctr">Μονάδα</th>
-          <th class="num">Ενδ. τιμή (χωρίς ΦΠΑ)</th><th class="num">Ποσότητα</th><th class="num">Δαπάνη</th>
+          <th class="ctr">Α/Α</th>
+          <th class="sortable" data-sort="name">Περιγραφή είδους<span class="sort-mark"></span></th>
+          <th class="ctr sortable" data-sort="unit">Μονάδα<span class="sort-mark"></span></th>
+          <th class="num sortable" data-sort="price">Ενδ. τιμή (χωρίς ΦΠΑ)<span class="sort-mark"></span></th>
+          <th class="num sortable" data-sort="qty">Ποσότητα<span class="sort-mark"></span></th>
+          <th class="num sortable" data-sort="cost">Δαπάνη<span class="sort-mark"></span></th>
+          <th class="ctr hidden" id="thAdminActions">Διαγραφή</th>
         </tr></thead>
         <tbody id="tbody"></tbody>
       </table>
@@ -245,7 +292,12 @@ table.mat{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
     <div class="stat"><span class="k">Καθαρή αξία</span><span class="v" id="tNet">0,00&nbsp;€</span></div>
     <div class="stat stat--vat"><span class="k">ΦΠΑ 24%</span><span class="v" id="tVat">0,00&nbsp;€</span></div>
     <div class="save-state" id="saveState"></div>
-    <div class="stat stat--grand"><span class="k">Γενικό σύνολο</span><span class="v" id="tGrand">0,00&nbsp;€</span></div>
+    <div class="stat stat--grand"><span class="k">Γενικό σύνολο</span><span class="v" id="tGrand">0,00&nbsp;€</span>
+      <div class="target-box hidden" id="targetBox">
+        <label for="targetTotal">Στόχος με ΦΠΑ (€)</label>
+        <div class="target-line"><input id="targetTotal" type="text" inputmode="decimal" placeholder="π.χ. 30.000,00"><button id="btnApplyTarget" type="button">Εφαρμογή</button></div>
+      </div>
+    </div>
   </div>
 </footer>
 </div>
@@ -267,6 +319,22 @@ table.mat{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
       </div>
     </div>
     <div class="sheet__f"><button class="btn" id="setClose">Κλείσιμο</button></div>
+  </div>
+</div>
+
+
+<div class="modal" id="copyModal" role="dialog" aria-modal="true" aria-labelledby="copyModalTitle">
+  <div class="sheet" style="max-width:520px">
+    <div class="sheet__h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><b id="copyModalTitle">Αντιγραφή ομάδας</b></div>
+    <div class="sheet__b">
+      <div class="copy-grid">
+        <div class="copy-info" id="copySourceInfo">—</div>
+        <label for="copyDestination">Δημοτική Ενότητα προορισμού</label>
+        <select id="copyDestination"></select>
+        <p class="lead" style="margin:0">Η αντιγραφή αντικαθιστά τις ήδη αποθηκευμένες ποσότητες της ίδιας ομάδας στη Δημοτική Ενότητα προορισμού.</p>
+      </div>
+    </div>
+    <div class="sheet__f"><button class="btn" id="copyCancel">Ακύρωση</button><button class="btn btn--primary" id="copyConfirm">Αντιγραφή</button></div>
   </div>
 </div>
 
@@ -808,6 +876,17 @@ let ME={id:null,role:null,unitId:null,name:''};
 let UNITS=[], GROUPS=[], MAT_BY_GROUP={}, COUNTS={};
 let cur={unitId:null, groupId:null};
 let reqId=null, lines={}, baseline={}, dirty=false, prefillHint=false, cleanView=false;
+let hiddenMaterials=new Set(), undoStack=[], sortState={key:'sort_order',dir:'asc'};
+
+function syncTotalsClearance(){
+  const footer=document.querySelector('.totals');
+  if(!footer)return;
+  const h=Math.ceil(footer.getBoundingClientRect().height||54);
+  document.documentElement.style.setProperty('--totals-height',h+'px');
+}
+window.addEventListener('resize',syncTotalsClearance);
+if(window.ResizeObserver){new ResizeObserver(syncTotalsClearance).observe(document.querySelector('.totals'));}
+setTimeout(syncTotalsClearance,0);
 
 $('#loginBtn').onclick=doLogin;
 $('#pass').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
@@ -834,7 +913,8 @@ async function boot(){
   $('#whoName').textContent=ME.name;
   $('#whoRole').textContent=ROLE_LABEL[ME.role]||ME.role;
   $('#yearPill').textContent='Έτος '+YEAR;
-  $('#settingsBtn').classList.toggle('hidden', ME.role!=='admin');
+  $('#settingsBtn').classList.toggle('hidden', !isAdminUser());
+  updateAdminControls();
   await loadCatalog();
   buildDENav(); buildGrpNav();
   if(ME.role==='unit_user') cur.unitId=ME.unitId;
@@ -857,8 +937,51 @@ async function loadCatalog(){
 
 const unitById=id=>UNITS.find(x=>x.id===id)||{};
 const unitName=id=>{const u=unitById(id);return u.short_name||u.name||'';};
-const canWrite=id=> ME.role==='admin' || ((ME.role==='unit_user'||ME.role==='central') && id===ME.unitId);
+const isAdminUser=()=>String(ME.role||'').toLowerCase()==='admin';
+const canWrite=id=> isAdminUser() || ((ME.role==='unit_user'||ME.role==='central') && id===ME.unitId);
 const matById=mid=>(MAT_BY_GROUP[cur.groupId]||[]).find(x=>x.id===mid);
+
+
+function cloneLines(obj){return JSON.parse(JSON.stringify(obj||{}));}
+function captureUiState(label){return {label:label||'Αλλαγή',lines:cloneLines(lines),hidden:[...hiddenMaterials],cleanView,prefillHint};}
+function pushUndo(label,snapshot){undoStack.push(snapshot||captureUiState(label));if(undoStack.length>30)undoStack.shift();updateUndoButton();}
+function updateUndoButton(){const b=$('#btnUndo');if(!b)return;b.disabled=undoStack.length===0;b.title=undoStack.length?('Αναίρεση: '+(undoStack[undoStack.length-1].label||'τελευταία αλλαγή')):'Δεν υπάρχει αλλαγή προς αναίρεση';}
+function undoLast(){if(!undoStack.length)return;const st=undoStack.pop();lines=cloneLines(st.lines);hiddenMaterials=new Set(st.hidden||[]);cleanView=!!st.cleanView;prefillHint=!!st.prefillHint;setDirty(true);render();updateUndoButton();toast('Αναιρέθηκε: '+(st.label||'τελευταία αλλαγή'),'accent');}
+function updateAdminControls(){
+  const isAdmin=isAdminUser();
+  $('#adminToolbar')?.classList.toggle('hidden',!isAdmin);
+  const restore=$('#btnRestore');
+  if(restore)restore.disabled=!isAdmin;
+  const undo=$('#btnUndo');
+  if(undo)undo.classList.toggle('hidden',!isAdmin);
+  const copy=$('#btnCopyGroup');
+  if(copy){copy.classList.toggle('hidden',!isAdmin);copy.disabled=!isAdmin||cur.unitId===CENTRAL_UNIT;}
+  $('#thAdminActions')?.classList.toggle('hidden',!isAdmin);
+  $('#targetBox')?.classList.toggle('hidden',!canWrite(cur.unitId));
+  updateUndoButton();
+  syncTotalsClearance();
+}
+function materialMetric(m,key){
+  const qty=(lines[m.id]&&Number(lines[m.id].q))||0;
+  const price=priceOf(m);
+  if(key==='name')return norm(m.name);
+  if(key==='unit')return norm(m.unit||'');
+  if(key==='price')return price==null?Number.POSITIVE_INFINITY:Number(price);
+  if(key==='qty')return qty;
+  if(key==='cost')return price==null?Number.POSITIVE_INFINITY:Number(price)*qty;
+  return Number(m.sort_order||0);
+}
+function sortedMaterials(mats){
+  const arr=mats.slice(); const {key,dir}=sortState; const mult=dir==='desc'?-1:1;
+  arr.sort((a,b)=>{const av=materialMetric(a,key),bv=materialMetric(b,key);let c=0;
+    if(typeof av==='string'||typeof bv==='string')c=(''+av).localeCompare(''+bv,'el',{numeric:true,sensitivity:'base'});
+    else c=av===bv?0:(av<bv?-1:1);
+    if(c===0)c=(Number(a.sort_order||0)-Number(b.sort_order||0));
+    return c*mult;
+  });return arr;
+}
+function updateSortMarks(){document.querySelectorAll('th[data-sort]').forEach(th=>{const sp=th.querySelector('.sort-mark');if(sp)sp.textContent=sortState.key===th.dataset.sort?(sortState.dir==='asc'?'▲':'▼'):'';});}
+function toggleSort(key){if(sortState.key===key)sortState.dir=sortState.dir==='asc'?'desc':'asc';else{sortState.key=key;sortState.dir='asc';}render();}
 
 function buildDENav(){
   const n=$('#deNav'); n.innerHTML='';
@@ -900,7 +1023,7 @@ async function openView(){
   $('#btnSave').disabled=!writable; $('#btnClean').disabled=!writable;
   $('#btnRefresh').classList.toggle('hidden', !(isCentral && writable));
   $('#banner').classList.add('hidden');
-  reqId=null; lines={}; baseline={}; prefillHint=false; cleanView=false; setDirty(false);
+  reqId=null; lines={}; baseline={}; prefillHint=false; cleanView=false; hiddenMaterials=new Set(); undoStack=[]; sortState={key:'sort_order',dir:'asc'}; setDirty(false); updateAdminControls();
   renderLoading();
   try{ await loadUnitRequest(); }
   catch(e){ toast('Σφάλμα φόρτωσης: '+(e.message||e),'err'); }
@@ -913,8 +1036,8 @@ async function loadUnitRequest(){
     .eq('municipal_unit_id',cur.unitId).eq('group_id',cur.groupId).eq('request_year',YEAR).limit(1);
   if(error)throw error;
   if(reqs&&reqs.length){ reqId=reqs[0].id; cleanView=(reqs[0].status==='cleaned');
-    const {data:ls,error:e2}=await sb.from('request_lines').select('material_id,quantity,unit_price').eq('request_id',reqId);
-    if(e2)throw e2; (ls||[]).forEach(l=>{lines[l.material_id]={q:Number(l.quantity),p:l.unit_price==null?null:Number(l.unit_price)};});
+    const {data:ls,error:e2}=await sb.from('request_lines').select('material_id,quantity,unit_price,comments').eq('request_id',reqId);
+    if(e2)throw e2; (ls||[]).forEach(l=>{lines[l.material_id]={q:Number(l.quantity),p:l.unit_price==null?null:Number(l.unit_price)};if(l.comments==='__hidden__')hiddenMaterials.add(String(l.material_id));});
   }
   baseline=JSON.parse(JSON.stringify(lines));
   // Δήμος Ρόδου: αν δεν υπάρχουν αποθηκευμένα, προ-συμπλήρωσε από το άθροισμα των Δ.Ε. (πρόχειρο)
@@ -926,6 +1049,14 @@ async function loadUnitRequest(){
 }
 function priceVal(m){return m.default_unit_price==null?null:Number(m.default_unit_price);}
 function priceOf(m){const l=lines[m.id];return (l&&l.p!=null)?l.p:priceVal(m);}
+
+// Όλες οι ποσότητες της εφαρμογής τηρούνται ως ακέραιες μονάδες, ανεξάρτητα από τη μονάδα μέτρησης.
+function isIntegerQuantityMaterial(){return true;}
+function normalizeQuantityForMaterial(m,value){
+  const n=Number(value);
+  if(!Number.isFinite(n)||n<=0)return 0;
+  return Math.max(1,Math.round(n));
+}
 
 async function computeSumFromUnits(groupId){
   const out={};
@@ -940,45 +1071,49 @@ async function computeSumFromUnits(groupId){
 }
 
 function render(){
-  const mats=MAT_BY_GROUP[cur.groupId]||[];
+  const allMats=MAT_BY_GROUP[cur.groupId]||[];
   const writable=canWrite(cur.unitId);
   const q=norm(($('#search').value||'').trim());
   const tb=$('#tbody'); tb.innerHTML='';
   const bn=$('#banner');
   if(prefillHint){bn.classList.remove('hidden');bn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg> Πρόχειρο άθροισμα των 10 Δ.Ε. — πάτησε «Αποθήκευση» για να οριστικοποιηθεί.';}
-  else if(cleanView){bn.classList.remove('hidden');bn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg> Προβολή καθαρισμένου δελτίου: εμφανίζονται μόνο τα είδη με συμπληρωμένη ποσότητα.';}
+  else if(cleanView){bn.classList.remove('hidden');bn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg> Προβολή καθαρισμένου δελτίου: εμφανίζονται μόνο τα είδη με συμπληρωμένη ποσότητα. Με «Επαναφορά όλων των ειδών» εμφανίζεται ξανά ο πλήρης κατάλογος.';}
   else bn.classList.add('hidden');
-  if(!mats.length){tb.innerHTML='<tr class="emptyrow"><td colspan="6">Δεν υπάρχουν είδη σε αυτή την ομάδα ακόμη.</td></tr>';computeTotals();return;}
-  let shown=0;
+  if(!allMats.length){tb.innerHTML='<tr class="emptyrow"><td colspan="7">Δεν υπάρχουν είδη σε αυτή την ομάδα ακόμη.</td></tr>';computeTotals();return;}
+  let mats=sortedMaterials(allMats).filter(m=>!hiddenMaterials.has(String(m.id))&&!hiddenMaterials.has(m.id));
+  if(cleanView)mats=mats.filter(m=>((lines[m.id]&&lines[m.id].q)||0)>0);
+  if(q)mats=mats.filter(m=>norm(m.name).includes(q));
   mats.forEach((m,i)=>{
     const qty=(lines[m.id]&&lines[m.id].q)||0;
-    if(cleanView && qty<=0) return;
-    if(q && !norm(m.name).includes(q)) return;
-    shown++;
     const price=priceOf(m);
     const cost=(price!=null&&qty>0)?price*qty:null;
     let dh=m.name;
     if(q){const re=new RegExp('('+q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi');dh=m.name.replace(re,x=>'<span class="hl">'+x+'</span>');}
     const tr=document.createElement('tr');
-    tr.innerHTML='<td class="col-aa">'+(i+1)+'</td>'+
-      '<td class="col-desc">'+dh+'</td>'+
-      '<td class="col-unit">'+(m.unit?'<span class="u">'+m.unit+'</span>':'')+'</td>'+
-      '<td class="col-price">'+(price!=null?fmtE(price):'<span class="none">—</span>')+'</td>'+
+    tr.innerHTML='<td class="col-aa">'+(i+1)+'</td>'+ 
+      '<td class="col-desc">'+dh+'</td>'+ 
+      '<td class="col-unit">'+(m.unit?'<span class="u">'+m.unit+'</span>':'')+'</td>'+ 
+      '<td class="col-price">'+(price!=null?fmtE(price):'<span class="none">—</span>')+'</td>'+ 
       '<td class="col-qty">'+(!writable
         ?'<input class="qin filled" value="'+(qty||0)+'" disabled>'
-        :'<input class="qin'+(qty>0?' filled':'')+'" type="number" min="0" step="any" inputmode="decimal" value="'+(qty||'')+'" data-mid="'+m.id+'">')+'</td>'+
-      '<td class="col-cost">'+(cost!=null?fmtE(cost):'<span class="none">—</span>')+'</td>';
+        :'<input class="qin'+(qty>0?' filled':'')+'" type="number" min="0" step="1" inputmode="numeric" value="'+(qty||'')+'" data-integer="1" data-mid="'+m.id+'">')+'</td>'+ 
+      '<td class="col-cost">'+(cost!=null?fmtE(cost):'<span class="none">—</span>')+'</td>'+ 
+      (isAdminUser()?'<td class="col-actions"><button type="button" class="del-item" data-delete-mid="'+m.id+'" title="Αφαίρεση είδους από το δελτίο"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/><path d="M10 11v5M14 11v5"/></svg></button></td>':'');
     tb.appendChild(tr);
   });
-  if(!shown)tb.innerHTML='<tr class="emptyrow"><td colspan="6">'+(q?'Κανένα είδος δεν ταιριάζει στην αναζήτηση.':(cleanView?'Δεν υπάρχουν είδη με συμπληρωμένη ποσότητα στο καθαρισμένο δελτίο.':'—'))+'</td></tr>';
-  $('#ptSub').innerHTML='Σύνολο ειδών: <b>'+mats.length+'</b>'+(!writable?' · μόνο προβολή':'');
-  bindInputs(); computeTotals();
+  if(!mats.length)tb.innerHTML='<tr class="emptyrow"><td colspan="7">'+(q?'Κανένα είδος δεν ταιριάζει στην αναζήτηση.':(cleanView?'Δεν υπάρχουν είδη με συμπληρωμένη ποσότητα στο καθαρισμένο δελτίο.':'Δεν υπάρχουν εμφανιζόμενα είδη.'))+'</td></tr>';
+  $('#ptSub').innerHTML='Σύνολο καταλόγου: <b>'+allMats.length+'</b> · εμφανίζονται: <b>'+mats.length+'</b>'+(!writable?' · μόνο προβολή':'');
+  bindInputs(); bindDeleteButtons(); computeTotals(); updateSortMarks(); updateAdminControls();
 }
+
 function bindInputs(){
   $('#tbody').querySelectorAll('input.qin:not([disabled])').forEach(inp=>{
+    inp.addEventListener('focus',()=>{inp._undoSnapshot=captureUiState('Αλλαγή ποσότητας');inp._undoPushed=false;});
     inp.addEventListener('input',()=>{
-      const mid=inp.dataset.mid, val=parseFloat(inp.value), m=matById(mid);
-      const qv=(isNaN(val)||val<0)?0:val;
+      if(!inp._undoPushed){pushUndo('Αλλαγή ποσότητας',inp._undoSnapshot);inp._undoPushed=true;}
+      const mid=inp.dataset.mid, val=Number(inp.value), m=matById(mid);
+      const qv=(!Number.isFinite(val)||val<=0)?0:Math.max(1,Math.round(val));
+      if(inp.value!==''&&Number(inp.value)!==qv)inp.value=qv;
       lines[mid]=lines[mid]||{q:0,p:priceOf(m)}; lines[mid].q=qv; if(lines[mid].p==null)lines[mid].p=priceOf(m);
       inp.classList.toggle('filled',qv>0);
       const price=priceOf(m); const c=(price!=null&&qv>0)?price*qv:null;
@@ -986,14 +1121,32 @@ function bindInputs(){
       if(prefillHint){prefillHint=false;$('#banner').classList.add('hidden');}
       setDirty(true); computeTotals();
     });
+    inp.addEventListener('blur',()=>{
+      const mid=inp.dataset.mid,m=matById(mid);if(!m)return;
+      const qv=normalizeQuantityForMaterial(m,parseFloat(inp.value));
+      lines[mid]=lines[mid]||{q:0,p:priceOf(m)};lines[mid].q=qv;
+      inp.value=qv>0?qv:'';inp.classList.toggle('filled',qv>0);
+      const price=priceOf(m),c=(price!=null&&qv>0)?price*qv:null;
+      inp.closest('tr').querySelector('.col-cost').innerHTML=(c!=null?fmtE(c):'<span class="none">—</span>');
+      computeTotals();
+    });
   });
 }
+function bindDeleteButtons(){
+  $('#tbody').querySelectorAll('[data-delete-mid]').forEach(btn=>btn.onclick=()=>{
+    const mid=btn.dataset.deleteMid,m=matById(mid); if(!m)return;
+    pushUndo('Διαγραφή είδους');
+    const p=priceOf(m); lines[mid]={q:0,p:p==null?priceVal(m):p}; hiddenMaterials.add(String(mid)); cleanView=false; prefillHint=false;
+    setDirty(true); render(); toast('Το είδος αφαιρέθηκε από το δελτίο. Με «Αναίρεση» επανέρχεται.','accent');
+  });
+}
+
 function computeTotals(){
   const mats=MAT_BY_GROUP[cur.groupId]||[]; let net=0,qsum=0,n=0;
   mats.forEach(m=>{const price=priceOf(m);const qty=(lines[m.id]&&lines[m.id].q)||0;
     if(qty>0){n++;qsum+=qty;if(price!=null)net+=price*qty;}});
   $('#tItems').textContent=fmtN(n);
-  $('#tQty').textContent=fmtN(Math.round(qsum*1000)/1000);
+  $('#tQty').textContent=fmtN(Math.round(qsum));
   $('#tNet').innerHTML=fmtE(net).replace(' ','&nbsp;');
   $('#tVat').innerHTML=fmtE(net*VAT).replace(' ','&nbsp;');
   $('#tGrand').innerHTML=fmtE(net*(1+VAT)).replace(' ','&nbsp;');
@@ -1005,7 +1158,9 @@ async function ensureRequest(){
   if(error)throw error; reqId=data.id; return reqId;
 }
 $('#btnSave').onclick=()=>saveAll(false);
-$('#btnClean').onclick=()=>saveAll(true);
+$('#btnClean').onclick=()=>{pushUndo('Αποθήκευση & καθαρισμός');saveAll(true);};
+$('#btnUndo').onclick=undoLast;
+$('#btnRestore').onclick=()=>{if(!isAdminUser())return;pushUndo('Επαναφορά πλήρους καταλόγου');hiddenMaterials.clear();cleanView=false;prefillHint=false;setDirty(true);render();toast('Εμφανίστηκε ξανά ο πλήρης κατάλογος ειδών. Μπορείς τώρα να επιλέξεις πρόσθετα είδη.','accent');};
 async function saveAll(clean){
   if(!canWrite(cur.unitId))return;
   const btn=clean?$('#btnClean'):$('#btnSave'); const old=btn.innerHTML; btn.disabled=true; btn.innerHTML='<span class="spin" style="width:14px;height:14px;margin:0 6px 0 0"></span>'+(clean?'Καθαρισμός…':'Αποθήκευση…');
@@ -1013,8 +1168,9 @@ async function saveAll(clean){
     await ensureRequest();
     const mats=MAT_BY_GROUP[cur.groupId]||[];
     const ups=[], delIds=[];
-    mats.forEach(m=>{const l=lines[m.id]; const qv=l?l.q:0; const had=baseline[m.id]!=null;
-      if(qv>0){ const p=priceOf(m); ups.push({request_id:reqId,material_id:m.id,quantity:qv,unit_price:p==null?0:p,updated_by:ME.id}); }
+    mats.forEach(m=>{const l=lines[m.id]; const qv=normalizeQuantityForMaterial(m,l?l.q:0); if(l)l.q=qv; const had=baseline[m.id]!=null; const isHidden=hiddenMaterials.has(String(m.id));
+      if(isHidden){ const p=priceOf(m); ups.push({request_id:reqId,material_id:m.id,quantity:0,unit_price:p==null?0:p,comments:'__hidden__',updated_by:ME.id}); }
+      else if(qv>0){ const p=priceOf(m); ups.push({request_id:reqId,material_id:m.id,quantity:qv,unit_price:p==null?0:p,comments:null,updated_by:ME.id}); }
       else if(had||clean){ delIds.push(m.id); }
     });
     if(ups.length){const {error}=await sb.from('request_lines').upsert(ups,{onConflict:'request_id,material_id'});if(error)throw error;}
@@ -1024,9 +1180,9 @@ async function saveAll(clean){
     const patch={status,updated_by:ME.id,updated_at:new Date().toISOString()};
     patch[clean?'cleaned_at':'saved_at']=new Date().toISOString();
     await sb.from('unit_requests').update(patch).eq('id',reqId);
-    await sb.from('saved_versions').insert({request_id:reqId,action:clean?'save_clean':'save',created_by:ME.id,snapshot:{items:ups.length,net:currentNet()}});
-    lines={}; const {data:ls}=await sb.from('request_lines').select('material_id,quantity,unit_price').eq('request_id',reqId);
-    (ls||[]).forEach(l=>{lines[l.material_id]={q:Number(l.quantity),p:l.unit_price==null?null:Number(l.unit_price)};});
+    await sb.from('saved_versions').insert({request_id:reqId,action:clean?'save_clean':'save',created_by:ME.id,snapshot:{items:ups.filter(x=>Number(x.quantity)>0).length,hidden:ups.filter(x=>x.comments==='__hidden__').length,net:currentNet()}});
+    lines={}; hiddenMaterials=new Set(); const {data:ls}=await sb.from('request_lines').select('material_id,quantity,unit_price,comments').eq('request_id',reqId);
+    (ls||[]).forEach(l=>{lines[l.material_id]={q:Number(l.quantity),p:l.unit_price==null?null:Number(l.unit_price)};if(l.comments==='__hidden__')hiddenMaterials.add(String(l.material_id));});
     baseline=JSON.parse(JSON.stringify(lines)); prefillHint=false; cleanView=!!clean;
     setDirty(false); render();
     const lbl=cur.unitId===CENTRAL_UNIT?'Δήμος Ρόδου':unitName(cur.unitId);
@@ -1152,6 +1308,7 @@ async function importQuantitiesFromFile(file){
   const byId=new Map(mats.map(m=>[''+m.id,m]));
   const byName=new Map(mats.map(m=>[norm(m.name),m]));
   let changed=0, skipped=0;
+  const importSnapshot=captureUiState('Εισαγωγή Excel');
   rows.slice(1).forEach(r=>{
     if(!r || r.every(c=>(''+(c??'')).trim()===''))return;
     const o=rowObject(headers,r);
@@ -1162,16 +1319,191 @@ async function importQuantitiesFromFile(file){
     if(rawId!=null && (''+rawId).trim()!=='' && byId.has((''+rawId).trim()))m=byId.get((''+rawId).trim());
     if(!m && rawName!=null)m=byName.get(norm(rawName));
     if(!m){skipped++;return;}
-    const qv=parseElNumber(rawQty);
+    const qv=normalizeQuantityForMaterial(m,parseElNumber(rawQty));
     const p=priceOf(m);
-    lines[m.id]={q:qv>0?qv:0,p:p==null?priceVal(m):p};
+    lines[m.id]={q:qv,p:p==null?priceVal(m):p};
     changed++;
   });
   if(!changed)throw new Error('Δεν αντιστοιχίστηκε καμία γραμμή του αρχείου με τα είδη της τρέχουσας ομάδας.');
+  pushUndo('Εισαγωγή Excel',importSnapshot); hiddenMaterials.clear();
   cleanView=false; prefillHint=false; setDirty(true); render();
   await saveAll(false);
   toast('Εισήχθησαν και αποθηκεύτηκαν '+changed+' γραμμές'+(skipped?' · παραλείφθηκαν '+skipped:'')+'.','accent');
 }
+
+
+function applyBudgetTarget(){
+  if(!canWrite(cur.unitId)){toast('Δεν έχεις δικαίωμα αλλαγής ποσοτήτων σε αυτή την ενότητα.','err');return;}
+  const target=parseElNumber($('#targetTotal').value);
+  if(!(target>0)){toast('Δώσε έγκυρο ποσό στόχου μεγαλύτερο από μηδέν.','err');return;}
+
+  const mats=MAT_BY_GROUP[cur.groupId]||[];
+  // Ο στόχος εφαρμόζεται αποκλειστικά στα είδη που έχουν ήδη θετική ποσότητα.
+  const active=mats.filter(m=>{
+    const q=(lines[m.id]&&Number(lines[m.id].q))||0;
+    const p=priceOf(m);
+    return q>0&&p!=null&&Number(p)>0&&!hiddenMaterials.has(String(m.id));
+  });
+  if(!active.length){toast('Δεν υπάρχουν ήδη επιλεγμένα είδη με ποσότητα και τιμή.','err');return;}
+
+  const currentNetValue=active.reduce((s,m)=>s+Number(priceOf(m))*Math.round(Number(lines[m.id].q)||0),0);
+  const currentGross=currentNetValue*(1+VAT);
+  if(!(currentGross>0)){toast('Το τρέχον γενικό σύνολο είναι μηδενικό.','err');return;}
+
+  const targetNet=target/(1+VAT);
+  const factor=targetNet/currentNetValue;
+  const planned=[];
+  let baseNet=0;
+
+  active.forEach(m=>{
+    const oldQ=Math.max(1,Math.round(Number(lines[m.id].q)||0));
+    const price=Number(priceOf(m));
+    const ideal=oldQ*factor;
+    const base=Math.max(1,Math.floor(ideal+1e-12));
+    planned.push({m,oldQ,price,ideal,q:base,fraction:ideal-Math.floor(ideal)});
+    baseNet+=base*price;
+  });
+
+  // Διατηρούμε όλα τα ήδη επιλεγμένα είδη με τουλάχιστον μία ακέραιη μονάδα.
+  if(baseNet>targetNet+1e-9){
+    toast('Ο στόχος είναι μικρότερος από το ελάχιστο ποσό που προκύπτει αν παραμείνουν όλα τα ήδη επιλεγμένα είδη με τουλάχιστον μία μονάδα. Δεν έγινε αλλαγή.','err');
+    return;
+  }
+
+  pushUndo('Εφαρμογή στόχου προϋπολογισμού');
+
+  // Ξεκινάμε από το ακέραιο κάτω όριο της αναλογικής ποσότητας.
+  planned.forEach(x=>{lines[x.m.id].q=x.q;});
+
+  // Επιλέγουμε ποια είδη θα αυξηθούν κατά μία μονάδα. Η επιλογή γίνεται έτσι ώστε
+  // το αποτέλεσμα να είναι το πλησιέστερο δυνατό ΠΟΣΟ ΚΑΤΩ από τον στόχο.
+  // Χρησιμοποιείται περιορισμένη δυναμική αναζήτηση (beam subset-sum) στις μοναδιαίες τιμές.
+  const scale=10000; // ακρίβεια 0,0001 € στην καθαρή αξία
+  const targetUnits=Math.floor(targetNet*scale+1e-7);
+  const baseUnits=Math.round(baseNet*scale);
+  const capacity=Math.max(0,targetUnits-baseUnits);
+  const candidates=planned
+    .map((x,i)=>({i,cost:Math.max(1,Math.round(x.price*scale)),priority:x.fraction}))
+    .filter(x=>x.cost<=capacity)
+    .sort((a,b)=>b.priority-a.priority||b.cost-a.cost);
+
+  let states=new Map([[0,{score:0,picks:[]}]]);
+  const MAX_STATES=12000;
+  for(const c of candidates){
+    const additions=[];
+    for(const [sum,st] of states){
+      const ns=sum+c.cost;
+      if(ns>capacity)continue;
+      additions.push([ns,{score:st.score+c.priority,picks:st.picks.concat(c.i)}]);
+    }
+    for(const [sum,st] of additions){
+      const prev=states.get(sum);
+      if(!prev||st.score>prev.score)states.set(sum,st);
+    }
+    if(states.size>MAX_STATES){
+      const kept=[...states.entries()]
+        .sort((a,b)=>b[0]-a[0]||b[1].score-a[1].score)
+        .slice(0,MAX_STATES);
+      states=new Map(kept);
+    }
+  }
+
+  let bestSum=0,bestState=states.get(0);
+  for(const [sum,st] of states){
+    if(sum>bestSum||(sum===bestSum&&st.score>(bestState?.score||0))){bestSum=sum;bestState=st;}
+  }
+  (bestState?.picks||[]).forEach(i=>{planned[i].q+=1;lines[planned[i].m.id].q=planned[i].q;});
+
+  // Αν απομένει διαθέσιμο ποσό, προσθέτουμε ακέραιες μονάδες μόνο όπου χωρούν κάτω από τον στόχο.
+  // Η επιλογή κάθε επόμενης μονάδας προκαλεί τη μικρότερη δυνατή απόκλιση από τον αναλογικό συντελεστή.
+  const plannedNet=()=>planned.reduce((s,x)=>s+x.price*Number(lines[x.m.id].q||0),0);
+  let fillGuard=0;
+  while(fillGuard<10000){
+    fillGuard++;
+    const remainingNet=targetNet-plannedNet();
+    const affordable=planned.filter(x=>x.price<=remainingNet+1e-9);
+    if(!affordable.length)break;
+    affordable.sort((a,b)=>{
+      const qa=Number(lines[a.m.id].q||0),qb=Number(lines[b.m.id].q||0);
+      const da=Math.pow((qa+1)/a.oldQ-factor,2)-Math.pow(qa/a.oldQ-factor,2);
+      const db=Math.pow((qb+1)/b.oldQ-factor,2)-Math.pow(qb/b.oldQ-factor,2);
+      return da-db||b.price-a.price;
+    });
+    lines[affordable[0].m.id].q+=1;
+  }
+
+  // Τελικός έλεγχος: όλες οι ποσότητες ακέραιες και το εμφανιζόμενο ποσό ποτέ πάνω από τον στόχο.
+  planned.forEach(x=>{lines[x.m.id].q=Math.max(1,Math.floor(Number(lines[x.m.id].q)||1));});
+  const grossNow=()=>active.reduce((s,m)=>s+Number(priceOf(m))*Number(lines[m.id].q||0),0)*(1+VAT);
+  let guard=0;
+  while(grossNow()>target+0.000001&&guard<10000){
+    guard++;
+    const removable=planned.filter(x=>Number(lines[x.m.id].q)>1);
+    if(!removable.length)break;
+    removable.sort((a,b)=>{
+      const qa=Number(lines[a.m.id].q),qb=Number(lines[b.m.id].q);
+      const ea=Math.abs((qa-1)/a.oldQ-factor)-Math.abs(qa/a.oldQ-factor);
+      const eb=Math.abs((qb-1)/b.oldQ-factor)-Math.abs(qb/b.oldQ-factor);
+      return ea-eb||a.price-b.price;
+    });
+    lines[removable[0].m.id].q-=1;
+  }
+
+  cleanView=true;
+  prefillHint=false;
+  setDirty(true);
+  render();
+
+  const achieved=grossNow();
+  const remaining=Math.max(0,target-achieved);
+  $('#targetTotal').value=target.toLocaleString('el-GR',{minimumFractionDigits:2,maximumFractionDigits:2});
+  toast('Προσαρμόστηκαν αναλογικά μόνο τα '+active.length+' ήδη επιλεγμένα είδη, με ακέραιες ποσότητες. Επιτεύχθηκε '+fmtE(achieved)+' — υπόλοιπο κάτω από τον στόχο '+fmtE(remaining)+'. Πάτησε Αποθήκευση.','accent');
+}
+
+function openCopyModal(){
+  if(!isAdminUser()||cur.unitId===CENTRAL_UNIT)return;
+  const positive=(MAT_BY_GROUP[cur.groupId]||[]).filter(m=>((lines[m.id]&&lines[m.id].q)||0)>0);
+  if(!positive.length){toast('Δεν υπάρχουν ποσότητες προς αντιγραφή στην τρέχουσα ομάδα.','err');return;}
+  const g=GROUPS.find(x=>x.id===cur.groupId)||{};
+  $('#copySourceInfo').innerHTML='Πηγή: <b>Δ.Ε. '+esc(unitName(cur.unitId))+'</b><br>Ομάδα: <b>'+esc(g.short_name||g.name||'')+'</b><br>Είδη με ποσότητα: <b>'+positive.length+'</b>';
+  const sel=$('#copyDestination');sel.innerHTML='';
+  UNITS.filter(u=>u.id!==CENTRAL_UNIT&&u.id!==cur.unitId).forEach(u=>{const o=document.createElement('option');o.value=u.id;o.textContent='Δ.Ε. '+(u.short_name||u.name);sel.appendChild(o);});
+  $('#copyModal').classList.add('open');
+}
+async function copyCurrentGroup(){
+  const destId=Number($('#copyDestination').value);if(!destId||destId===cur.unitId)return;
+  const srcItems=(MAT_BY_GROUP[cur.groupId]||[]).map(m=>({m,q:(lines[m.id]&&Number(lines[m.id].q))||0,p:priceOf(m)})).filter(x=>x.q>0);
+  if(!srcItems.length){toast('Δεν υπάρχουν ποσότητες προς αντιγραφή.','err');return;}
+  const destLabel=unitName(destId),group=GROUPS.find(x=>x.id===cur.groupId)||{};
+  if(!confirm('Να αντιγραφεί η ομάδα «'+(group.short_name||group.name||'')+'» στη Δ.Ε. '+destLabel+'; Οι υπάρχουσες ποσότητες της ομάδας στον προορισμό θα αντικατασταθούν.'))return;
+  const btn=$('#copyConfirm'),old=btn.textContent;btn.disabled=true;btn.textContent='Αντιγραφή…';
+  try{
+    let targetReqId=null;
+    const {data:reqs,error:qerr}=await sb.from('unit_requests').select('id').eq('municipal_unit_id',destId).eq('group_id',cur.groupId).eq('request_year',YEAR).limit(1);
+    if(qerr)throw qerr;
+    if(reqs&&reqs.length)targetReqId=reqs[0].id;
+    else{
+      const {data:created,error:cerr}=await sb.from('unit_requests').insert({municipal_unit_id:destId,group_id:cur.groupId,request_year:YEAR,title:'Δελτίο προμήθειας '+YEAR,created_by:ME.id,updated_by:ME.id,status:'saved',saved_at:new Date().toISOString()}).select('id').single();
+      if(cerr)throw cerr;targetReqId=created.id;
+    }
+    const {error:derr}=await sb.from('request_lines').delete().eq('request_id',targetReqId);if(derr)throw derr;
+    const rows=srcItems.map(x=>({request_id:targetReqId,material_id:x.m.id,quantity:x.q,unit_price:x.p==null?0:x.p,updated_by:ME.id}));
+    if(rows.length){const {error:ierr}=await sb.from('request_lines').insert(rows);if(ierr)throw ierr;}
+    const now=new Date().toISOString();
+    const {error:uerr}=await sb.from('unit_requests').update({status:'saved',saved_at:now,updated_at:now,updated_by:ME.id}).eq('id',targetReqId);if(uerr)throw uerr;
+    await sb.from('saved_versions').insert({request_id:targetReqId,action:'save',created_by:ME.id,snapshot:{source_unit_id:cur.unitId,destination_unit_id:destId,group_id:cur.groupId,items:rows.length,net:currentNet()}});
+    $('#copyModal').classList.remove('open');toast('Η ομάδα αντιγράφηκε στη Δ.Ε. '+destLabel+'.','accent');
+  }catch(e){toast('Σφάλμα αντιγραφής: '+(e.message||e),'err');}
+  finally{btn.disabled=false;btn.textContent=old;}
+}
+
+document.querySelectorAll('th[data-sort]').forEach(th=>th.addEventListener('click',()=>toggleSort(th.dataset.sort)));
+$('#btnApplyTarget').onclick=applyBudgetTarget;
+$('#targetTotal').addEventListener('keydown',e=>{if(e.key==='Enter')applyBudgetTarget();});
+$('#btnCopyGroup').onclick=openCopyModal;
+$('#copyCancel').onclick=()=>$('#copyModal').classList.remove('open');
+$('#copyConfirm').onclick=copyCurrentGroup;
+$('#copyModal').addEventListener('click',e=>{if(e.target.id==='copyModal')$('#copyModal').classList.remove('open');});
 
 function esc(s){return (''+s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function texosRows(){const mats=MAT_BY_GROUP[cur.groupId]||[];const r=[];
@@ -1244,7 +1576,7 @@ function generateTexos(){
 <div class="sign"><div><div class="line">Ο/Η Συντάξας/ασα</div></div><div><div class="line">ΘΕΩΡΗΘΗΚΕ<br>Ο/Η Προϊστάμενος/η</div></div></div><p class="small" style="margin-top:18px;text-align:right">Ρόδος, ${today}</p></body></html>`;
   const w=window.open('','_blank'); if(!w){toast('Επέτρεψε τα αναδυόμενα παράθυρα για το τεύχος.','err');return;}
   w.document.open(); w.document.write(doc); w.document.close(); w.focus();
-  toast('Δημιουργήθηκε ολοκληρωμένο τεύχος '+window.TenderSpecs.version,'accent');
+  toast('Δημιουργήθηκε ολοκληρωμένο τεύχος '+window.TenderSpecs.version+' · εργαλεία v5','accent');
 }
 $('#btnTexos').onclick=generateTexos;
 $('#search').addEventListener('input',render);
@@ -1254,7 +1586,7 @@ window.addEventListener('beforeunload',e=>{if(dirty){e.preventDefault();e.return
 $('#settingsBtn').onclick=openSettings;
 $('#setClose').onclick=()=>$('#settingsModal').classList.remove('open');
 $('#settingsModal').addEventListener('click',e=>{if(e.target.id==='settingsModal')$('#settingsModal').classList.remove('open');});
-document.addEventListener('keydown',e=>{if(e.key==='Escape')$('#settingsModal').classList.remove('open');});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){$('#settingsModal').classList.remove('open');$('#copyModal').classList.remove('open');}});
 async function openSettings(){
   $('#settingsModal').classList.add('open');
   const box=$('#userList'); box.innerHTML='<div class="loadrow"><span class="spin"></span>Φόρτωση…</div>';
