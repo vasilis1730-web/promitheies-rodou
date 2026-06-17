@@ -1,0 +1,664 @@
+<!doctype html>
+<html lang="el">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Δήμος Ρόδου · Προμήθειες υλικών</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Commissioner:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap&subset=greek,greek-ext,latin" rel="stylesheet">
+<style>
+:root{
+  --teal-900:#0E3B38; --teal-700:#15524F; --teal-600:#1B6863; --teal-500:#2A847D;
+  --ink:#14201E; --muted:#56655F; --faint2:#8A9A95;
+  --bg:#EDF1EF; --surface:#FFFFFF; --line:#DCE6E2; --line-2:#EAF0EE;
+  --amber:#C9821F; --amber-bg:#FBF1DC; --amber-line:#EAD2A0;
+  --good:#1C7A57; --danger:#B23A48;
+  --shadow-sm:0 1px 2px rgba(16,40,38,.05),0 1px 3px rgba(16,40,38,.07);
+  --shadow-md:0 6px 22px rgba(14,59,56,.10);
+  --r:10px; --r-sm:8px;
+  --font-ui:'Commissioner',system-ui,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  --font-data:'Inter',system-ui,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:var(--font-data);color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased;line-height:1.45}
+button{font-family:var(--font-ui);cursor:pointer}
+:focus-visible{outline:2.5px solid var(--teal-500);outline-offset:2px;border-radius:6px}
+.hidden{display:none!important}
+.login{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:20px;background:radial-gradient(1200px 600px at 50% -10%, #1B6863 0%, #0E3B38 55%, #0A2E2C 100%)}
+.login-card{background:var(--surface);border-radius:16px;box-shadow:0 24px 60px rgba(8,30,28,.45);width:100%;max-width:400px;overflow:hidden;animation:pop .3s cubic-bezier(.2,.7,.3,1)}
+.login-head{padding:26px 28px 18px;text-align:center;border-bottom:1px solid var(--line-2)}
+.login-head .sun{width:42px;height:42px;color:#D9952B;margin-bottom:10px}
+.login-head h1{font-family:var(--font-ui);font-weight:700;font-size:19px;margin:0;color:var(--ink)}
+.login-head p{margin:4px 0 0;font-size:12.5px;color:var(--muted)}
+.login-body{padding:22px 28px 26px;display:flex;flex-direction:column;gap:13px}
+.field label{display:block;font-family:var(--font-ui);font-size:12px;font-weight:600;color:var(--muted);margin-bottom:5px}
+.field input{width:100%;font-family:var(--font-data);font-size:14px;color:var(--ink);border:1px solid var(--line);border-radius:var(--r-sm);padding:11px 13px;transition:border-color .15s,box-shadow .15s}
+.field input:focus{outline:none;border-color:var(--teal-500);box-shadow:0 0 0 3px rgba(42,132,125,.14)}
+.login-btn{margin-top:4px;background:var(--teal-700);color:#fff;border:none;border-radius:var(--r-sm);padding:12px;font-weight:600;font-size:14.5px;transition:background .15s}
+.login-btn:hover{background:var(--teal-600)}
+.login-btn:disabled{opacity:.6;cursor:default}
+.login-err{font-size:12.5px;color:var(--danger);background:#FbeAEC;border:1px solid #F0C9CE;border-radius:7px;padding:9px 11px;display:none}
+.login-err.show{display:block}
+.login-foot{font-size:11px;color:var(--faint2);text-align:center;padding:0 28px 18px}
+.appbar{position:sticky;top:0;z-index:40;background:var(--teal-700);color:#EAF3F1;display:flex;align-items:center;gap:14px;padding:11px clamp(14px,3vw,30px);box-shadow:0 1px 0 rgba(255,255,255,.06) inset, 0 4px 18px rgba(14,59,56,.18)}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.sun{flex:none}
+.appbar .sun{width:30px;height:30px;color:#F3C969}
+.brand-txt{display:flex;flex-direction:column;line-height:1.15;min-width:0}
+.brand-txt b{font-family:var(--font-ui);font-weight:700;font-size:15px;color:#fff}
+.brand-txt span{font-size:11.5px;color:#A9CFCA;font-weight:500}
+.appbar-right{margin-left:auto;display:flex;align-items:center;gap:10px}
+.who{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.16);padding:6px 12px;border-radius:999px;font-size:12.5px;color:#EAF3F1}
+.who b{font-family:var(--font-ui);font-weight:600}
+.who .role{font-size:10px;text-transform:uppercase;letter-spacing:.6px;background:#F3C969;color:#3a2c08;font-weight:700;padding:2px 7px;border-radius:999px}
+.icon-btn{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.16);color:#EAF3F1;width:34px;height:34px;border-radius:9px;display:grid;place-items:center;transition:background .15s}
+.icon-btn:hover{background:rgba(255,255,255,.2)}
+.icon-btn svg{width:17px;height:17px}
+.year-pill{font-family:var(--font-ui);font-weight:600;font-size:12.5px;color:#A9CFCA;border:1px solid rgba(255,255,255,.16);padding:6px 11px;border-radius:999px}
+.shell{max-width:1280px;margin:0 auto;padding:clamp(14px,2.4vw,26px) clamp(12px,3vw,30px) 96px}
+.nav{margin-bottom:14px}
+.nav-label{font-family:var(--font-ui);font-size:11px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--faint2);margin:0 2px 8px}
+.pills{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.pill{font-family:var(--font-ui);font-weight:600;font-size:13.5px;color:var(--teal-700);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:8px 15px;display:inline-flex;align-items:center;gap:8px;line-height:1;transition:background .15s,border-color .15s,color .15s,transform .12s,box-shadow .15s;box-shadow:var(--shadow-sm)}
+.pill:hover{border-color:var(--teal-500);transform:translateY(-1px)}
+.pill[aria-selected="true"]{background:var(--teal-700);border-color:var(--teal-700);color:#fff;box-shadow:0 4px 14px rgba(21,82,79,.28)}
+.pill .badge{font-family:var(--font-data);font-weight:600;font-size:11px;min-width:20px;height:18px;padding:0 5px;border-radius:999px;display:inline-grid;place-items:center;background:var(--line-2);color:var(--teal-600)}
+.pill[aria-selected="true"] .badge{background:rgba(255,255,255,.22);color:#fff}
+.pill--zero{color:var(--faint2)} .pill--zero .badge{background:#F0F3F1;color:var(--faint2)}
+.pill--agg{background:linear-gradient(180deg,#1B6863,#15524F);color:#fff;border-color:#15524F}
+.pill--agg svg{width:15px;height:15px;opacity:.9}
+.pill--agg[aria-selected="true"]{box-shadow:0 0 0 2px #fff,0 6px 16px rgba(14,59,56,.3)}
+.nav-sep{width:1px;align-self:stretch;background:var(--line);margin:2px 4px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow-md);overflow:hidden}
+.panel__head{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:15px 18px;border-bottom:1px solid var(--line-2);background:linear-gradient(180deg,#fff,#FBFDFC)}
+.ptitle{display:flex;flex-direction:column;gap:2px;margin-right:auto;min-width:200px}
+.ptitle .eyebrow{font-family:var(--font-ui);font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--teal-500)}
+.ptitle h2{font-family:var(--font-ui);font-weight:700;font-size:20px;margin:0;color:var(--ink);letter-spacing:-.2px}
+.ptitle .sub{font-size:12px;color:var(--muted)} .ptitle .sub b{color:var(--teal-600);font-weight:600}
+.search{position:relative;display:flex;align-items:center}
+.search svg{position:absolute;left:11px;width:15px;height:15px;color:var(--faint2);pointer-events:none}
+.search input{font-family:var(--font-data);font-size:13px;border:1px solid var(--line);border-radius:var(--r-sm);background:#fff;padding:9px 12px 9px 33px;width:200px;transition:border-color .15s,box-shadow .15s}
+.search input:focus{outline:none;border-color:var(--teal-500);box-shadow:0 0 0 3px rgba(42,132,125,.14)}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn{font-weight:600;font-size:13px;border-radius:var(--r-sm);padding:9px 14px;display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:#fff;color:var(--teal-700);transition:background .15s,border-color .15s,transform .12s,box-shadow .15s}
+.btn svg{width:15px;height:15px}
+.btn:hover{border-color:var(--teal-500);background:#F6FAF9;transform:translateY(-1px)}
+.btn--primary{background:var(--teal-700);border-color:var(--teal-700);color:#fff;box-shadow:0 3px 10px rgba(21,82,79,.22)}
+.btn--primary:hover{background:var(--teal-600);border-color:var(--teal-600)}
+.btn--accent{color:var(--amber);border-color:var(--amber-line);background:var(--amber-bg)}
+.btn--accent:hover{background:#F8E9C8;border-color:var(--amber)}
+.btn--sum{color:#fff;background:linear-gradient(180deg,#1B6863,#15524F);border-color:#15524F}
+.btn--sum:hover{background:var(--teal-600);border-color:var(--teal-600)}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
+.banner{margin:0;padding:9px 18px;background:var(--amber-bg);border-bottom:1px solid var(--amber-line);color:#7a5512;font-size:12.5px;font-weight:600;font-family:var(--font-ui);display:flex;align-items:center;gap:8px}
+.banner svg{width:15px;height:15px;flex:none}
+.tablewrap{overflow:auto;max-height:calc(100vh - 360px);min-height:200px}
+table.mat{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
+.mat thead th{position:sticky;top:0;z-index:2;background:#F4F8F6;color:var(--teal-700);font-family:var(--font-ui);font-weight:600;font-size:11.5px;letter-spacing:.4px;text-transform:uppercase;text-align:left;padding:11px 14px;border-bottom:1px solid var(--line);white-space:nowrap}
+.mat thead th.num{text-align:right}
+.mat tbody td{padding:9px 14px;border-bottom:1px solid var(--line-2);vertical-align:middle}
+.mat tbody tr:hover td{background:#F7FAF9}
+.col-aa{width:46px;color:var(--faint2);text-align:center;font-variant-numeric:tabular-nums}
+.col-desc{font-weight:500}
+.col-unit{width:92px;text-align:center}
+.col-unit .u{display:inline-block;background:#EFF4F2;color:var(--teal-600);font-size:11.5px;font-weight:600;padding:2px 9px;border-radius:999px;font-family:var(--font-ui)}
+.col-price{width:128px;text-align:right;font-variant-numeric:tabular-nums}
+.col-price .none{color:var(--faint2);font-style:italic}
+.col-qty{width:116px}
+.col-cost{width:138px;text-align:right;font-variant-numeric:tabular-nums;font-weight:600;color:var(--teal-700)}
+.col-cost .none{color:#C3CFCB;font-weight:400}
+.qin{font-family:var(--font-data);font-size:13.5px;font-weight:600;text-align:right;width:100%;border:1px solid var(--amber-line);background:var(--amber-bg);border-radius:7px;padding:7px 9px;transition:border-color .15s,box-shadow .15s,background .15s}
+.qin:focus{outline:none;border-color:var(--amber);background:#fff;box-shadow:0 0 0 3px rgba(201,130,31,.16)}
+.qin.filled{background:#fff;border-color:var(--line);color:var(--teal-700)}
+.qin:disabled{background:#F3F6F5;border-color:var(--line-2);color:var(--muted);cursor:default;font-weight:600}
+.emptyrow td{padding:46px 20px;text-align:center;color:var(--faint2);font-style:italic}
+.hl{background:#FCEFC6;border-radius:3px;padding:0 1px}
+.loadrow td{padding:40px;text-align:center;color:var(--muted)}
+.spin{display:inline-block;width:18px;height:18px;border:2.5px solid var(--line);border-top-color:var(--teal-500);border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:8px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.totals{position:fixed;left:0;right:0;bottom:0;z-index:45;background:rgba(255,255,255,.94);backdrop-filter:saturate(1.4) blur(8px);border-top:1px solid var(--line);box-shadow:0 -6px 22px rgba(14,59,56,.08)}
+.totals-in{max-width:1280px;margin:0 auto;display:flex;align-items:stretch;padding:0 clamp(12px,3vw,30px);overflow-x:auto}
+.stat{display:flex;flex-direction:column;justify-content:center;gap:1px;padding:13px 22px 12px;border-right:1px solid var(--line-2);white-space:nowrap}
+.stat .k{font-family:var(--font-ui);font-size:10.5px;font-weight:700;letter-spacing:.9px;text-transform:uppercase;color:var(--faint2)}
+.stat .v{font-family:var(--font-data);font-weight:600;font-size:16px;font-variant-numeric:tabular-nums}
+.stat--grand{margin-left:auto;border-right:none;align-items:flex-end;background:linear-gradient(180deg,#FBFDFC,#F1F7F5);padding-left:30px}
+.stat--grand .k{color:var(--teal-600)}
+.stat--grand .v{font-family:var(--font-ui);font-weight:700;font-size:24px;color:var(--teal-700);letter-spacing:-.3px}
+.stat--vat .v{color:var(--muted)}
+.save-state{font-family:var(--font-ui);font-size:11.5px;font-weight:600;color:var(--faint2);padding:0 14px;display:flex;align-items:center;gap:6px}
+.save-state.dirty{color:var(--amber)} .save-state.saved{color:var(--good)}
+@media (max-width:760px){.stat{padding:10px 14px}.stat--grand .v{font-size:20px}}
+.toast-wrap{position:fixed;left:50%;bottom:96px;transform:translateX(-50%);z-index:60;display:flex;flex-direction:column;gap:8px;align-items:center;pointer-events:none}
+.toast{font-family:var(--font-ui);font-weight:600;font-size:13.5px;color:#fff;background:var(--teal-900);padding:11px 18px;border-radius:999px;box-shadow:var(--shadow-md);display:flex;align-items:center;gap:9px;animation:rise .28s cubic-bezier(.2,.7,.3,1)}
+.toast svg{width:16px;height:16px;color:#7FE0C2}
+.toast--err{background:#7a2730} .toast--err svg{color:#ffb4bd}
+.toast--accent svg{color:#F3C969}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.modal{position:fixed;inset:0;z-index:70;display:none;place-items:center;background:rgba(14,32,30,.46);backdrop-filter:blur(3px);padding:20px}
+.modal.open{display:grid;animation:fade .2s ease}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes pop{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
+.sheet{background:#fff;border-radius:14px;max-width:680px;width:100%;max-height:86vh;display:flex;flex-direction:column;box-shadow:0 24px 60px rgba(14,40,38,.4);overflow:hidden;animation:pop .26s cubic-bezier(.2,.7,.3,1)}
+.sheet__h{display:flex;align-items:center;gap:12px;padding:16px 22px;background:var(--teal-700);color:#fff}
+.sheet__h svg{width:20px;height:20px;color:#F3C969}
+.sheet__h b{font-family:var(--font-ui);font-weight:700;font-size:16px}
+.sheet__b{padding:18px 22px;color:var(--ink);font-size:14px;overflow:auto}
+.sheet__b p.lead{margin:0 0 14px;color:var(--muted)}
+.sheet__f{display:flex;justify-content:flex-end;gap:9px;padding:13px 22px;border-top:1px solid var(--line-2);background:#FBFDFC}
+.sect-h{font-family:var(--font-ui);font-weight:700;font-size:12px;letter-spacing:.8px;text-transform:uppercase;color:var(--teal-600);margin:6px 0 10px}
+.urow{display:grid;grid-template-columns:128px 1fr 130px auto;gap:8px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line-2)}
+.urow .un{font-family:var(--font-ui);font-weight:600;font-size:13px;color:var(--ink)}
+.urow input{font-family:var(--font-data);font-size:12.5px;border:1px solid var(--line);border-radius:7px;padding:7px 9px;width:100%}
+.urow input:focus{outline:none;border-color:var(--teal-500);box-shadow:0 0 0 3px rgba(42,132,125,.14)}
+.urow .mini{font-weight:600;font-size:12px;border-radius:7px;padding:7px 11px;border:1px solid var(--teal-700);background:var(--teal-700);color:#fff}
+.urow .mini:hover{background:var(--teal-600)}
+.urow .mini:disabled{opacity:.5}
+.self-box{margin-top:18px;padding:14px;background:#F6FAF9;border:1px solid var(--line-2);border-radius:10px;display:grid;grid-template-columns:1fr 130px auto;gap:8px;align-items:center}
+.self-box input{font-family:var(--font-data);font-size:12.5px;border:1px solid var(--line);border-radius:7px;padding:8px 9px}
+@media (max-width:680px){.ptitle{order:-1;width:100%}.search{flex:1}.search input{width:100%}.tablewrap{max-height:none}.urow{grid-template-columns:1fr 1fr;}.urow .un{grid-column:1 / -1}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="login" id="login">
+  <div class="login-card">
+    <div class="login-head">
+      <svg class="sun" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="8.4" stroke="currentColor" stroke-width="2.6"/><g stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M24 4.5v6"/><path d="M24 37.5v6"/><path d="M4.5 24h6"/><path d="M37.5 24h6"/><path d="M10.2 10.2l4.2 4.2"/><path d="M33.6 33.6l4.2 4.2"/><path d="M37.8 10.2l-4.2 4.2"/><path d="M14.4 33.6l-4.2 4.2"/></g></svg>
+      <h1>Δήμος Ρόδου</h1>
+      <p>Προμήθειες υλικών — είσοδος</p>
+    </div>
+    <div class="login-body">
+      <div class="login-err" id="loginErr"></div>
+      <div class="field"><label for="email">Email</label><input id="email" type="email" autocomplete="username" placeholder="name@example.com"></div>
+      <div class="field"><label for="pass">Κωδικός</label><input id="pass" type="password" autocomplete="current-password" placeholder="••••••••"></div>
+      <button class="login-btn" id="loginBtn">Είσοδος</button>
+    </div>
+    <div class="login-foot">Η πρόσβαση ελέγχεται ανά δημοτική ενότητα.</div>
+  </div>
+</div>
+
+<div id="app" class="hidden">
+<header class="appbar">
+  <div class="brand">
+    <svg class="sun" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="8.4" stroke="currentColor" stroke-width="2.6"/><g stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M24 4.5v6"/><path d="M24 37.5v6"/><path d="M4.5 24h6"/><path d="M37.5 24h6"/><path d="M10.2 10.2l4.2 4.2"/><path d="M33.6 33.6l4.2 4.2"/><path d="M37.8 10.2l-4.2 4.2"/><path d="M14.4 33.6l-4.2 4.2"/></g></svg>
+    <div class="brand-txt"><b>Δήμος Ρόδου</b><span>Προμήθειες υλικών — ενοποιημένος προγραμματισμός</span></div>
+  </div>
+  <div class="appbar-right">
+    <span class="who"><b id="whoName">—</b><span class="role" id="whoRole">—</span></span>
+    <span class="year-pill" id="yearPill">Έτος —</span>
+    <button class="icon-btn hidden" id="settingsBtn" title="Ρυθμίσεις"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg></button>
+    <button class="icon-btn" id="logoutBtn" title="Αποσύνδεση"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5M21 12H9"/></svg></button>
+  </div>
+</header>
+
+<div class="shell">
+  <nav class="nav" aria-label="Δημοτική Ενότητα">
+    <div class="nav-label">Δημοτική ενότητα</div>
+    <div class="pills" id="deNav"></div>
+  </nav>
+  <nav class="nav" aria-label="Ομάδα υλικών">
+    <div class="nav-label">Ομάδα υλικών</div>
+    <div class="pills" id="grpNav"></div>
+  </nav>
+
+  <section class="panel">
+    <div class="panel__head">
+      <div class="ptitle">
+        <span class="eyebrow" id="ptEyebrow">—</span>
+        <h2 id="ptTitle">—</h2>
+        <span class="sub" id="ptSub"></span>
+      </div>
+      <div class="search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3" stroke-linecap="round"/></svg>
+        <input id="search" type="search" placeholder="Αναζήτηση είδους…" autocomplete="off">
+      </div>
+      <div class="actions">
+        <button class="btn btn--sum hidden" id="btnRefresh"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></svg>Ανανέωση από Δ.Ε.</button>
+        <button class="btn btn--primary" id="btnSave"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"/><path d="M17 21v-8H7v8M7 3v5h8"/></svg>Αποθήκευση</button>
+        <button class="btn" id="btnClean"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/><path d="M10 11v5M14 11v5"/></svg>Αποθήκευση & καθαρισμός</button>
+        <button class="btn" id="btnExport"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4"/><path d="M5 21h14"/></svg>Εξαγωγή Excel</button>
+        <button class="btn btn--accent" id="btnTexos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6M9 13h6M9 17h6"/></svg>Τεύχος δημοπράτησης</button>
+      </div>
+    </div>
+    <div class="banner hidden" id="banner"></div>
+    <div class="tablewrap">
+      <table class="mat">
+        <thead><tr>
+          <th class="ctr">Α/Α</th><th>Περιγραφή είδους</th><th class="ctr">Μονάδα</th>
+          <th class="num">Ενδ. τιμή (χωρίς ΦΠΑ)</th><th class="num">Ποσότητα</th><th class="num">Δαπάνη</th>
+        </tr></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </section>
+</div>
+
+<footer class="totals">
+  <div class="totals-in">
+    <div class="stat"><span class="k">Είδη με ποσότητα</span><span class="v" id="tItems">0</span></div>
+    <div class="stat"><span class="k">Συνολική ποσότητα</span><span class="v" id="tQty">0</span></div>
+    <div class="stat"><span class="k">Καθαρή αξία</span><span class="v" id="tNet">0,00&nbsp;€</span></div>
+    <div class="stat stat--vat"><span class="k">ΦΠΑ 24%</span><span class="v" id="tVat">0,00&nbsp;€</span></div>
+    <div class="save-state" id="saveState"></div>
+    <div class="stat stat--grand"><span class="k">Γενικό σύνολο</span><span class="v" id="tGrand">0,00&nbsp;€</span></div>
+  </div>
+</footer>
+</div>
+
+<div class="toast-wrap" id="toasts"></div>
+
+<div class="modal" id="settingsModal" role="dialog" aria-modal="true">
+  <div class="sheet">
+    <div class="sheet__h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg><b>Ρυθμίσεις — Χρήστες</b></div>
+    <div class="sheet__b">
+      <p class="lead">Άλλαξε το email ή όρισε νέο κωδικό για κάθε χρήστη. Άφησε κενό ό,τι δεν θες να αλλάξει.</p>
+      <div class="sect-h">Χρήστες ενοτήτων</div>
+      <div id="userList"><div class="loadrow"><span class="spin"></span>Φόρτωση…</div></div>
+      <div class="sect-h" style="margin-top:20px">Ο δικός μου κωδικός</div>
+      <div class="self-box">
+        <input id="selfPass" type="password" placeholder="Νέος κωδικός (διαχειριστή)">
+        <span></span>
+        <button class="mini" id="selfSave" style="font-weight:600;font-size:12px;border-radius:7px;padding:8px 12px;border:1px solid var(--teal-700);background:var(--teal-700);color:#fff">Αλλαγή</button>
+      </div>
+    </div>
+    <div class="sheet__f"><button class="btn" id="setClose">Κλείσιμο</button></div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="tender_templates_9_groups.js"></script>
+<script>
+const SUPABASE_URL='https://hafaxrebjzootjzzqkzx.supabase.co';
+const SUPABASE_KEY='sb_publishable_15lh0rfRuRqFCz_lPZV1hA_CPKGSn_a';
+const YEAR=2026, VAT=0.24, CENTRAL_UNIT=11;
+const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+
+const $=s=>document.querySelector(s);
+const fmtN=n=>Number(n).toLocaleString('el-GR',{maximumFractionDigits:3});
+const fmtE=n=>(n==null?'—':Number(n).toLocaleString('el-GR',{minimumFractionDigits:2,maximumFractionDigits:2})+'\u00A0€');
+const norm=s=>(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+function toast(msg,kind){const t=document.createElement('div');t.className='toast'+(kind==='err'?' toast--err':kind==='accent'?' toast--accent':'');
+  t.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">'+(kind==='err'||kind==='accent'?'<circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/>':'<path d="M20 6 9 17l-5-5"/>')+'</svg>'+msg;
+  $('#toasts').appendChild(t);setTimeout(()=>t.remove(),2800);}
+
+const ROLE_LABEL={admin:'Διαχειριστής',unit_user:'Δ.Ε.',viewer:'Προβολή',central:'Δήμος Ρόδου'};
+let ME={id:null,role:null,unitId:null,name:''};
+let UNITS=[], GROUPS=[], MAT_BY_GROUP={}, COUNTS={};
+let cur={unitId:null, groupId:null};
+let reqId=null, lines={}, baseline={}, dirty=false, prefillHint=false;
+
+$('#loginBtn').onclick=doLogin;
+$('#pass').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+$('#email').addEventListener('keydown',e=>{if(e.key==='Enter')$('#pass').focus();});
+async function doLogin(){
+  const email=$('#email').value.trim(), password=$('#pass').value;
+  const err=$('#loginErr'); err.classList.remove('show');
+  if(!email||!password){err.textContent='Συμπληρώστε email και κωδικό.';err.classList.add('show');return;}
+  const btn=$('#loginBtn'); btn.disabled=true; btn.textContent='Σύνδεση…';
+  const {error}=await sb.auth.signInWithPassword({email,password});
+  btn.disabled=false; btn.textContent='Είσοδος';
+  if(error){err.textContent=(error.message==='Invalid login credentials')?'Λάθος email ή κωδικός.':(error.message||'Σφάλμα σύνδεσης.');err.classList.add('show');return;}
+  await boot();
+}
+$('#logoutBtn').onclick=async()=>{await sb.auth.signOut();location.reload();};
+
+async function boot(){
+  const {data:{session}}=await sb.auth.getSession();
+  if(!session){$('#login').classList.remove('hidden');$('#app').classList.add('hidden');return;}
+  const {data:prof,error}=await sb.from('profiles').select('role,municipal_unit_id,full_name,email').eq('id',session.user.id).single();
+  if(error||!prof){toast('Δεν βρέθηκε προφίλ χρήστη.','err');return;}
+  ME={id:session.user.id,role:prof.role,unitId:prof.municipal_unit_id,name:prof.full_name||prof.email||'Χρήστης'};
+  $('#login').classList.add('hidden');$('#app').classList.remove('hidden');
+  $('#whoName').textContent=ME.name;
+  $('#whoRole').textContent=ROLE_LABEL[ME.role]||ME.role;
+  $('#yearPill').textContent='Έτος '+YEAR;
+  $('#settingsBtn').classList.toggle('hidden', ME.role!=='admin');
+  await loadCatalog();
+  buildDENav(); buildGrpNav();
+  if(ME.role==='unit_user') cur.unitId=ME.unitId;
+  else if(ME.role==='central') cur.unitId=CENTRAL_UNIT;
+  else cur.unitId=(UNITS.find(u=>u.id!==CENTRAL_UNIT)||UNITS[0]||{}).id;
+  cur.groupId=(GROUPS[0]||{}).id;
+  syncNav(); await openView();
+}
+
+async function loadCatalog(){
+  const [{data:u},{data:g},{data:m}]=await Promise.all([
+    sb.from('municipal_units').select('id,name,short_name,sort_order').order('sort_order'),
+    sb.from('procurement_groups').select('id,code,name,short_name,sort_order').order('sort_order'),
+    sb.from('materials').select('id,group_id,code,name,short_name,subcategory,unit,default_unit_price,sort_order,technical_specs,standards,ce_required,notes_for_tender').order('group_id').order('sort_order',{nullsFirst:false})
+  ]);
+  UNITS=u||[]; GROUPS=g||[]; MAT_BY_GROUP={}; COUNTS={};
+  (m||[]).forEach(x=>{(MAT_BY_GROUP[x.group_id]=MAT_BY_GROUP[x.group_id]||[]).push(x);});
+  GROUPS.forEach(gr=>COUNTS[gr.id]=(MAT_BY_GROUP[gr.id]||[]).length);
+}
+
+const unitById=id=>UNITS.find(x=>x.id===id)||{};
+const unitName=id=>{const u=unitById(id);return u.short_name||u.name||'';};
+const canWrite=id=> ME.role==='admin' || ((ME.role==='unit_user'||ME.role==='central') && id===ME.unitId);
+const matById=mid=>(MAT_BY_GROUP[cur.groupId]||[]).find(x=>x.id===mid);
+
+function buildDENav(){
+  const n=$('#deNav'); n.innerHTML='';
+  const list=(ME.role==='unit_user')?UNITS.filter(u=>u.id===ME.unitId):UNITS.slice();
+  const des=list.filter(u=>u.id!==CENTRAL_UNIT), central=list.find(u=>u.id===CENTRAL_UNIT);
+  des.forEach(u=>{const b=document.createElement('button');b.className='pill';b.type='button';b.textContent=u.short_name||u.name;b.dataset.uid=u.id;b.onclick=()=>selUnit(u.id);n.appendChild(b);});
+  if(central){
+    const sep=document.createElement('div');sep.className='nav-sep';n.appendChild(sep);
+    const b=document.createElement('button');b.className='pill pill--agg';b.type='button';b.dataset.uid=central.id;
+    b.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V8l7-5 7 5v13M9 21v-6h6v6"/></svg> '+(central.short_name||central.name);
+    b.onclick=()=>selUnit(central.id);n.appendChild(b);
+  }
+}
+function buildGrpNav(){
+  const n=$('#grpNav');n.innerHTML='';
+  GROUPS.forEach((g,i)=>{const c=COUNTS[g.id]||0;const b=document.createElement('button');
+    b.className='pill'+(c===0?' pill--zero':'');b.type='button';b.dataset.gid=g.id;
+    b.innerHTML=(i+1)+'. '+(g.short_name||g.name)+' <span class="badge">'+c+'</span>';
+    b.onclick=()=>selGroup(g.id);n.appendChild(b);});
+}
+function syncNav(){
+  [...$('#deNav').children].forEach(c=>{if(c.dataset.uid)c.setAttribute('aria-selected', +c.dataset.uid===cur.unitId);});
+  [...$('#grpNav').children].forEach(c=>c.setAttribute('aria-selected', +c.dataset.gid===cur.groupId));
+}
+async function guardDirty(){ if(dirty){ if(!confirm('Υπάρχουν μη αποθηκευμένες αλλαγές. Συνέχεια χωρίς αποθήκευση;')) return false; } return true; }
+async function selUnit(id){ if(!(await guardDirty()))return; cur.unitId=id; syncNav(); await openView(); }
+async function selGroup(id){ if(!(await guardDirty()))return; cur.groupId=id; syncNav(); await openView(); }
+
+function setDirty(v){dirty=v;const s=$('#saveState');
+  if(!canWrite(cur.unitId)){s.textContent='';s.className='save-state';return;}
+  s.className='save-state'+(v?' dirty':' saved');
+  s.innerHTML=v?'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="12" cy="12" r="9"/><path d="M12 8v4" stroke-linecap="round"/></svg> Μη αποθηκευμένο':'';}
+
+async function openView(){
+  const g=GROUPS.find(x=>x.id===cur.groupId);
+  const isCentral=cur.unitId===CENTRAL_UNIT, writable=canWrite(cur.unitId);
+  $('#ptTitle').textContent=g?(g.short_name||g.name):'—';
+  $('#ptEyebrow').textContent=isCentral?'Συγκεντρωτικός · όλος ο Δήμος Ρόδου':('Δ.Ε. '+unitName(cur.unitId));
+  $('#btnSave').disabled=!writable; $('#btnClean').disabled=!writable;
+  $('#btnRefresh').classList.toggle('hidden', !(isCentral && writable));
+  $('#banner').classList.add('hidden');
+  reqId=null; lines={}; baseline={}; prefillHint=false; setDirty(false);
+  renderLoading();
+  try{ await loadUnitRequest(); }
+  catch(e){ toast('Σφάλμα φόρτωσης: '+(e.message||e),'err'); }
+  render();
+}
+function renderLoading(){$('#tbody').innerHTML='<tr class="loadrow"><td colspan="6"><span class="spin"></span>Φόρτωση…</td></tr>';}
+
+async function loadUnitRequest(){
+  const {data:reqs,error}=await sb.from('unit_requests').select('id,status')
+    .eq('municipal_unit_id',cur.unitId).eq('group_id',cur.groupId).eq('request_year',YEAR).limit(1);
+  if(error)throw error;
+  if(reqs&&reqs.length){ reqId=reqs[0].id;
+    const {data:ls,error:e2}=await sb.from('request_lines').select('material_id,quantity,unit_price').eq('request_id',reqId);
+    if(e2)throw e2; (ls||[]).forEach(l=>{lines[l.material_id]={q:Number(l.quantity),p:l.unit_price==null?null:Number(l.unit_price)};});
+  }
+  baseline=JSON.parse(JSON.stringify(lines));
+  // Δήμος Ρόδου: αν δεν υπάρχουν αποθηκευμένα, προ-συμπλήρωσε από το άθροισμα των Δ.Ε. (πρόχειρο)
+  if(cur.unitId===CENTRAL_UNIT && Object.keys(lines).length===0){
+    const sum=await computeSumFromUnits(cur.groupId);
+    Object.keys(sum).forEach(mid=>{const m=matById(mid); if(sum[mid]>0){lines[mid]={q:sum[mid],p:m?priceVal(m):null};}});
+    prefillHint=Object.keys(lines).length>0;
+  }
+}
+function priceVal(m){return m.default_unit_price==null?null:Number(m.default_unit_price);}
+function priceOf(m){const l=lines[m.id];return (l&&l.p!=null)?l.p:priceVal(m);}
+
+async function computeSumFromUnits(groupId){
+  const out={};
+  const {data:reqs,error}=await sb.from('unit_requests').select('id')
+    .eq('group_id',groupId).eq('request_year',YEAR).lt('municipal_unit_id',CENTRAL_UNIT);
+  if(error)throw error;
+  const ids=(reqs||[]).map(r=>r.id); if(!ids.length)return out;
+  const {data:ls,error:e2}=await sb.from('request_lines').select('material_id,quantity').in('request_id',ids);
+  if(e2)throw e2;
+  (ls||[]).forEach(l=>{out[l.material_id]=(out[l.material_id]||0)+Number(l.quantity);});
+  return out;
+}
+
+function render(){
+  const mats=MAT_BY_GROUP[cur.groupId]||[];
+  const writable=canWrite(cur.unitId);
+  const q=norm(($('#search').value||'').trim());
+  const tb=$('#tbody'); tb.innerHTML='';
+  const bn=$('#banner');
+  if(prefillHint){bn.classList.remove('hidden');bn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg> Πρόχειρο άθροισμα των 10 Δ.Ε. — πάτησε «Αποθήκευση» για να οριστικοποιηθεί.';}
+  else bn.classList.add('hidden');
+  if(!mats.length){tb.innerHTML='<tr class="emptyrow"><td colspan="6">Δεν υπάρχουν είδη σε αυτή την ομάδα ακόμη.</td></tr>';computeTotals();return;}
+  let shown=0;
+  mats.forEach((m,i)=>{
+    if(q && !norm(m.name).includes(q)) return;
+    shown++;
+    const price=priceOf(m);
+    const qty=(lines[m.id]&&lines[m.id].q)||0;
+    const cost=(price!=null&&qty>0)?price*qty:null;
+    let dh=m.name;
+    if(q){const re=new RegExp('('+q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi');dh=m.name.replace(re,x=>'<span class="hl">'+x+'</span>');}
+    const tr=document.createElement('tr');
+    tr.innerHTML='<td class="col-aa">'+(i+1)+'</td>'+
+      '<td class="col-desc">'+dh+'</td>'+
+      '<td class="col-unit">'+(m.unit?'<span class="u">'+m.unit+'</span>':'')+'</td>'+
+      '<td class="col-price">'+(price!=null?fmtE(price):'<span class="none">—</span>')+'</td>'+
+      '<td class="col-qty">'+(!writable
+        ?'<input class="qin filled" value="'+(qty||0)+'" disabled>'
+        :'<input class="qin'+(qty>0?' filled':'')+'" type="number" min="0" step="any" inputmode="decimal" value="'+(qty||'')+'" data-mid="'+m.id+'">')+'</td>'+
+      '<td class="col-cost">'+(cost!=null?fmtE(cost):'<span class="none">—</span>')+'</td>';
+    tb.appendChild(tr);
+  });
+  if(!shown)tb.innerHTML='<tr class="emptyrow"><td colspan="6">'+(q?'Κανένα είδος δεν ταιριάζει στην αναζήτηση.':'—')+'</td></tr>';
+  $('#ptSub').innerHTML='Σύνολο ειδών: <b>'+mats.length+'</b>'+(!writable?' · μόνο προβολή':'');
+  bindInputs(); computeTotals();
+}
+function bindInputs(){
+  $('#tbody').querySelectorAll('input.qin:not([disabled])').forEach(inp=>{
+    inp.addEventListener('input',()=>{
+      const mid=inp.dataset.mid, val=parseFloat(inp.value), m=matById(mid);
+      const qv=(isNaN(val)||val<0)?0:val;
+      lines[mid]=lines[mid]||{q:0,p:priceOf(m)}; lines[mid].q=qv; if(lines[mid].p==null)lines[mid].p=priceOf(m);
+      inp.classList.toggle('filled',qv>0);
+      const price=priceOf(m); const c=(price!=null&&qv>0)?price*qv:null;
+      inp.closest('tr').querySelector('.col-cost').innerHTML=(c!=null?fmtE(c):'<span class="none">—</span>');
+      if(prefillHint){prefillHint=false;$('#banner').classList.add('hidden');}
+      setDirty(true); computeTotals();
+    });
+  });
+}
+function computeTotals(){
+  const mats=MAT_BY_GROUP[cur.groupId]||[]; let net=0,qsum=0,n=0;
+  mats.forEach(m=>{const price=priceOf(m);const qty=(lines[m.id]&&lines[m.id].q)||0;
+    if(qty>0){n++;qsum+=qty;if(price!=null)net+=price*qty;}});
+  $('#tItems').textContent=fmtN(n);
+  $('#tQty').textContent=fmtN(Math.round(qsum*1000)/1000);
+  $('#tNet').innerHTML=fmtE(net).replace(' ','&nbsp;');
+  $('#tVat').innerHTML=fmtE(net*VAT).replace(' ','&nbsp;');
+  $('#tGrand').innerHTML=fmtE(net*(1+VAT)).replace(' ','&nbsp;');
+}
+
+async function ensureRequest(){
+  if(reqId)return reqId;
+  const {data,error}=await sb.from('unit_requests').insert({municipal_unit_id:cur.unitId,group_id:cur.groupId,request_year:YEAR,title:'Δελτίο προμήθειας '+YEAR,created_by:ME.id,updated_by:ME.id}).select('id').single();
+  if(error)throw error; reqId=data.id; return reqId;
+}
+$('#btnSave').onclick=()=>saveAll(false);
+$('#btnClean').onclick=()=>saveAll(true);
+async function saveAll(clean){
+  if(!canWrite(cur.unitId))return;
+  const btn=clean?$('#btnClean'):$('#btnSave'); const old=btn.innerHTML; btn.disabled=true; btn.innerHTML='<span class="spin" style="width:14px;height:14px;margin:0 6px 0 0"></span>'+(clean?'Καθαρισμός…':'Αποθήκευση…');
+  try{
+    await ensureRequest();
+    const mats=MAT_BY_GROUP[cur.groupId]||[];
+    const ups=[], delIds=[];
+    mats.forEach(m=>{const l=lines[m.id]; const qv=l?l.q:0; const had=baseline[m.id]!=null;
+      if(qv>0){ const p=priceOf(m); ups.push({request_id:reqId,material_id:m.id,quantity:qv,unit_price:p==null?0:p,updated_by:ME.id}); }
+      else if(had||clean){ delIds.push(m.id); }
+    });
+    if(ups.length){const {error}=await sb.from('request_lines').upsert(ups,{onConflict:'request_id,material_id'});if(error)throw error;}
+    const toDel=clean?delIds:delIds.filter(id=>baseline[id]!=null);
+    if(toDel.length){const {error}=await sb.from('request_lines').delete().eq('request_id',reqId).in('material_id',toDel);if(error)throw error;}
+    const status=clean?'cleaned':'saved';
+    const patch={status,updated_by:ME.id,updated_at:new Date().toISOString()};
+    patch[clean?'cleaned_at':'saved_at']=new Date().toISOString();
+    await sb.from('unit_requests').update(patch).eq('id',reqId);
+    await sb.from('saved_versions').insert({request_id:reqId,action:clean?'save_clean':'save',created_by:ME.id,snapshot:{items:ups.length,net:currentNet()}});
+    lines={}; const {data:ls}=await sb.from('request_lines').select('material_id,quantity,unit_price').eq('request_id',reqId);
+    (ls||[]).forEach(l=>{lines[l.material_id]={q:Number(l.quantity),p:l.unit_price==null?null:Number(l.unit_price)};});
+    baseline=JSON.parse(JSON.stringify(lines)); prefillHint=false;
+    setDirty(false); render();
+    const lbl=cur.unitId===CENTRAL_UNIT?'Δήμος Ρόδου':unitName(cur.unitId);
+    toast(clean?('Αποθηκεύτηκε & καθαρίστηκε ('+lbl+')'):('Αποθηκεύτηκε ('+lbl+')'));
+  }catch(e){ toast('Σφάλμα αποθήκευσης: '+(e.message||e),'err'); }
+  finally{ btn.disabled=false; btn.innerHTML=old; }
+}
+function currentNet(){const mats=MAT_BY_GROUP[cur.groupId]||[];let net=0;mats.forEach(m=>{const p=priceOf(m);const qv=(lines[m.id]&&lines[m.id].q)||0;if(p!=null&&qv>0)net+=p*qv;});return Math.round(net*100)/100;}
+
+$('#btnRefresh').onclick=async()=>{
+  if(!(cur.unitId===CENTRAL_UNIT&&canWrite(cur.unitId)))return;
+  const b=$('#btnRefresh'); const old=b.innerHTML; b.disabled=true; b.innerHTML='<span class="spin" style="width:14px;height:14px;margin:0 6px 0 0"></span>Υπολογισμός…';
+  try{
+    const sum=await computeSumFromUnits(cur.groupId);
+    lines={}; Object.keys(sum).forEach(mid=>{const m=matById(mid);if(sum[mid]>0)lines[mid]={q:sum[mid],p:m?priceOf(m):null};});
+    prefillHint=false; setDirty(true); render();
+    toast('Φορτώθηκε το άθροισμα των Δ.Ε. — πάτησε Αποθήκευση','accent');
+  }catch(e){toast('Σφάλμα: '+(e.message||e),'err');}
+  finally{b.disabled=false;b.innerHTML=old;}
+};
+
+$('#btnExport').onclick=()=>{
+  const mats=MAT_BY_GROUP[cur.groupId]||[]; const g=GROUPS.find(x=>x.id===cur.groupId);
+  const rows=[['Α/Α','Περιγραφή είδους','Μονάδα','Ενδεικτική τιμή (χωρίς ΦΠΑ)','Ποσότητα','Δαπάνη (χωρίς ΦΠΑ)']];
+  mats.forEach((m,i)=>{const p=priceOf(m);const qv=(lines[m.id]&&lines[m.id].q)||0;const c=(p!=null&&qv>0)?Math.round(p*qv*100)/100:'';
+    rows.push([i+1,m.name,m.unit||'',p!=null?(''+p).replace('.',','):'',qv||'',c!==''?(''+c).replace('.',','):'']);});
+  const csv='\uFEFF'+rows.map(r=>r.map(c=>{c=''+c;return /[";\n]/.test(c)?'"'+c.replace(/"/g,'""')+'"':c;}).join(';')).join('\r\n');
+  const blob=new Blob([csv],{type:'text/csv;charset=utf-8'});const url=URL.createObjectURL(blob);
+  const lbl=cur.unitId===CENTRAL_UNIT?'ΔΗΜΟΣ_ΡΟΔΟΥ_ΣΥΝΟΛΟ':unitName(cur.unitId);
+  const a=document.createElement('a');a.href=url;a.download=lbl+'_'+(g?g.short_name:'')+'_'+YEAR+'.csv';a.click();URL.revokeObjectURL(url);
+  toast('Έγινε εξαγωγή σε Excel/CSV','accent');
+};
+
+function esc(s){return (''+s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function texosRows(){const mats=MAT_BY_GROUP[cur.groupId]||[];const r=[];
+  mats.forEach(m=>{const qv=(lines[m.id]&&lines[m.id].q)||0;if(qv>0)r.push({m,q:qv,p:priceOf(m)});});return r;}
+function escAttr(s){return esc(s).replace(/"/g,'&quot;');}
+function htmlList(items, ordered=false){
+  const arr=(items||[]).filter(Boolean); if(!arr.length)return '<p class="small">Δεν προβλέπονται πρόσθετες απαιτήσεις.</p>';
+  const tag=ordered?'ol':'ul'; return '<'+tag+'>'+arr.map(x=>'<li>'+esc(x)+'</li>').join('')+'</'+tag+'>';
+}
+function chooseTenderMethod(){
+  const v=window.prompt('Τρόπος εκτέλεσης:\n1 = Απευθείας ανάθεση\n2 = Διαγωνιστική διαδικασία','1');
+  return v==='2' ? 'Διαγωνιστική διαδικασία' : 'Απευθείας ανάθεση';
+}
+function generateTexos(){
+  const g=GROUPS.find(x=>x.id===cur.groupId); const rows=texosRows();
+  if(!rows.length){toast('Δεν υπάρχουν είδη με ποσότητα για το τεύχος.','err');return;}
+  if(!window.TenderSpecs){toast('Δεν φορτώθηκε η βιβλιοθήκη τεχνικών προδιαγραφών.','err');return;}
+
+  const groupCode=window.TenderSpecs.resolveGroupCode(g);
+  const pkg=window.TenderSpecs.getGroup(groupCode);
+  const common=window.TenderSpecs.COMMON;
+  const method=chooseTenderMethod();
+  const isC=cur.unitId===CENTRAL_UNIT;
+  const scope=isC?'Δήμος Ρόδου (σύνολο Δημοτικών Ενοτήτων)':('Δημοτική Ενότητα '+unitName(cur.unitId));
+  let net=0; rows.forEach(x=>{if(x.p!=null)net+=x.p*x.q;});
+  const vat=net*VAT, tot=net+vat, gname=(g?g.name:'').toUpperCase();
+  const today=new Date().toLocaleDateString('el-GR',{day:'2-digit',month:'long',year:'numeric'});
+
+  const budgetRows=rows.map((x,i)=>`<tr><td class="c">${i+1}</td><td>${esc(x.m.name)}</td><td class="c">${esc(x.m.unit||'')}</td><td class="r">${fmtN(x.q)}</td><td class="r">${x.p!=null?fmtE(x.p):'—'}</td><td class="r">${x.p!=null?fmtE(x.p*x.q):'—'}</td></tr>`).join('');
+  const offerRows=rows.map((x,i)=>`<tr><td class="c">${i+1}</td><td>${esc(x.m.name)}</td><td class="c">${esc(x.m.unit||'')}</td><td class="r">${fmtN(x.q)}</td><td></td><td></td></tr>`).join('');
+
+  const itemData=rows.map((x,i)=>({i:i+1,x,s:window.TenderSpecs.itemRequirements(groupCode,x.m)}));
+  const itemSpecs=itemData.map(o=>{
+    const std=o.s.standards.length?`<p><b>Πρότυπα/αναφορές:</b> ${esc(o.s.standards.join(' · '))}</p>`:'';
+    const ev=o.s.evidence.length?`<p><b>Αποδεικτικά:</b></p>${htmlList(o.s.evidence)}`:'';
+    return `<div class="article"><h3>Άρθρο ${o.i} — ${esc(o.x.m.name)}</h3><p><b>Μονάδα:</b> ${esc(o.x.m.unit||'—')} · <b>Ποσότητα:</b> ${fmtN(o.x.q)}</p>${htmlList(o.s.requirements)}${std}${ev}</div>`;
+  }).join('');
+
+  const complianceRows=[];
+  let cr=0;
+  [...common.requirements,...pkg.technical,...pkg.special].forEach(r=>complianceRows.push(`<tr><td class="c">${++cr}</td><td>${esc(r)}</td><td></td><td></td></tr>`));
+  itemData.forEach(o=>o.s.requirements.forEach(r=>complianceRows.push(`<tr><td class="c">${++cr}</td><td><b>${esc(o.x.m.name)}:</b> ${esc(r)}</td><td></td><td></td></tr>`)));
+
+  const clauses=[...common.clauses,...pkg.special,`Η εγγύηση για την παρούσα ομάδα ορίζεται ως: ${pkg.warranty}.`];
+  const framework=[...common.framework,...pkg.framework];
+  const evidence=[...common.evidence,...pkg.evidence];
+
+  const doc=`<!doctype html><html lang="el"><head><meta charset="utf-8"><title>Τεύχος — ${esc(g?g.short_name:'')} — ${esc(scope)}</title>
+<style>@page{size:A4;margin:20mm 17mm}body{font-family:'Times New Roman',Georgia,serif;color:#111;font-size:11.5pt;line-height:1.45;margin:0}.tools{position:fixed;top:10px;right:10px;display:flex;gap:8px;z-index:20}.tools button{font-family:system-ui,sans-serif;font-size:13px;padding:8px 14px;border:1px solid #15524F;background:#15524F;color:#fff;border-radius:7px;cursor:pointer}.tools button.alt{background:#fff;color:#15524F}@media print{.tools{display:none}.pb{page-break-before:always}.article{break-inside:avoid}}h1{font-size:15pt;text-align:center;margin:0 0 4pt}h2{font-size:13pt;border-bottom:1.5px solid #333;padding-bottom:3px;margin:20px 0 9px}h3{font-size:11.5pt;margin:13px 0 5px}.hdr{text-align:center;margin-bottom:7px}.hdr .l1{font-weight:bold}.hdr .l2{font-size:10.5pt}.meta{text-align:center;font-size:10.5pt;color:#333;margin-bottom:14px}.cover{min-height:245mm;display:flex;flex-direction:column;justify-content:center}.cover .box{border:2px solid #333;padding:25px;text-align:center}.cover .big{font-size:17pt;font-weight:bold;margin:18px 0}.cover .info{margin-top:18px;line-height:1.8}table{width:100%;border-collapse:collapse;margin:8px 0;font-size:9.8pt}th,td{border:1px solid #555;padding:5px 6px;vertical-align:top}th{background:#eee;text-align:left}td.c{text-align:center}td.r{text-align:right;white-space:nowrap}tfoot td{font-weight:bold;background:#f6f6f6}.sign{margin-top:38px;display:flex;justify-content:space-between}.sign div{text-align:center;width:45%}.sign .line{margin-top:45px;border-top:1px solid #333;padding-top:4px;font-size:10pt}p{margin:6px 0;text-align:justify}ol,ul{margin:6px 0 8px 22px;padding:0}li{margin:3px 0}.small{font-size:9.5pt;color:#444}.article{border-bottom:1px solid #bbb;padding-bottom:7px}.note{border:1px solid #999;background:#f7f7f7;padding:8px 10px;font-size:9.5pt}</style></head><body>
+<div class="tools"><button onclick="window.print()">Εκτύπωση / PDF</button><button class="alt" onclick="window.close()">Κλείσιμο</button></div>
+<section class="cover"><div class="box"><div class="hdr"><div class="l1">ΕΛΛΗΝΙΚΗ ΔΗΜΟΚΡΑΤΙΑ</div><div class="l1">ΔΗΜΟΣ ΡΟΔΟΥ</div><div class="l2">Διεύθυνση Τεχνικών Έργων & Υποδομών</div></div><div class="big">ΜΕΛΕΤΗ / ΤΕΥΧΟΣ ΠΡΟΜΗΘΕΙΑΣ</div><h1>«ΠΡΟΜΗΘΕΙΑ: ${esc(gname)}»</h1><div class="info"><b>${esc(scope)}</b><br>Έτος ${YEAR}<br>Τρόπος εκτέλεσης: ${esc(method)}<br>Ενδεικτικός CPV: ${esc(pkg.cpv)}<br>Προϋπολογισμός με ΦΠΑ: <b>${fmtE(tot)}</b></div></div><p class="small" style="text-align:center;margin-top:20px">Ρόδος, ${today}</p></section>
+
+<h2 class="pb">1. Τεχνική έκθεση</h2><p>Η παρούσα μελέτη αφορά την προμήθεια ειδών της κατηγορίας «${esc(g?g.name:'')}» για ${esc(pkg.purpose)}, για τις ανάγκες ${isC?'του Δήμου Ρόδου και των Δημοτικών του Ενοτήτων':'της '+esc('Δ.Ε. '+unitName(cur.unitId))}. Η διαδικασία θα εκτελεστεί ως «${esc(method)}», σύμφωνα με τον Ν. 4412/2016 όπως ισχύει και τις αποφάσεις των αρμόδιων οργάνων.</p><p>Το αντικείμενο περιλαμβάνει την πλήρη προμήθεια και παράδοση των ειδών στους χώρους που θα υποδείξει η Υπηρεσία. Η συνολική ενδεικτική δαπάνη ανέρχεται σε <b>${fmtE(tot)}</b>, συμπεριλαμβανομένου ΦΠΑ 24%.</p><div class="note">Οι τελικές κλάσεις, διαστάσεις, επιδόσεις, CPV, χρόνοι παράδοσης και ειδικοί όροι πρέπει να ελέγχονται από τον αρμόδιο μηχανικό πριν από τη δημοσίευση.</div>
+
+<h2>2. Τεχνικό και κανονιστικό πλαίσιο</h2>${htmlList(framework)}
+<h2>3. Γενικές τεχνικές προδιαγραφές</h2>${htmlList(common.requirements)}
+<h2>4. Ειδικές τεχνικές προδιαγραφές ομάδας</h2><h3>${esc(pkg.title)}</h3>${htmlList(pkg.technical)}
+<h2>5. Προδιαγραφές ανά επιλεγμένο είδος</h2>${itemSpecs}
+<h2>6. Αποδεικτικά τεχνικής συμμόρφωσης</h2>${htmlList(evidence)}
+
+<h2 class="pb">7. Ενδεικτικός προϋπολογισμός</h2><table><thead><tr><th class="c">Α/Α</th><th>Περιγραφή είδους</th><th class="c">Μον.</th><th class="r">Ποσότητα</th><th class="r">Τιμή μον. χωρίς ΦΠΑ</th><th class="r">Δαπάνη</th></tr></thead><tbody>${budgetRows}</tbody><tfoot><tr><td colspan="5" class="r">Καθαρή αξία</td><td class="r">${fmtE(net)}</td></tr><tr><td colspan="5" class="r">ΦΠΑ 24%</td><td class="r">${fmtE(vat)}</td></tr><tr><td colspan="5" class="r">ΓΕΝΙΚΟ ΣΥΝΟΛΟ</td><td class="r">${fmtE(tot)}</td></tr></tfoot></table>
+
+<h2>8. Τιμολόγιο μελέτης — άρθρα προμήθειας</h2>${itemSpecs}
+
+<h2 class="pb">9. Ειδική συγγραφή υποχρεώσεων</h2><h3>Άρθρο 1ο — Αντικείμενο</h3><p>Αντικείμενο είναι η πλήρης προμήθεια των ειδών του προϋπολογισμού, σύμφωνα με τις τεχνικές προδιαγραφές και τις έγγραφες εντολές της Υπηρεσίας.</p><h3>Άρθρο 2ο — Ισχύουσες διατάξεις</h3><p>Η ανάθεση και εκτέλεση διέπεται από τον Ν. 4412/2016, όπως ισχύει, το εφαρμοζόμενο πλαίσιο οικονομικής διαχείρισης των Ο.Τ.Α. και τις ειδικές διατάξεις που αναφέρονται στο τεχνικό πλαίσιο της παρούσας.</p><h3>Άρθρο 3ο — Συμβατικά στοιχεία</h3><p>Τα συμβατικά στοιχεία και η σειρά ισχύος τους καθορίζονται στην πρόσκληση, διακήρυξη ή σύμβαση. Οι τεχνικές προδιαγραφές, ο προϋπολογισμός, η οικονομική προσφορά και ο πίνακας συμμόρφωσης αποτελούν αναπόσπαστα μέρη.</p><h3>Άρθρο 4ο — Τρόπος και χρόνος παράδοσης</h3><p>Η παράδοση γίνεται εφάπαξ ή τμηματικά στους χώρους που θα υποδείξει η Υπηρεσία, εντός της συμβατικής προθεσμίας. Κάθε δαπάνη πλήρους παράδοσης περιλαμβάνεται στην τιμή.</p><h3>Άρθρο 5ο — Έλεγχος και παραλαβή</h3>${htmlList(pkg.acceptance)}<h3>Άρθρο 6ο — Απόρριψη και αντικατάσταση</h3><p>Είδη που δεν πληρούν τις προδιαγραφές, διαφέρουν από το εγκεκριμένο μοντέλο ή παρουσιάζουν φθορά απορρίπτονται και αντικαθίστανται με δαπάνη του αναδόχου.</p><h3>Άρθρο 7ο — Εγγύηση</h3><p>${esc(pkg.warranty)}. Η τυχόν μεγαλύτερη εγγύηση του κατασκευαστή δεσμεύει τον ανάδοχο.</p><h3>Άρθρο 8ο — Τιμές και πληρωμή</h3><p>Οι τιμές περιλαμβάνουν όλες τις δαπάνες πλήρους παράδοσης. Η πληρωμή γίνεται μετά την οριστική παραλαβή και την υποβολή των νόμιμων παραστατικών.</p><h3>Άρθρο 9ο — Ειδικοί όροι ομάδας</h3>${htmlList(clauses)}
+
+<h2 class="pb">10. Έντυπο οικονομικής προσφοράς</h2><p class="small">Οι τιμές συμπληρώνονται χωρίς ΦΠΑ και περιλαμβάνουν όλες τις δαπάνες πλήρους παράδοσης.</p><table><thead><tr><th class="c">Α/Α</th><th>Περιγραφή είδους</th><th class="c">Μον.</th><th class="r">Ποσότητα</th><th class="r">Τιμή μον.</th><th class="r">Δαπάνη</th></tr></thead><tbody>${offerRows}</tbody><tfoot><tr><td colspan="5" class="r">Καθαρή αξία</td><td></td></tr><tr><td colspan="5" class="r">ΦΠΑ 24%</td><td></td></tr><tr><td colspan="5" class="r">ΓΕΝΙΚΟ ΣΥΝΟΛΟ</td><td></td></tr></tfoot></table>
+
+<h2>11. Πίνακας τεχνικής συμμόρφωσης</h2><table><thead><tr><th class="c">Α/Α</th><th>Απαίτηση</th><th>Απάντηση οικονομικού φορέα</th><th>Παραπομπή φυλλαδίου/εγγράφου</th></tr></thead><tbody>${complianceRows.join('')}</tbody></table>
+<div class="sign"><div><div class="line">Ο/Η Συντάξας/ασα</div></div><div><div class="line">ΘΕΩΡΗΘΗΚΕ<br>Ο/Η Προϊστάμενος/η</div></div></div><p class="small" style="margin-top:18px;text-align:right">Ρόδος, ${today}</p></body></html>`;
+  const w=window.open('','_blank'); if(!w){toast('Επέτρεψε τα αναδυόμενα παράθυρα για το τεύχος.','err');return;}
+  w.document.open(); w.document.write(doc); w.document.close(); w.focus();
+  toast('Δημιουργήθηκε ολοκληρωμένο τεύχος '+window.TenderSpecs.version,'accent');
+}
+$('#btnTexos').onclick=generateTexos;
+$('#search').addEventListener('input',render);
+window.addEventListener('beforeunload',e=>{if(dirty){e.preventDefault();e.returnValue='';}});
+
+/* ---------- Ρυθμίσεις (μόνο διαχειριστής) ---------- */
+$('#settingsBtn').onclick=openSettings;
+$('#setClose').onclick=()=>$('#settingsModal').classList.remove('open');
+$('#settingsModal').addEventListener('click',e=>{if(e.target.id==='settingsModal')$('#settingsModal').classList.remove('open');});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')$('#settingsModal').classList.remove('open');});
+async function openSettings(){
+  $('#settingsModal').classList.add('open');
+  const box=$('#userList'); box.innerHTML='<div class="loadrow"><span class="spin"></span>Φόρτωση…</div>';
+  const {data:profs,error}=await sb.from('profiles').select('id,email,full_name,role,municipal_unit_id').in('role',['unit_user','central']).order('municipal_unit_id');
+  if(error){box.innerHTML='<p class="small" style="color:var(--danger)">Σφάλμα: '+esc(error.message)+'</p>';return;}
+  box.innerHTML='';
+  (profs||[]).forEach(p=>{
+    const uname=(p.municipal_unit_id===CENTRAL_UNIT)?'Δήμος Ρόδου':('Δ.Ε. '+unitName(p.municipal_unit_id));
+    const row=document.createElement('div'); row.className='urow';
+    row.innerHTML='<div class="un">'+esc(uname)+'</div>'+
+      '<input type="email" value="'+esc(p.email||'')+'" data-f="email">'+
+      '<input type="password" placeholder="Νέος κωδικός" data-f="pass">'+
+      '<button class="mini">Αποθήκευση</button>';
+    const emailI=row.querySelector('[data-f="email"]'), passI=row.querySelector('[data-f="pass"]'), btn=row.querySelector('button');
+    btn.onclick=async()=>{
+      const newEmail=emailI.value.trim(), newPass=passI.value;
+      if(!newEmail){toast('Το email δεν μπορεί να είναι κενό.','err');return;}
+      btn.disabled=true; const old=btn.textContent; btn.textContent='…';
+      const {error}=await sb.rpc('admin_set_user_credentials',{p_user_id:p.id,p_new_email:newEmail,p_new_password:newPass||null});
+      btn.disabled=false; btn.textContent=old;
+      if(error){toast('Σφάλμα: '+(error.message||error),'err');return;}
+      passI.value=''; p.email=newEmail;
+      toast('Αποθηκεύτηκε ('+uname+')');
+    };
+    box.appendChild(row);
+  });
+}
+$('#selfSave').onclick=async()=>{
+  const np=$('#selfPass').value; if(!np){toast('Δώσε νέο κωδικό.','err');return;}
+  if(np.length<6){toast('Τουλάχιστον 6 χαρακτήρες.','err');return;}
+  const b=$('#selfSave'); b.disabled=true; const old=b.textContent; b.textContent='…';
+  const {error}=await sb.auth.updateUser({password:np});
+  b.disabled=false; b.textContent=old;
+  if(error){toast('Σφάλμα: '+(error.message||error),'err');return;}
+  $('#selfPass').value=''; toast('Ο κωδικός σου άλλαξε');
+};
+
+boot();
+</script>
+</body>
+</html>
