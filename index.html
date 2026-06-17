@@ -220,6 +220,8 @@ table.mat{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
         <button class="btn btn--primary" id="btnSave"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"/><path d="M17 21v-8H7v8M7 3v5h8"/></svg>Αποθήκευση</button>
         <button class="btn" id="btnClean"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/><path d="M10 11v5M14 11v5"/></svg>Αποθήκευση & καθαρισμός</button>
         <button class="btn" id="btnExport"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4"/><path d="M5 21h14"/></svg>Εξαγωγή Excel</button>
+        <button class="btn" id="btnImport"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V9m0 0 4 4m-4-4-4 4"/><path d="M5 3h14"/></svg>Εισαγωγή Excel</button>
+        <input id="importFile" class="hidden" type="file" accept=".xlsx,.xls,.csv,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel">
         <button class="btn btn--accent" id="btnTexos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6M9 13h6M9 17h6"/></svg>Τεύχος δημοπράτησης</button>
       </div>
     </div>
@@ -269,6 +271,7 @@ table.mat{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script>
 /* Δήμος Ρόδου — Βιβλιοθήκη 9 πακέτων τεχνικών προδιαγραφών
    Έκδοση 3.0 — 17/06/2026
@@ -804,7 +807,7 @@ const ROLE_LABEL={admin:'Διαχειριστής',unit_user:'Δ.Ε.',viewer:'Π
 let ME={id:null,role:null,unitId:null,name:''};
 let UNITS=[], GROUPS=[], MAT_BY_GROUP={}, COUNTS={};
 let cur={unitId:null, groupId:null};
-let reqId=null, lines={}, baseline={}, dirty=false, prefillHint=false;
+let reqId=null, lines={}, baseline={}, dirty=false, prefillHint=false, cleanView=false;
 
 $('#loginBtn').onclick=doLogin;
 $('#pass').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
@@ -897,7 +900,7 @@ async function openView(){
   $('#btnSave').disabled=!writable; $('#btnClean').disabled=!writable;
   $('#btnRefresh').classList.toggle('hidden', !(isCentral && writable));
   $('#banner').classList.add('hidden');
-  reqId=null; lines={}; baseline={}; prefillHint=false; setDirty(false);
+  reqId=null; lines={}; baseline={}; prefillHint=false; cleanView=false; setDirty(false);
   renderLoading();
   try{ await loadUnitRequest(); }
   catch(e){ toast('Σφάλμα φόρτωσης: '+(e.message||e),'err'); }
@@ -909,7 +912,7 @@ async function loadUnitRequest(){
   const {data:reqs,error}=await sb.from('unit_requests').select('id,status')
     .eq('municipal_unit_id',cur.unitId).eq('group_id',cur.groupId).eq('request_year',YEAR).limit(1);
   if(error)throw error;
-  if(reqs&&reqs.length){ reqId=reqs[0].id;
+  if(reqs&&reqs.length){ reqId=reqs[0].id; cleanView=(reqs[0].status==='cleaned');
     const {data:ls,error:e2}=await sb.from('request_lines').select('material_id,quantity,unit_price').eq('request_id',reqId);
     if(e2)throw e2; (ls||[]).forEach(l=>{lines[l.material_id]={q:Number(l.quantity),p:l.unit_price==null?null:Number(l.unit_price)};});
   }
@@ -943,14 +946,16 @@ function render(){
   const tb=$('#tbody'); tb.innerHTML='';
   const bn=$('#banner');
   if(prefillHint){bn.classList.remove('hidden');bn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg> Πρόχειρο άθροισμα των 10 Δ.Ε. — πάτησε «Αποθήκευση» για να οριστικοποιηθεί.';}
+  else if(cleanView){bn.classList.remove('hidden');bn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg> Προβολή καθαρισμένου δελτίου: εμφανίζονται μόνο τα είδη με συμπληρωμένη ποσότητα.';}
   else bn.classList.add('hidden');
   if(!mats.length){tb.innerHTML='<tr class="emptyrow"><td colspan="6">Δεν υπάρχουν είδη σε αυτή την ομάδα ακόμη.</td></tr>';computeTotals();return;}
   let shown=0;
   mats.forEach((m,i)=>{
+    const qty=(lines[m.id]&&lines[m.id].q)||0;
+    if(cleanView && qty<=0) return;
     if(q && !norm(m.name).includes(q)) return;
     shown++;
     const price=priceOf(m);
-    const qty=(lines[m.id]&&lines[m.id].q)||0;
     const cost=(price!=null&&qty>0)?price*qty:null;
     let dh=m.name;
     if(q){const re=new RegExp('('+q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi');dh=m.name.replace(re,x=>'<span class="hl">'+x+'</span>');}
@@ -965,7 +970,7 @@ function render(){
       '<td class="col-cost">'+(cost!=null?fmtE(cost):'<span class="none">—</span>')+'</td>';
     tb.appendChild(tr);
   });
-  if(!shown)tb.innerHTML='<tr class="emptyrow"><td colspan="6">'+(q?'Κανένα είδος δεν ταιριάζει στην αναζήτηση.':'—')+'</td></tr>';
+  if(!shown)tb.innerHTML='<tr class="emptyrow"><td colspan="6">'+(q?'Κανένα είδος δεν ταιριάζει στην αναζήτηση.':(cleanView?'Δεν υπάρχουν είδη με συμπληρωμένη ποσότητα στο καθαρισμένο δελτίο.':'—'))+'</td></tr>';
   $('#ptSub').innerHTML='Σύνολο ειδών: <b>'+mats.length+'</b>'+(!writable?' · μόνο προβολή':'');
   bindInputs(); computeTotals();
 }
@@ -1022,7 +1027,7 @@ async function saveAll(clean){
     await sb.from('saved_versions').insert({request_id:reqId,action:clean?'save_clean':'save',created_by:ME.id,snapshot:{items:ups.length,net:currentNet()}});
     lines={}; const {data:ls}=await sb.from('request_lines').select('material_id,quantity,unit_price').eq('request_id',reqId);
     (ls||[]).forEach(l=>{lines[l.material_id]={q:Number(l.quantity),p:l.unit_price==null?null:Number(l.unit_price)};});
-    baseline=JSON.parse(JSON.stringify(lines)); prefillHint=false;
+    baseline=JSON.parse(JSON.stringify(lines)); prefillHint=false; cleanView=!!clean;
     setDirty(false); render();
     const lbl=cur.unitId===CENTRAL_UNIT?'Δήμος Ρόδου':unitName(cur.unitId);
     toast(clean?('Αποθηκεύτηκε & καθαρίστηκε ('+lbl+')'):('Αποθηκεύτηκε ('+lbl+')'));
@@ -1043,17 +1048,130 @@ $('#btnRefresh').onclick=async()=>{
   finally{b.disabled=false;b.innerHTML=old;}
 };
 
-$('#btnExport').onclick=()=>{
-  const mats=MAT_BY_GROUP[cur.groupId]||[]; const g=GROUPS.find(x=>x.id===cur.groupId);
-  const rows=[['Α/Α','Περιγραφή είδους','Μονάδα','Ενδεικτική τιμή (χωρίς ΦΠΑ)','Ποσότητα','Δαπάνη (χωρίς ΦΠΑ)']];
-  mats.forEach((m,i)=>{const p=priceOf(m);const qv=(lines[m.id]&&lines[m.id].q)||0;const c=(p!=null&&qv>0)?Math.round(p*qv*100)/100:'';
-    rows.push([i+1,m.name,m.unit||'',p!=null?(''+p).replace('.',','):'',qv||'',c!==''?(''+c).replace('.',','):'']);});
-  const csv='\uFEFF'+rows.map(r=>r.map(c=>{c=''+c;return /[";\n]/.test(c)?'"'+c.replace(/"/g,'""')+'"':c;}).join(';')).join('\r\n');
-  const blob=new Blob([csv],{type:'text/csv;charset=utf-8'});const url=URL.createObjectURL(blob);
+function exportRows(){
+  const mats=MAT_BY_GROUP[cur.groupId]||[];
+  const rows=[['Α/Α','Κωδικός Είδους','Περιγραφή είδους','Μονάδα','Ενδεικτική τιμή (χωρίς ΦΠΑ)','Ποσότητα','Δαπάνη (χωρίς ΦΠΑ)']];
+  mats.forEach((m,i)=>{
+    const p=priceOf(m); const qv=(lines[m.id]&&lines[m.id].q)||0;
+    const c=(p!=null&&qv>0)?Math.round(p*qv*100)/100:'';
+    rows.push([i+1,m.id,m.name,m.unit||'',p!=null?p:'',qv||'',c]);
+  });
+  return rows;
+}
+function fileBaseName(){
+  const g=GROUPS.find(x=>x.id===cur.groupId);
   const lbl=cur.unitId===CENTRAL_UNIT?'ΔΗΜΟΣ_ΡΟΔΟΥ_ΣΥΝΟΛΟ':unitName(cur.unitId);
-  const a=document.createElement('a');a.href=url;a.download=lbl+'_'+(g?g.short_name:'')+'_'+YEAR+'.csv';a.click();URL.revokeObjectURL(url);
-  toast('Έγινε εξαγωγή σε Excel/CSV','accent');
+  return lbl+'_'+(g?g.short_name:'')+'_'+YEAR;
+}
+function rowsToCsv(rows){
+  return '\uFEFF'+rows.map(r=>r.map(c=>{c=''+(c==null?'':c);return /[";\n]/.test(c)?'"'+c.replace(/"/g,'""')+'"':c;}).join(';')).join('\r\n');
+}
+$('#btnExport').onclick=()=>{
+  const rows=exportRows();
+  if(window.XLSX){
+    const ws=XLSX.utils.aoa_to_sheet(rows);
+    ws['!cols']=[{wch:6},{wch:14},{wch:70},{wch:12},{wch:20},{wch:14},{wch:18}];
+    const wb=XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb,ws,'Ποσότητες');
+    XLSX.writeFile(wb,fileBaseName()+'.xlsx');
+    toast('Έγινε εξαγωγή σε Excel (.xlsx)','accent');
+    return;
+  }
+  const csv=rowsToCsv(rows);
+  const blob=new Blob([csv],{type:'text/csv;charset=utf-8'});const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download=fileBaseName()+'.csv';a.click();URL.revokeObjectURL(url);
+  toast('Έγινε εξαγωγή σε CSV','accent');
 };
+
+$('#btnImport').onclick=()=>{
+  if(!canWrite(cur.unitId)){toast('Δεν έχεις δικαίωμα εισαγωγής σε αυτή την ενότητα.','err');return;}
+  $('#importFile').value='';
+  $('#importFile').click();
+};
+$('#importFile').addEventListener('change',async e=>{
+  const file=e.target.files&&e.target.files[0];
+  if(!file)return;
+  try{ await importQuantitiesFromFile(file); }
+  catch(err){ toast('Σφάλμα εισαγωγής: '+(err.message||err),'err'); }
+});
+function parseElNumber(v){
+  if(v==null)return 0;
+  if(typeof v==='number')return isFinite(v)?v:0;
+  let s=(''+v).trim();
+  if(!s)return 0;
+  s=s.replace(/\s/g,'').replace(/€/g,'');
+  if(s.includes(',')&&s.includes('.'))s=s.replace(/\./g,'').replace(',','.');
+  else if(s.includes(','))s=s.replace(',','.');
+  const n=parseFloat(s);
+  return isNaN(n)?0:n;
+}
+function normHeader(s){return norm((''+(s||'')).replace(/\s+/g,' ').trim());}
+function parseCsvText(txt){
+  txt=txt.replace(/^\uFEFF/,'');
+  const lines=txt.split(/\r?\n/).filter(x=>x.trim()!=='');
+  const sep=(lines[0]||'').includes(';')?';':',';
+  return lines.map(line=>{
+    const out=[]; let cur='', q=false;
+    for(let i=0;i<line.length;i++){
+      const ch=line[i];
+      if(ch==='"'){
+        if(q&&line[i+1]==='"'){cur+='"';i++;}
+        else q=!q;
+      }else if(ch===sep&&!q){out.push(cur);cur='';}
+      else cur+=ch;
+    }
+    out.push(cur); return out;
+  });
+}
+async function readWorkbookRows(file){
+  const name=(file.name||'').toLowerCase();
+  if(name.endsWith('.csv')||!window.XLSX){
+    const txt=await file.text();
+    return parseCsvText(txt);
+  }
+  const buf=await file.arrayBuffer();
+  const wb=XLSX.read(buf,{type:'array'});
+  const ws=wb.Sheets[wb.SheetNames[0]];
+  return XLSX.utils.sheet_to_json(ws,{header:1,defval:''});
+}
+function rowObject(headers,row){
+  const o={}; headers.forEach((h,i)=>o[h]=row[i]); return o;
+}
+function getByHeaders(o,names){
+  for(const k of Object.keys(o)){
+    const nk=normHeader(k);
+    if(names.some(n=>nk.includes(n)))return o[k];
+  }
+  return undefined;
+}
+async function importQuantitiesFromFile(file){
+  const rows=await readWorkbookRows(file);
+  if(!rows||rows.length<2)throw new Error('Το αρχείο δεν περιέχει γραμμές προς εισαγωγή.');
+  const headers=rows[0].map(x=>(''+x).trim());
+  const mats=MAT_BY_GROUP[cur.groupId]||[];
+  const byId=new Map(mats.map(m=>[''+m.id,m]));
+  const byName=new Map(mats.map(m=>[norm(m.name),m]));
+  let changed=0, skipped=0;
+  rows.slice(1).forEach(r=>{
+    if(!r || r.every(c=>(''+(c??'')).trim()===''))return;
+    const o=rowObject(headers,r);
+    const rawId=getByHeaders(o,['κωδικος ειδους','kodikos eidous','material_id','id']);
+    const rawName=getByHeaders(o,['περιγραφη ειδους','περιγραφη','υλικο','eidos','name']);
+    const rawQty=getByHeaders(o,['ποσοτητα','quantity','qty']);
+    let m=null;
+    if(rawId!=null && (''+rawId).trim()!=='' && byId.has((''+rawId).trim()))m=byId.get((''+rawId).trim());
+    if(!m && rawName!=null)m=byName.get(norm(rawName));
+    if(!m){skipped++;return;}
+    const qv=parseElNumber(rawQty);
+    const p=priceOf(m);
+    lines[m.id]={q:qv>0?qv:0,p:p==null?priceVal(m):p};
+    changed++;
+  });
+  if(!changed)throw new Error('Δεν αντιστοιχίστηκε καμία γραμμή του αρχείου με τα είδη της τρέχουσας ομάδας.');
+  cleanView=false; prefillHint=false; setDirty(true); render();
+  await saveAll(false);
+  toast('Εισήχθησαν και αποθηκεύτηκαν '+changed+' γραμμές'+(skipped?' · παραλείφθηκαν '+skipped:'')+'.','accent');
+}
 
 function esc(s){return (''+s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function texosRows(){const mats=MAT_BY_GROUP[cur.groupId]||[];const r=[];
