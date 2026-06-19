@@ -3,20 +3,20 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Δήμος Ρόδου · Προμήθειες υλικών v6</title>
+<title>Δήμος Ρόδου · Προμήθειες υλικών v14</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Commissioner:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap&subset=greek,greek-ext,latin" rel="stylesheet">
 <style>
 :root{
   --totals-height:64px;
-  --teal-900:#0E3B38; --teal-700:#15524F; --teal-600:#1B6863; --teal-500:#2A847D;
-  --ink:#14201E; --muted:#56655F; --faint2:#8A9A95;
-  --bg:#EDF1EF; --surface:#FFFFFF; --line:#DCE6E2; --line-2:#EAF0EE;
-  --amber:#C9821F; --amber-bg:#FBF1DC; --amber-line:#EAD2A0;
+  --teal-900:#0F2E5E; --teal-700:#1E5BA8; --teal-600:#2E72C8; --teal-500:#5191DD;
+  --ink:#172534; --muted:#5A6675; --faint2:#8C97A9;
+  --bg:#EEF2F8; --surface:#FFFFFF; --line:#D8E1EF; --line-2:#EAF0FA;
+  --amber:#DB6D14; --amber-bg:#FDEEDB; --amber-line:#F3CC97;
   --good:#1C7A57; --danger:#B23A48;
-  --shadow-sm:0 1px 2px rgba(16,40,38,.05),0 1px 3px rgba(16,40,38,.07);
-  --shadow-md:0 6px 22px rgba(14,59,56,.10);
+  --shadow-sm:0 1px 2px rgba(15,40,80,.06),0 1px 3px rgba(15,40,80,.08);
+  --shadow-md:0 6px 22px rgba(15,45,90,.12);
   --r:10px; --r-sm:8px;
   --font-ui:'Commissioner',system-ui,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
   --font-data:'Inter',system-ui,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
@@ -27,53 +27,53 @@ body{font-family:var(--font-data);color:var(--ink);background:var(--bg);-webkit-
 button{font-family:var(--font-ui);cursor:pointer}
 :focus-visible{outline:2.5px solid var(--teal-500);outline-offset:2px;border-radius:6px}
 .hidden{display:none!important}
-.login{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:20px;background:radial-gradient(1200px 600px at 50% -10%, #1B6863 0%, #0E3B38 55%, #0A2E2C 100%)}
-.login-card{background:var(--surface);border-radius:16px;box-shadow:0 24px 60px rgba(8,30,28,.45);width:100%;max-width:400px;overflow:hidden;animation:pop .3s cubic-bezier(.2,.7,.3,1)}
+.login{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:20px;background:radial-gradient(1200px 600px at 50% -10%, #2E72C8 0%, #0F2E5E 55%, #0B2750 100%)}
+.login-card{background:var(--surface);border-radius:16px;box-shadow:0 24px 60px rgba(10,25,55,.5);width:100%;max-width:400px;overflow:hidden;animation:pop .3s cubic-bezier(.2,.7,.3,1)}
 .login-head{padding:26px 28px 18px;text-align:center;border-bottom:1px solid var(--line-2)}
-.login-head .sun{width:42px;height:42px;color:#D9952B;margin-bottom:10px}
+.login-head .sun{width:42px;height:42px;color:#E07B17;margin-bottom:10px}
 .login-head h1{font-family:var(--font-ui);font-weight:700;font-size:19px;margin:0;color:var(--ink)}
 .login-head p{margin:4px 0 0;font-size:12.5px;color:var(--muted)}
 .login-body{padding:22px 28px 26px;display:flex;flex-direction:column;gap:13px}
 .field label{display:block;font-family:var(--font-ui);font-size:12px;font-weight:600;color:var(--muted);margin-bottom:5px}
 .field input{width:100%;font-family:var(--font-data);font-size:14px;color:var(--ink);border:1px solid var(--line);border-radius:var(--r-sm);padding:11px 13px;transition:border-color .15s,box-shadow .15s}
-.field input:focus{outline:none;border-color:var(--teal-500);box-shadow:0 0 0 3px rgba(42,132,125,.14)}
+.field input:focus{outline:none;border-color:var(--teal-500);box-shadow:0 0 0 3px rgba(81,145,221,.16)}
 .login-btn{margin-top:4px;background:var(--teal-700);color:#fff;border:none;border-radius:var(--r-sm);padding:12px;font-weight:600;font-size:14.5px;transition:background .15s}
 .login-btn:hover{background:var(--teal-600)}
 .login-btn:disabled{opacity:.6;cursor:default}
 .login-err{font-size:12.5px;color:var(--danger);background:#FbeAEC;border:1px solid #F0C9CE;border-radius:7px;padding:9px 11px;display:none}
 .login-err.show{display:block}
 .login-foot{font-size:11px;color:var(--faint2);text-align:center;padding:0 28px 18px}
-.appbar{position:sticky;top:0;z-index:40;background:var(--teal-700);color:#EAF3F1;display:flex;align-items:center;gap:14px;padding:11px clamp(14px,3vw,30px);box-shadow:0 1px 0 rgba(255,255,255,.06) inset, 0 4px 18px rgba(14,59,56,.18)}
+.appbar{position:sticky;top:0;z-index:40;background:var(--teal-700);color:#E7F0FB;display:flex;align-items:center;gap:14px;padding:11px clamp(14px,3vw,30px);box-shadow:0 1px 0 rgba(255,255,255,.06) inset, 0 4px 18px rgba(15,46,94,.20)}
 .brand{display:flex;align-items:center;gap:12px;min-width:0}
 .sun{flex:none}
-.appbar .sun{width:30px;height:30px;color:#F3C969}
+.appbar .sun{width:30px;height:30px;color:#F6B45A}
 .brand-txt{display:flex;flex-direction:column;line-height:1.15;min-width:0}
 .brand-txt b{font-family:var(--font-ui);font-weight:700;font-size:15px;color:#fff}
-.brand-txt span{font-size:11.5px;color:#A9CFCA;font-weight:500}
+.brand-txt span{font-size:11.5px;color:#BCD4F2;font-weight:500}
 .appbar-right{margin-left:auto;display:flex;align-items:center;gap:10px}
-.who{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.16);padding:6px 12px;border-radius:999px;font-size:12.5px;color:#EAF3F1}
+.who{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.16);padding:6px 12px;border-radius:999px;font-size:12.5px;color:#E7F0FB}
 .who b{font-family:var(--font-ui);font-weight:600}
-.who .role{font-size:10px;text-transform:uppercase;letter-spacing:.6px;background:#F3C969;color:#3a2c08;font-weight:700;padding:2px 7px;border-radius:999px}
-.icon-btn{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.16);color:#EAF3F1;width:34px;height:34px;border-radius:9px;display:grid;place-items:center;transition:background .15s}
+.who .role{font-size:10px;text-transform:uppercase;letter-spacing:.6px;background:#F6B45A;color:#3a2406;font-weight:700;padding:2px 7px;border-radius:999px}
+.icon-btn{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.16);color:#E7F0FB;width:34px;height:34px;border-radius:9px;display:grid;place-items:center;transition:background .15s}
 .icon-btn:hover{background:rgba(255,255,255,.2)}
 .icon-btn svg{width:17px;height:17px}
-.year-pill{font-family:var(--font-ui);font-weight:600;font-size:12.5px;color:#A9CFCA;border:1px solid rgba(255,255,255,.16);padding:6px 11px;border-radius:999px}
+.year-pill{font-family:var(--font-ui);font-weight:600;font-size:12.5px;color:#BCD4F2;border:1px solid rgba(255,255,255,.16);padding:6px 11px;border-radius:999px}
 .shell{max-width:1280px;margin:0 auto;padding:clamp(14px,2.4vw,26px) clamp(12px,3vw,30px) calc(var(--totals-height) + 22px)}
 .nav{margin-bottom:14px}
 .nav-label{font-family:var(--font-ui);font-size:11px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--faint2);margin:0 2px 8px}
 .pills{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .pill{font-family:var(--font-ui);font-weight:600;font-size:13.5px;color:var(--teal-700);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:8px 15px;display:inline-flex;align-items:center;gap:8px;line-height:1;transition:background .15s,border-color .15s,color .15s,transform .12s,box-shadow .15s;box-shadow:var(--shadow-sm)}
 .pill:hover{border-color:var(--teal-500);transform:translateY(-1px)}
-.pill[aria-selected="true"]{background:var(--teal-700);border-color:var(--teal-700);color:#fff;box-shadow:0 4px 14px rgba(21,82,79,.28)}
+.pill[aria-selected="true"]{background:var(--teal-700);border-color:var(--teal-700);color:#fff;box-shadow:0 4px 14px rgba(30,91,168,.30)}
 .pill .badge{font-family:var(--font-data);font-weight:600;font-size:11px;min-width:20px;height:18px;padding:0 5px;border-radius:999px;display:inline-grid;place-items:center;background:var(--line-2);color:var(--teal-600)}
 .pill[aria-selected="true"] .badge{background:rgba(255,255,255,.22);color:#fff}
-.pill--zero{color:var(--faint2)} .pill--zero .badge{background:#F0F3F1;color:var(--faint2)}
-.pill--agg{background:linear-gradient(180deg,#1B6863,#15524F);color:#fff;border-color:#15524F}
+.pill--zero{color:var(--faint2)} .pill--zero .badge{background:#EFF3FB;color:var(--faint2)}
+.pill--agg{background:linear-gradient(180deg,#2E72C8,#1E5BA8);color:#fff;border-color:#1E5BA8}
 .pill--agg svg{width:15px;height:15px;opacity:.9}
-.pill--agg[aria-selected="true"]{box-shadow:0 0 0 2px #fff,0 6px 16px rgba(14,59,56,.3)}
+.pill--agg[aria-selected="true"]{box-shadow:0 0 0 2px #fff,0 6px 16px rgba(15,46,94,.32)}
 .nav-sep{width:1px;align-self:stretch;background:var(--line);margin:2px 4px}
 .panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow-md);overflow:hidden}
-.panel__head{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:15px 18px;border-bottom:1px solid var(--line-2);background:linear-gradient(180deg,#fff,#FBFDFC)}
+.panel__head{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:15px 18px;border-bottom:1px solid var(--line-2);background:linear-gradient(180deg,#fff,#FAFCFF)}
 .ptitle{display:flex;flex-direction:column;gap:2px;margin-right:auto;min-width:200px}
 .ptitle .eyebrow{font-family:var(--font-ui);font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--teal-500)}
 .ptitle h2{font-family:var(--font-ui);font-weight:700;font-size:20px;margin:0;color:var(--ink);letter-spacing:-.2px}
@@ -81,53 +81,55 @@ button{font-family:var(--font-ui);cursor:pointer}
 .search{position:relative;display:flex;align-items:center}
 .search svg{position:absolute;left:11px;width:15px;height:15px;color:var(--faint2);pointer-events:none}
 .search input{font-family:var(--font-data);font-size:13px;border:1px solid var(--line);border-radius:var(--r-sm);background:#fff;padding:9px 12px 9px 33px;width:200px;transition:border-color .15s,box-shadow .15s}
-.search input:focus{outline:none;border-color:var(--teal-500);box-shadow:0 0 0 3px rgba(42,132,125,.14)}
+.search input:focus{outline:none;border-color:var(--teal-500);box-shadow:0 0 0 3px rgba(81,145,221,.16)}
 .actions{display:flex;gap:8px;flex-wrap:wrap}
-.btn{font-weight:600;font-size:13px;border-radius:var(--r-sm);padding:9px 14px;display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:#fff;color:var(--teal-700);transition:background .15s,border-color .15s,transform .12s,box-shadow .15s}
+.btn{font-family:var(--font-ui);font-weight:600;font-size:13px;border-radius:10px;padding:9px 15px;display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:#fff;color:var(--teal-700);transition:background .16s,border-color .16s,transform .12s,box-shadow .16s;box-shadow:var(--shadow-sm)}
 .btn svg{width:15px;height:15px}
-.btn:hover{border-color:var(--teal-500);background:#F6FAF9;transform:translateY(-1px)}
-.btn--primary{background:var(--teal-700);border-color:var(--teal-700);color:#fff;box-shadow:0 3px 10px rgba(21,82,79,.22)}
-.btn--primary:hover{background:var(--teal-600);border-color:var(--teal-600)}
+.btn:hover{border-color:var(--teal-500);background:#F2F7FE;transform:translateY(-1px);box-shadow:0 5px 14px rgba(15,45,90,.13)}
+.btn:active{transform:translateY(0);box-shadow:var(--shadow-sm)}
+.btn--primary{background:linear-gradient(180deg,#2E72C8,#1E5BA8);border-color:#1A5199;color:#fff;box-shadow:0 4px 12px rgba(30,91,168,.30)}
+.btn--primary:hover{background:linear-gradient(180deg,#3A80D6,#256BC0);border-color:#1E5BA8;box-shadow:0 7px 18px rgba(30,91,168,.36)}
 .btn--accent{color:var(--amber);border-color:var(--amber-line);background:var(--amber-bg)}
-.btn--accent:hover{background:#F8E9C8;border-color:var(--amber)}
-.btn--sum{color:#fff;background:linear-gradient(180deg,#1B6863,#15524F);border-color:#15524F}
-.btn--sum:hover{background:var(--teal-600);border-color:var(--teal-600)}
+.btn--accent:hover{background:#FBE0C2;border-color:var(--amber)}
+.btn--sum{color:#fff;background:linear-gradient(180deg,#2E72C8,#1E5BA8);border-color:#1A5199}
+.btn--sum:hover{background:linear-gradient(180deg,#3A80D6,#256BC0);border-color:#1E5BA8}
 .btn--restore{color:#0f6b4f;border-color:#a8d8c8;background:#eef9f5;font-weight:700}
 .btn--restore:hover{color:#0b5941;border-color:#58ad8e;background:#e2f5ee}
 .btn:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
-.banner{margin:0;padding:9px 18px;background:var(--amber-bg);border-bottom:1px solid var(--amber-line);color:#7a5512;font-size:12.5px;font-weight:600;font-family:var(--font-ui);display:flex;align-items:center;gap:8px}
+.banner{margin:0;padding:9px 18px;background:var(--amber-bg);border-bottom:1px solid var(--amber-line);color:#8a4e0e;font-size:12.5px;font-weight:600;font-family:var(--font-ui);display:flex;align-items:center;gap:8px}
 .banner svg{width:15px;height:15px;flex:none}
 .tablewrap{overflow:auto;max-height:calc(100vh - 360px - var(--totals-height));min-height:200px;scroll-padding-bottom:calc(var(--totals-height) + 18px)}
 .tablewrap::after{content:"";display:block;height:calc(var(--totals-height) + 18px);pointer-events:none}
 table.mat{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
-.mat thead th{position:sticky;top:0;z-index:2;background:#F4F8F6;color:var(--teal-700);font-family:var(--font-ui);font-weight:600;font-size:11.5px;letter-spacing:.4px;text-transform:uppercase;text-align:left;padding:11px 14px;border-bottom:1px solid var(--line);white-space:nowrap}
+.mat thead th{position:sticky;top:0;z-index:2;background:#F1F6FD;color:var(--teal-700);font-family:var(--font-ui);font-weight:600;font-size:11.5px;letter-spacing:.4px;text-transform:uppercase;text-align:left;padding:11px 14px;border-bottom:1px solid var(--line);white-space:nowrap}
 .mat thead th.num{text-align:right}
+.mat thead th.ctr{text-align:center}
 .mat tbody td{padding:9px 14px;border-bottom:1px solid var(--line-2);vertical-align:middle}
-.mat tbody tr:hover td{background:#F7FAF9}
+.mat tbody tr:hover td{background:#F4F8FE}
 .col-aa{width:46px;color:var(--faint2);text-align:center;font-variant-numeric:tabular-nums}
 .col-desc{font-weight:500}
 .col-unit{width:92px;text-align:center}
-.col-unit .u{display:inline-block;background:#EFF4F2;color:var(--teal-600);font-size:11.5px;font-weight:600;padding:2px 9px;border-radius:999px;font-family:var(--font-ui)}
+.col-unit .u{display:inline-block;background:#EEF4FB;color:var(--teal-600);font-size:11.5px;font-weight:600;padding:2px 9px;border-radius:999px;font-family:var(--font-ui)}
 .col-price{width:128px;text-align:right;font-variant-numeric:tabular-nums}
 .col-price .none{color:var(--faint2);font-style:italic}
 .col-qty{width:116px}
 .col-cost{width:138px;text-align:right;font-variant-numeric:tabular-nums;font-weight:600;color:var(--teal-700)}
-.col-cost .none{color:#C3CFCB;font-weight:400}
+.col-cost .none{color:#C6D6EE;font-weight:400}
 .qin{font-family:var(--font-data);font-size:13.5px;font-weight:600;text-align:right;width:100%;border:1px solid var(--amber-line);background:var(--amber-bg);border-radius:7px;padding:7px 9px;transition:border-color .15s,box-shadow .15s,background .15s}
-.qin:focus{outline:none;border-color:var(--amber);background:#fff;box-shadow:0 0 0 3px rgba(201,130,31,.16)}
+.qin:focus{outline:none;border-color:var(--amber);background:#fff;box-shadow:0 0 0 3px rgba(219,109,20,.18)}
 .qin.filled{background:#fff;border-color:var(--line);color:var(--teal-700)}
-.qin:disabled{background:#F3F6F5;border-color:var(--line-2);color:var(--muted);cursor:default;font-weight:600}
+.qin:disabled{background:#F1F5FB;border-color:var(--line-2);color:var(--muted);cursor:default;font-weight:600}
 .emptyrow td{padding:46px 20px;text-align:center;color:var(--faint2);font-style:italic}
-.hl{background:#FCEFC6;border-radius:3px;padding:0 1px}
+.hl{background:#FCE6C8;border-radius:3px;padding:0 1px}
 .loadrow td{padding:40px;text-align:center;color:var(--muted)}
 .spin{display:inline-block;width:18px;height:18px;border:2.5px solid var(--line);border-top-color:var(--teal-500);border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:8px}
 @keyframes spin{to{transform:rotate(360deg)}}
-.totals{position:fixed;left:0;right:0;bottom:0;z-index:45;background:rgba(255,255,255,.96);backdrop-filter:saturate(1.35) blur(7px);border-top:1px solid var(--line);box-shadow:0 -4px 16px rgba(14,59,56,.08)}
+.totals{position:fixed;left:0;right:0;bottom:0;z-index:45;background:rgba(255,255,255,.96);backdrop-filter:saturate(1.35) blur(7px);border-top:1px solid var(--line);box-shadow:0 -4px 16px rgba(15,46,94,.10)}
 .totals-in{max-width:1280px;margin:0 auto;display:flex;align-items:center;min-height:54px;padding:0 clamp(8px,2vw,18px);overflow-x:auto}
 .stat{display:flex;flex-direction:column;justify-content:center;gap:0;padding:6px 12px;border-right:1px solid var(--line-2);white-space:nowrap}
 .stat .k{font-family:var(--font-ui);font-size:9px;font-weight:700;letter-spacing:.65px;text-transform:uppercase;color:var(--faint2)}
 .stat .v{font-family:var(--font-data);font-weight:600;font-size:14px;font-variant-numeric:tabular-nums}
-.stat--grand{margin-left:auto;border-right:none;align-items:flex-end;background:linear-gradient(180deg,#FBFDFC,#F1F7F5);padding:5px 10px 5px 16px}
+.stat--grand{margin-left:auto;border-right:none;align-items:flex-end;background:linear-gradient(180deg,#FAFCFF,#F1F7F5);padding:5px 10px 5px 16px}
 .stat--grand .k{color:var(--teal-600)}
 .stat--grand .v{font-family:var(--font-ui);font-weight:700;font-size:19px;color:var(--teal-700);letter-spacing:-.2px}
 .stat--vat .v{color:var(--muted)}
@@ -138,28 +140,28 @@ table.mat{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
 .toast{font-family:var(--font-ui);font-weight:600;font-size:13.5px;color:#fff;background:var(--teal-900);padding:11px 18px;border-radius:999px;box-shadow:var(--shadow-md);display:flex;align-items:center;gap:9px;animation:rise .28s cubic-bezier(.2,.7,.3,1)}
 .toast svg{width:16px;height:16px;color:#7FE0C2}
 .toast--err{background:#7a2730} .toast--err svg{color:#ffb4bd}
-.toast--accent svg{color:#F3C969}
+.toast--accent svg{color:#F6B45A}
 @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-.modal{position:fixed;inset:0;z-index:70;display:none;place-items:center;background:rgba(14,32,30,.46);backdrop-filter:blur(3px);padding:20px}
+.modal{position:fixed;inset:0;z-index:70;display:none;place-items:center;background:rgba(13,28,52,.5);backdrop-filter:blur(3px);padding:20px}
 .modal.open{display:grid;animation:fade .2s ease}
 @keyframes fade{from{opacity:0}to{opacity:1}}
 @keyframes pop{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
 .sheet{background:#fff;border-radius:14px;max-width:680px;width:100%;max-height:86vh;display:flex;flex-direction:column;box-shadow:0 24px 60px rgba(14,40,38,.4);overflow:hidden;animation:pop .26s cubic-bezier(.2,.7,.3,1)}
 .sheet__h{display:flex;align-items:center;gap:12px;padding:16px 22px;background:var(--teal-700);color:#fff}
-.sheet__h svg{width:20px;height:20px;color:#F3C969}
+.sheet__h svg{width:20px;height:20px;color:#F6B45A}
 .sheet__h b{font-family:var(--font-ui);font-weight:700;font-size:16px}
 .sheet__b{padding:18px 22px;color:var(--ink);font-size:14px;overflow:auto}
 .sheet__b p.lead{margin:0 0 14px;color:var(--muted)}
-.sheet__f{display:flex;justify-content:flex-end;gap:9px;padding:13px 22px;border-top:1px solid var(--line-2);background:#FBFDFC}
+.sheet__f{display:flex;justify-content:flex-end;gap:9px;padding:13px 22px;border-top:1px solid var(--line-2);background:#FAFCFF}
 .sect-h{font-family:var(--font-ui);font-weight:700;font-size:12px;letter-spacing:.8px;text-transform:uppercase;color:var(--teal-600);margin:6px 0 10px}
 .urow{display:grid;grid-template-columns:128px 1fr 130px auto;gap:8px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line-2)}
 .urow .un{font-family:var(--font-ui);font-weight:600;font-size:13px;color:var(--ink)}
 .urow input{font-family:var(--font-data);font-size:12.5px;border:1px solid var(--line);border-radius:7px;padding:7px 9px;width:100%}
-.urow input:focus{outline:none;border-color:var(--teal-500);box-shadow:0 0 0 3px rgba(42,132,125,.14)}
+.urow input:focus{outline:none;border-color:var(--teal-500);box-shadow:0 0 0 3px rgba(81,145,221,.16)}
 .urow .mini{font-weight:600;font-size:12px;border-radius:7px;padding:7px 11px;border:1px solid var(--teal-700);background:var(--teal-700);color:#fff}
 .urow .mini:hover{background:var(--teal-600)}
 .urow .mini:disabled{opacity:.5}
-.self-box{margin-top:18px;padding:14px;background:#F6FAF9;border:1px solid var(--line-2);border-radius:10px;display:grid;grid-template-columns:1fr 130px auto;gap:8px;align-items:center}
+.self-box{margin-top:18px;padding:14px;background:#F2F7FE;border:1px solid var(--line-2);border-radius:10px;display:grid;grid-template-columns:1fr 130px auto;gap:8px;align-items:center}
 .self-box input{font-family:var(--font-data);font-size:12.5px;border:1px solid var(--line);border-radius:7px;padding:8px 9px}
 @media (max-width:680px){.ptitle{order:-1;width:100%}.search{flex:1}.search input{width:100%}.tablewrap{max-height:none}.urow{grid-template-columns:1fr 1fr;}.urow .un{grid-column:1 / -1}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
@@ -172,18 +174,25 @@ table.mat{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
 .del-item{width:30px;height:30px;border:1px solid #E7BCC2;border-radius:7px;background:#FFF4F5;color:var(--danger);display:inline-grid;place-items:center;padding:0;transition:background .15s,border-color .15s,transform .12s}
 .del-item:hover{background:#FBE7EA;border-color:var(--danger);transform:translateY(-1px)}
 .del-item svg{width:14px;height:14px}
+.catalog-delete{width:30px;height:30px;border:1px solid #D7A3A9;border-radius:7px;background:#8F2632;color:#fff;display:inline-grid;place-items:center;padding:0;transition:background .15s,border-color .15s,transform .12s;margin-left:4px}
+.catalog-delete:hover{background:#6F1823;border-color:#6F1823;transform:translateY(-1px)}
+.catalog-delete svg{width:14px;height:14px}
+.btn--study{color:#1E5BA8;border-color:#BCD4F2;background:#EEF4FD}
+.btn--study:hover{background:#E0ECFB;border-color:#5191DD}
+.btn--tender{color:#B45309;border-color:var(--amber-line);background:var(--amber-bg)}
+.btn--tender:hover{background:#FBE0C2;border-color:var(--amber)}
 .btn--danger-soft{color:var(--danger);border-color:#E7BCC2;background:#FFF7F8}
 .btn--danger-soft:hover{background:#FBEAEC;border-color:var(--danger)}
 .target-box{display:flex;flex-direction:row;gap:6px;align-items:center;margin-top:2px}
 .target-box label{font-family:var(--font-ui);font-size:8.5px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:var(--teal-600)}
 .target-line{display:flex;align-items:center;gap:5px}
 .target-line input{width:104px;border:1px solid var(--line);border-radius:6px;padding:4px 7px;text-align:right;font-family:var(--font-data);font-size:11px;font-weight:600;background:#fff;color:var(--ink)}
-.target-line input:focus{outline:none;border-color:var(--teal-500);box-shadow:0 0 0 3px rgba(42,132,125,.14)}
+.target-line input:focus{outline:none;border-color:var(--teal-500);box-shadow:0 0 0 3px rgba(81,145,221,.16)}
 .target-line button{border:1px solid var(--teal-700);background:var(--teal-700);color:#fff;border-radius:6px;padding:4px 8px;font-family:var(--font-ui);font-size:10px;font-weight:700}
 .copy-grid{display:grid;grid-template-columns:1fr;gap:10px}
 .copy-grid label{font-family:var(--font-ui);font-size:12px;font-weight:700;color:var(--muted)}
 .copy-grid select{width:100%;font-family:var(--font-data);font-size:13px;border:1px solid var(--line);border-radius:8px;padding:10px;background:#fff;color:var(--ink)}
-.copy-info{padding:11px 13px;border:1px solid var(--line-2);background:#F6FAF9;border-radius:9px;font-size:12.5px;color:var(--muted)}
+.copy-info{padding:11px 13px;border:1px solid var(--line-2);background:#F2F7FE;border-radius:9px;font-size:12.5px;color:var(--muted)}
 .copy-info b{color:var(--teal-700)}
 @media(max-width:900px){.target-box{align-items:flex-start}.stat--grand{align-items:flex-start}.target-line input{width:100px}}
 
@@ -193,8 +202,85 @@ table.mat{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
 .admin-toolbar .btn--restore{box-shadow:0 0 0 2px rgba(28,122,87,.08);background:#E7F7F0;border-color:#68B99B;color:#0C6247}
 
 
+
+.dev-credit{position:fixed;right:14px;bottom:calc(var(--totals-height) + 8px);z-index:43;font-family:var(--font-ui);font-size:11px;font-weight:600;letter-spacing:.2px;color:var(--faint2);opacity:.72;pointer-events:none;user-select:none}
+@media (max-width:760px){.dev-credit{display:none}}
+
+
+/* ===== v14: σαφής χρωματική διάκριση πλοήγησης ===== */
+/* Δημοτικές Ενότητες: πιο σκούρο διοικητικό μπλε */
+#deNav .pill:not(.pill--agg){
+  color:#FFFFFF;
+  background:linear-gradient(180deg,#245EA5 0%,#173F78 100%);
+  border-color:#123766;
+  box-shadow:0 3px 9px rgba(15,46,94,.20);
+}
+#deNav .pill:not(.pill--agg):hover{
+  color:#FFFFFF;
+  background:linear-gradient(180deg,#2E70BD 0%,#1B4F91 100%);
+  border-color:#17477F;
+  box-shadow:0 5px 13px rgba(15,46,94,.27);
+}
+#deNav .pill:not(.pill--agg)[aria-selected="true"]{
+  color:#FFFFFF;
+  background:linear-gradient(180deg,#163F79 0%,#0C2D59 100%);
+  border-color:#08254A;
+  box-shadow:0 0 0 2px rgba(255,255,255,.95),0 6px 16px rgba(9,34,70,.38);
+}
+#deNav .pill--agg{
+  color:#FFFFFF;
+  background:linear-gradient(180deg,#173B70 0%,#09274F 100%);
+  border-color:#071F40;
+  box-shadow:0 3px 10px rgba(9,34,70,.28);
+}
+#deNav .pill--agg:hover{
+  background:linear-gradient(180deg,#20528F 0%,#103768 100%);
+  border-color:#0C2D59;
+}
+#deNav .pill--agg[aria-selected="true"]{
+  background:linear-gradient(180deg,#102F5C 0%,#061D3D 100%);
+  border-color:#041731;
+}
+
+/* Ομάδες υλικών: ελαφρύ σιέλ, με πιο έντονο σιέλ στην επιλογή */
+#grpNav .pill{
+  color:#075C72;
+  background:linear-gradient(180deg,#E8FAFD 0%,#D4F3F8 100%);
+  border-color:#8FD8E5;
+  box-shadow:0 2px 7px rgba(17,133,157,.10);
+}
+#grpNav .pill:hover{
+  color:#064E61;
+  background:linear-gradient(180deg,#D9F7FB 0%,#C1EDF5 100%);
+  border-color:#43BBD0;
+  box-shadow:0 4px 11px rgba(17,133,157,.17);
+}
+#grpNav .pill[aria-selected="true"]{
+  color:#FFFFFF;
+  background:linear-gradient(180deg,#32BBD2 0%,#168EAC 100%);
+  border-color:#117B96;
+  box-shadow:0 5px 14px rgba(13,122,150,.30);
+}
+#grpNav .pill .badge{
+  color:#075C72;
+  background:#BFEAF2;
+}
+#grpNav .pill[aria-selected="true"] .badge{
+  color:#FFFFFF;
+  background:rgba(255,255,255,.24);
+}
+#grpNav .pill--zero{
+  color:#638E99;
+  background:linear-gradient(180deg,#F1FBFD 0%,#E5F7FA 100%);
+  border-color:#C5EAF0;
+}
+#grpNav .pill--zero .badge{
+  color:#638E99;
+  background:#D7F0F4;
+}
+
 </style>
-<!-- v7: compact totals, prominent restore, integer-only quantities, target never exceeded -->
+<!-- v14: distinct municipal-unit and group navigation colours -->
 </head>
 <body>
 
@@ -257,7 +343,8 @@ table.mat{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
         <button class="btn" id="btnExport"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4"/><path d="M5 21h14"/></svg>Εξαγωγή Excel</button>
         <button class="btn" id="btnImport"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V9m0 0 4 4m-4-4-4 4"/><path d="M5 3h14"/></svg>Εισαγωγή Excel</button>
         <input id="importFile" class="hidden" type="file" accept=".xlsx,.xls,.csv,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel">
-        <button class="btn btn--accent" id="btnTexos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6M9 13h6M9 17h6"/></svg>Τεύχος δημοπράτησης</button>
+        <button class="btn btn--study" id="btnStudy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5V5a2 2 0 0 1 2-2h9l5 5v11.5a1.5 1.5 0 0 1-1.5 1.5H6a2 2 0 0 1-2-2Z"/><path d="M14 3v6h6M8 13h8M8 17h6"/></svg>Μελέτη</button>
+        <button class="btn btn--tender" id="btnTefxi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6M9 13h6M9 17h6"/><path d="M8 9h2"/></svg>Τεύχη</button>
       </div>
     </div>
 
@@ -265,6 +352,7 @@ table.mat{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
       <span class="admin-label">Εργαλεία διαχειριστή</span>
       <button class="btn btn--restore" id="btnRestore" title="Εμφάνιση ξανά του πλήρους καταλόγου ειδών"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>Επαναφορά όλων των ειδών</button>
       <button class="btn" id="btnUndo" disabled title="Αναίρεση τελευταίας αλλαγής"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14 4 9l5-5"/><path d="M4 9h9a7 7 0 1 1 0 14h-2"/></svg>Αναίρεση</button>
+      <button class="btn" id="btnRedo" disabled title="Ακύρωση αναίρεσης / επανάληψη τελευταίας αλλαγής"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 14 5-5-5-5"/><path d="M20 9h-9a7 7 0 1 0 0 14h2"/></svg>Ακύρωση αναίρεσης</button>
       <button class="btn" id="btnCopyGroup" title="Αντιγραφή της τρέχουσας ομάδας σε άλλη Δ.Ε."><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Αντιγραφή ομάδας</button>
     </div>
     <div class="banner hidden" id="banner"></div>
@@ -277,7 +365,7 @@ table.mat{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
           <th class="num sortable" data-sort="price">Ενδ. τιμή (χωρίς ΦΠΑ)<span class="sort-mark"></span></th>
           <th class="num sortable" data-sort="qty">Ποσότητα<span class="sort-mark"></span></th>
           <th class="num sortable" data-sort="cost">Δαπάνη<span class="sort-mark"></span></th>
-          <th class="ctr hidden" id="thAdminActions">Διαγραφή</th>
+          <th class="ctr hidden" id="thAdminActions">Ενέργειες</th>
         </tr></thead>
         <tbody id="tbody"></tbody>
       </table>
@@ -341,8 +429,9 @@ table.mat{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script>
-/* Δήμος Ρόδου — Βιβλιοθήκη 9 πακέτων τεχνικών προδιαγραφών
-   Έκδοση 3.0 — 17/06/2026
+/* Δήμος Ρόδου - Προμήθειες v14: έλεγχος v13 και διακριτός χρωματισμός Δημοτικών Ενοτήτων / Ομάδων */
+/* Δήμος Ρόδου — Βιβλιοθήκη 14 ειδικών πακέτων και ασφαλές γενικό πακέτο
+   Έκδοση 3.2 — 18/06/2026
    Οι αναφορές σε πρότυπα νοούνται ως «ή ισοδύναμο» και στην ισχύουσα έκδοση.
 */
 window.TenderSpecs = (() => {
@@ -724,8 +813,202 @@ window.TenderSpecs = (() => {
       "Για ανακλαστήρες, έλεγχος ύψους, στερέωσης και συμπεριφοράς σε δοκιμαστική διέλευση οχήματος όπου απαιτείται."
     ],
     "warranty": "τουλάχιστον επτά (7) έτη για ανακλαστικές μεμβράνες μόνιμης σήμανσης, τρία (3) έτη για την κατασκευή της πινακίδας και δύο (2) έτη για λοιπά εξαρτήματα, εκτός αν ο κατασκευαστής παρέχει μεγαλύτερη"
+  },
+  "wood": {
+    "title": "ΤΕΧΝΙΚΕΣ ΠΡΟΔΙΑΓΡΑΦΕΣ ΞΥΛΕΙΑΣ ΚΑΙ ΠΡΟΪΟΝΤΩΝ ΞΥΛΟΥ",
+    "cpv": "03419100-1, 44191000-5 και ειδικότεροι συναφείς CPV",
+    "purpose": "κατασκευές, επισκευές και συντηρήσεις ξύλινων στοιχείων, καλουπιών, δαπέδων, στεγών, κουφωμάτων και αστικού εξοπλισμού",
+    "framework": [
+      "Κανονισμός (ΕΕ) 305/2011 για τα δομικά προϊόντα, όπου εφαρμόζεται σε δομική ξυλεία.",
+      "Κανονισμός (ΕΕ) 2023/1115 (EUDR) και Κανονισμός (ΕΕ) 995/2010 για τη νομιμότητα της ξυλείας, όπως ισχύουν.",
+      "ΕΛΟΤ EN 14081 για δομική ξυλεία, EN 13986 για πετάσματα ξύλου (κόντρα πλακέ, OSB, MDF, μοριοσανίδες), EN 14342 για ξύλινα δάπεδα, όπου εφαρμόζονται.",
+      "EN 335/EN 350 για κλάσεις χρήσης και ανθεκτικότητα και EN 351 για εμποτισμένη ξυλεία, όπου εφαρμόζονται."
+    ],
+    "technical": [
+      "Η ξυλεία θα είναι υγιής, χωρίς σήψη, ενεργό προσβολή εντόμων ή μυκήτων, υπερβολικούς ρόζους, σχισμές ή στρεβλώσεις πέραν των ανοχών της κατηγορίας.",
+      "Θα δηλώνονται είδος ξύλου, κατηγορία ή ποιότητα, διαστάσεις, ποσοστό υγρασίας και, για δομική ξυλεία, κλάση αντοχής (π.χ. C ή GL).",
+      "Τα πετάσματα ξύλου θα δηλώνουν τύπο, πάχος, κλάση κόλλας ή υγρασίας και κατηγορία εκπομπών φορμαλδεΰδης (π.χ. E1).",
+      "Η εμποτισμένη ξυλεία εξωτερικής χρήσης θα έχει κατάλληλη κλάση χρήσης και τρόπο εμποτισμού για το υπαίθριο και θαλάσσιο περιβάλλον της Ρόδου.",
+      "Τα ξύλινα δάπεδα και τα στοιχεία όψης θα δηλώνουν διαστάσεις, επεξεργασία επιφάνειας, αντοχή και καταλληλότητα για την προβλεπόμενη χρήση."
+    ],
+    "evidence": [
+      "Τεκμηρίωση νομιμότητας και προέλευσης της ξυλείας, όπου απαιτείται.",
+      "DoP και σήμανση CE για δομική ξυλεία και πετάσματα που εμπίπτουν σε εναρμονισμένο πρότυπο.",
+      "Δήλωση κατηγορίας εκπομπών φορμαλδεΰδης για σύνθετα πετάσματα.",
+      "Τεχνικό φυλλάδιο για εμποτισμένη ξυλεία, δάπεδα και βιομηχανικά προϊόντα ξύλου."
+    ],
+    "special": [
+      "Δεν γίνεται αποδεκτή ξυλεία με ενεργό προσβολή, έντονη παραμόρφωση ή υγρασία εκτός των δηλωμένων ορίων.",
+      "Για στοιχεία που εκτίθενται σε όψη, η Υπηρεσία μπορεί να ζητήσει δείγμα υφής και απόχρωσης πριν τη μαζική παράδοση.",
+      "Η αποθήκευση και μεταφορά θα προστατεύουν την ξυλεία από υγρασία και μηχανικές φθορές."
+    ],
+    "acceptance": [
+      "Μακροσκοπικός και διαστασιολογικός έλεγχος, έλεγχος υγρασίας και κατηγορίας.",
+      "Έλεγχος DoP και σήμανσης για δομικά προϊόντα και πετάσματα.",
+      "Δειγματοληπτικός έλεγχος ποιότητας επιφάνειας και επεξεργασίας."
+    ],
+    "warranty": "η νόμιμη εγγύηση καλής ποιότητας και, για βιομηχανικά προϊόντα ξύλου ή εμποτισμένη ξυλεία, η εγγύηση του κατασκευαστή, η οποία δεν μπορεί να είναι μικρότερη από δύο (2) έτη"
+  },
+  "glass": {
+    "title": "ΤΕΧΝΙΚΕΣ ΠΡΟΔΙΑΓΡΑΦΕΣ ΥΑΛΟΠΙΝΑΚΩΝ ΚΑΙ ΚΡΥΣΤΑΛΛΩΝ",
+    "cpv": "14820000-5, 44221111-6 και ειδικότεροι συναφείς CPV",
+    "purpose": "αντικατάσταση και συντήρηση υαλοπινάκων κουφωμάτων, θυρών, προστεγασμάτων και λοιπών δημοτικών εγκαταστάσεων",
+    "framework": [
+      "Κανονισμός (ΕΕ) 305/2011 για τα δομικά προϊόντα, όπου εφαρμόζεται.",
+      "ΕΛΟΤ EN 572 για υάλους πυριτικής σόδας (float), EN 12150 για θερμικά σκληρυμένη ύαλο ασφαλείας (securit), EN 14449 για πολυστρωματική ύαλο (triplex), EN 1279 για διπλούς υαλοπίνακες, όπου εφαρμόζονται.",
+      "ΕΛΟΤ EN 12600 για ταξινόμηση αντοχής σε κρούση, όπου απαιτείται ύαλος ασφαλείας."
+    ],
+    "technical": [
+      "Θα δηλώνονται τύπος υάλου, πάχος, διαστάσεις, σύνθεση (μονός, διπλός, πολυστρωματικός, securit) και θέση ή χρήση εγκατάστασης.",
+      "Σε θέσεις με κίνδυνο τραυματισμού θα διατίθεται ύαλος ασφαλείας (securit ή triplex) κατάλληλης κατηγορίας κατά EN 12600.",
+      "Οι διπλοί υαλοπίνακες θα δηλώνουν διάκενο, αφυγραντικό, τυχόν αεριοπλήρωση και συντελεστή Ug, όπου απαιτείται ενεργειακή απόδοση.",
+      "Οι ακμές θα είναι κατεργασμένες όπου απαιτείται για ασφαλή χειρισμό και τοποθέτηση.",
+      "Τα κρύσταλλα θα είναι χωρίς αμυχές, φυσαλίδες, εγκλείσματα ή οπτικές ατέλειες πέραν των ανοχών του προτύπου."
+    ],
+    "evidence": [
+      "DoP και σήμανση CE για προϊόντα υάλου που εμπίπτουν σε εναρμονισμένο πρότυπο.",
+      "Τεχνικό φυλλάδιο με τύπο, πάχος και επιδόσεις (π.χ. Ug, κατηγορία ασφαλείας).",
+      "Δήλωση κατηγορίας EN 12600 για υάλους ασφαλείας."
+    ],
+    "special": [
+      "Η μεταφορά και αποθήκευση θα γίνονται με κατάλληλα μέσα ώστε να αποφεύγονται θραύσεις και αμυχές.",
+      "Η Υπηρεσία μπορεί να ζητήσει επαλήθευση διαστάσεων επιτόπου πριν την παραγγελία κομμένων διαστάσεων.",
+      "Δεν γίνονται αποδεκτοί υαλοπίνακες με ραγίσματα, αποκρούσεις ακμών ή θολότητα στο διάκενο διπλών υαλοπινάκων."
+    ],
+    "acceptance": [
+      "Έλεγχος τύπου, πάχους, διαστάσεων και κατεργασίας ακμών.",
+      "Έλεγχος DoP και σήμανσης και κατηγορίας ασφαλείας όπου απαιτείται.",
+      "Οπτικός έλεγχος ατελειών και ακεραιότητας."
+    ],
+    "warranty": "τουλάχιστον δύο (2) έτη για τη στεγανότητα διάκενου διπλών υαλοπινάκων και η νόμιμη εγγύηση καλής ποιότητας για τα λοιπά, εκτός αν ο κατασκευαστής παρέχει μεγαλύτερη"
+  },
+  "ppe": {
+    "title": "ΤΕΧΝΙΚΕΣ ΠΡΟΔΙΑΓΡΑΦΕΣ ΜΕΣΩΝ ΑΤΟΜΙΚΗΣ ΠΡΟΣΤΑΣΙΑΣ (ΜΑΠ)",
+    "cpv": "18143000-3, 35113400-3 και ειδικότεροι συναφείς CPV",
+    "purpose": "την προστασία των εργαζομένων του Δήμου κατά την εκτέλεση εργασιών συντήρησης, καθαριότητας, πρασίνου και τεχνικών έργων",
+    "framework": [
+      "Κανονισμός (ΕΕ) 2016/425 για τα μέσα ατομικής προστασίας, όπως ισχύει.",
+      "Η εθνική νομοθεσία για την υγεία και ασφάλεια στην εργασία και τη χορήγηση ΜΑΠ στους εργαζομένους.",
+      "ΕΛΟΤ EN ISO 20345 (υποδήματα ασφαλείας), EN 397/EN 12492 (κράνη), EN 388 (γάντια μηχανικών κινδύνων), EN ISO 20471 (ενδύματα υψηλής διακριτότητας), EN 166 (προστασία οφθαλμών), EN 352 (προστασία ακοής), EN 149 (μάσκες FFP), EN 361 (ζώνες ασφαλείας) και λοιπά ειδικά πρότυπα ανά είδος."
+    ],
+    "technical": [
+      "Όλα τα ΜΑΠ θα φέρουν σήμανση CE, την κατηγορία κινδύνου και αναφορά στο εφαρμοστέο εναρμονισμένο πρότυπο.",
+      "Θα δηλώνονται κατηγορία προστασίας, διαθέσιμα μεγέθη, υλικό και κλάση επιδόσεων (π.χ. S3 για υποδήματα, κλάση EN 388 για γάντια, κλάση 2 ή 3 για ενδύματα διακριτότητας).",
+      "Τα είδη θα είναι εργονομικά, κατάλληλα για το είδος εργασίας και το κλίμα της Ρόδου, με δυνατότητα επιλογής μεγεθών.",
+      "Όπου απαιτείται προστασία από χημικά, σκόνη ή πτώση, θα τεκμηριώνεται η αντίστοιχη κατηγορία και διάρκεια προστασίας.",
+      "Θα παρέχονται οδηγίες χρήσης, συντήρησης και ορίων ζωής του προϊόντος στην ελληνική γλώσσα."
+    ],
+    "evidence": [
+      "Δήλωση Συμμόρφωσης ΕΕ και πιστοποιητικό εξέτασης τύπου ΕΕ από κοινοποιημένο οργανισμό για ΜΑΠ κατηγορίας II ή III.",
+      "Τεχνικό φυλλάδιο με κατηγορία, πρότυπο και επιδόσεις.",
+      "Οδηγίες χρήσης και πληροφορίες κατασκευαστή στην ελληνική γλώσσα."
+    ],
+    "special": [
+      "Δεν γίνονται αποδεκτά ΜΑΠ χωρίς σήμανση CE ή χωρίς αναφορά στο πρότυπο και στην κατηγορία προστασίας.",
+      "Η Υπηρεσία μπορεί να ζητήσει δείγματα και δοκιμή εφαρμογής ή μεγεθών πριν τη μαζική παράδοση.",
+      "Τα είδη θα παραδίδονται με επαρκή υπολειπόμενο χρόνο ζωής, σε κατάλληλη συσκευασία."
+    ],
+    "acceptance": [
+      "Έλεγχος σήμανσης CE, κατηγορίας, προτύπου, μεγέθους και κατάστασης.",
+      "Έλεγχος Δήλωσης Συμμόρφωσης και οδηγιών χρήσης.",
+      "Δειγματοληπτικός έλεγχος εφαρμογής και επιδόσεων όπου απαιτείται."
+    ],
+    "warranty": "η εγγύηση καλής ποιότητας και διατήρησης των προστατευτικών ιδιοτήτων εντός του δηλωμένου χρόνου ζωής, με άμεση αντικατάσταση ελαττωματικών ειδών"
+  },
+  "tools": {
+    "title": "ΤΕΧΝΙΚΕΣ ΠΡΟΔΙΑΓΡΑΦΕΣ ΕΡΓΑΛΕΙΩΝ ΚΑΙ ΜΗΧΑΝΗΜΑΤΩΝ ΧΕΙΡΟΣ",
+    "cpv": "44510000-8, 43800000-1 και ειδικότεροι συναφείς CPV",
+    "purpose": "τον εξοπλισμό των συνεργείων του Δήμου με εργαλεία χειρός και ηλεκτρικά ή βενζινοκίνητα εργαλεία για εργασίες συντήρησης",
+    "framework": [
+      "Οδηγία 2006/42/ΕΚ για τα μηχανήματα, όπως ισχύει, και Κανονισμός (ΕΕ) 2023/1230 κατά το μέρος που τίθεται σε εφαρμογή.",
+      "Οδηγίες 2014/35/ΕΕ (LVD), 2014/30/ΕΕ (EMC) και 2011/65/ΕΕ (RoHS), όπου εφαρμόζονται.",
+      "Εναρμονισμένα πρότυπα της σειράς EN 62841 ή EN 60745 για φορητά ηλεκτρικά εργαλεία και ειδικά πρότυπα ανά εργαλείο."
+    ],
+    "technical": [
+      "Τα εργαλεία χειρός θα είναι από κατάλληλα υλικά (π.χ. χάλυβας Cr-V), με σωστή σκλήρυνση, εργονομικές λαβές και χωρίς ελαττώματα κατασκευής.",
+      "Τα ηλεκτρικά και επαναφορτιζόμενα εργαλεία θα δηλώνουν τάση, ισχύ ή χωρητικότητα μπαταρίας, στροφές, κλάση μόνωσης και βαθμό προστασίας.",
+      "Θα φέρουν σήμανση CE και θα συνοδεύονται από προφυλακτήρες ή συστήματα ασφαλείας όπου προβλέπεται.",
+      "Θα δηλώνονται διαστάσεις, μάζα, παρελκόμενα και συμβατότητα αναλωσίμων (π.χ. δίσκοι, τρυπάνια, μπαταρίες).",
+      "Τα μηχανοκίνητα εργαλεία θα δηλώνουν τύπο κινητήρα, κυβισμό ή ισχύ και στάθμη θορύβου ή δονήσεων."
+    ],
+    "evidence": [
+      "Δήλωση Συμμόρφωσης ΕΕ για ηλεκτρικά και μηχανοκίνητα εργαλεία.",
+      "Τεχνικό φυλλάδιο με τεχνικά χαρακτηριστικά και παρελκόμενα.",
+      "Εγχειρίδιο χρήσης και ασφάλειας στην ελληνική γλώσσα και γραπτή εγγύηση."
+    ],
+    "special": [
+      "Δεν γίνονται αποδεκτά ηλεκτρικά εργαλεία χωρίς σήμανση CE ή χωρίς εγχειρίδιο και εγγύηση.",
+      "Για επαναφορτιζόμενα εργαλεία θα δηλώνεται τύπος και χωρητικότητα μπαταρίας και η διαθεσιμότητα ανταλλακτικών.",
+      "Τα είδη θα παραδίδονται σε εργοστασιακή συσκευασία με τα προβλεπόμενα παρελκόμενα."
+    ],
+    "acceptance": [
+      "Έλεγχος ταυτότητας μοντέλου, σήμανσης CE και πληρότητας παρελκομένων.",
+      "Λειτουργικός έλεγχος ηλεκτρικών ή μηχανοκίνητων εργαλείων όπου είναι εφικτό.",
+      "Έλεγχος εγχειριδίων και όρων εγγύησης."
+    ],
+    "warranty": "τουλάχιστον δύο (2) έτη για ηλεκτρικά και μηχανοκίνητα εργαλεία και η εγγύηση καλής ποιότητας για τα εργαλεία χειρός, εκτός αν ο κατασκευαστής παρέχει μεγαλύτερη"
+  },
+  "urban_equipment": {
+    "title": "ΤΕΧΝΙΚΕΣ ΠΡΟΔΙΑΓΡΑΦΕΣ ΑΣΤΙΚΟΥ ΕΞΟΠΛΙΣΜΟΥ",
+    "cpv": "34928400-2, 39113600-3 και ειδικότεροι συναφείς CPV",
+    "purpose": "την προμήθεια και αποκατάσταση αστικού εξοπλισμού κοινόχρηστων χώρων, όπως παγκάκια, κάδοι, κολωνάκια, εσχάρες δένδρων και προστατευτικά",
+    "framework": [
+      "Κανονισμός (ΕΕ) 305/2011 για τα δομικά προϊόντα, όπου εφαρμόζεται σε μόνιμα στοιχεία.",
+      "EN ISO 1461 για γαλβάνισμα εν θερμώ μεταλλικών στοιχείων και EN 10025/EN 10088 για χάλυβες, όπου εφαρμόζονται.",
+      "Σχετικά πρότυπα ανά προϊόν και απαιτήσεις προσβασιμότητας κοινόχρηστων χώρων.",
+      "Όπου περιλαμβάνεται εξοπλισμός παιδικής χαράς, ισχύει η σειρά ΕΛΟΤ EN 1176/EN 1177 και η σχετική νομοθεσία πιστοποίησης."
+    ],
+    "technical": [
+      "Θα δηλώνονται υλικά κατασκευής, διαστάσεις, τρόπος έδρασης ή πάκτωσης, επιφανειακή προστασία και βαφή.",
+      "Τα μεταλλικά στοιχεία θα είναι γαλβανισμένα ή και βαμμένα ηλεκτροστατικά, ανθεκτικά σε υπεριώδη ακτινοβολία και θαλάσσιο περιβάλλον.",
+      "Τα ξύλινα μέρη θα είναι από εμποτισμένη ή ανθεκτική ξυλεία κατάλληλης κλάσης χρήσης, με λεία και ασφαλή επιφάνεια.",
+      "Οι κάδοι και τα καλάθια απορριμμάτων θα δηλώνουν χωρητικότητα, υλικό, τρόπο στερέωσης ή εκκένωσης και αντοχή.",
+      "Ο εξοπλισμός θα είναι ασφαλής, χωρίς αιχμηρές ακμές, με κατάλληλα μέσα στερέωσης που δεν δημιουργούν κίνδυνο."
+    ],
+    "evidence": [
+      "DoP και σήμανση CE μόνο για στοιχεία που εμπίπτουν σε εφαρμοστέο εναρμονισμένο πρότυπο. Για εξοπλισμό παιδικής χαράς ζητούνται τα ειδικά πιστοποιητικά συμμόρφωσης και ελέγχου που προβλέπονται από το εφαρμοζόμενο πλαίσιο, χωρίς αυτοματοποιημένη απαίτηση CE.",
+      "Τεχνικό φυλλάδιο με υλικά, διαστάσεις, επιφανειακή προστασία και οδηγίες τοποθέτησης.",
+      "Δήλωση τύπου γαλβανίσματος ή βαφής και εφαρμοζόμενων προτύπων."
+    ],
+    "special": [
+      "Για εμφανή στοιχεία κοινόχρηστων χώρων, η Υπηρεσία μπορεί να ζητήσει δείγμα χρώματος και υφής ή πρωτότυπο πριν τη μαζική παράδοση.",
+      "Δεν γίνονται αποδεκτά στοιχεία με ελλιπή αντιδιαβρωτική προστασία, αιχμηρές ακμές ή ελαττωματική βαφή.",
+      "Η στερέωση ή πάκτωση θα εξασφαλίζει σταθερότητα και ασφάλεια χρήσης σε δημόσιο χώρο."
+    ],
+    "acceptance": [
+      "Μακροσκοπικός και διαστασιολογικός έλεγχος και έλεγχος επιφανειακής προστασίας.",
+      "Έλεγχος DoP και πιστοποιητικών όπου απαιτείται, ιδίως για εξοπλισμό παιδικής χαράς.",
+      "Έλεγχος πληρότητας μέσων στερέωσης και οδηγιών τοποθέτησης."
+    ],
+    "warranty": "τουλάχιστον δύο (2) έτη για βιομηχανικά προϊόντα αστικού εξοπλισμού και, για στοιχεία με αντιδιαβρωτική προστασία, η εγγύηση του κατασκευαστή για τη βαφή ή το γαλβάνισμα, εκτός αν ορίζεται μεγαλύτερη"
   }
 };
+
+  const GENERIC = {
+    title: "ΓΕΝΙΚΕΣ ΤΕΧΝΙΚΕΣ ΠΡΟΔΙΑΓΡΑΦΕΣ ΥΛΙΚΩΝ",
+    cpv: "Να συμπληρωθεί ο κατάλληλος CPV ανά αντικείμενο",
+    purpose: "την κάλυψη των αναγκών της επιλεγμένης Δημοτικής Ενότητας για την αντίστοιχη ομάδα υλικών",
+    framework: [
+      "Το ισχύον εθνικό και ενωσιακό πλαίσιο που εφαρμόζεται στο συγκεκριμένο προϊόν και στην προβλεπόμενη χρήση του.",
+      "Τα ισχύοντα πρότυπα ΕΛΟΤ, EN ή ISO και οι Ελληνικές Τεχνικές Προδιαγραφές, όπου συνδέονται άμεσα με το είδος."
+    ],
+    technical: [
+      "Τα προσφερόμενα είδη θα είναι καινούργια, αμεταχείριστα, κατάλληλα για την προβλεπόμενη χρήση και πλήρως συμβατά με την περιγραφή του προϋπολογισμού.",
+      "Θα δηλώνονται κατασκευαστής, τύπος, βασικά τεχνικά χαρακτηριστικά, μονάδα συσκευασίας και συνθήκες χρήσης ή αποθήκευσης."
+    ],
+    evidence: [
+      "Τεχνικό φυλλάδιο κατασκευαστή και πίνακας τεχνικής συμμόρφωσης.",
+      "Δηλώσεις, πιστοποιητικά ή εκθέσεις δοκιμών μόνο όταν απαιτούνται από το εφαρμοστέο πλαίσιο ή από ειδική απαίτηση της μελέτης."
+    ],
+    special: [
+      "Πριν από την έκδοση της μελέτης απαιτείται έλεγχος και εξειδίκευση των προδιαγραφών από τον αρμόδιο συντάκτη, επειδή η ομάδα δεν αντιστοιχίστηκε σε ειδικό πακέτο."
+    ],
+    acceptance: [
+      "Έλεγχος ταυτότητας, ποσότητας, συσκευασίας και συμφωνίας με τα υποβληθέντα τεχνικά στοιχεία.",
+      "Απόρριψη και αντικατάσταση κάθε μη συμμορφούμενου είδους με δαπάνη του αναδόχου."
+    ],
+    warranty: "η νόμιμη εγγύηση καλής ποιότητας και η τυχόν μεγαλύτερη εγγύηση του κατασκευαστή"
+  };
 
   const norm = s => (s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
   const uniq = arr => [...new Set((arr || []).filter(Boolean))];
@@ -742,11 +1025,16 @@ window.TenderSpecs = (() => {
     if (k.includes('υδραυλ') || k.includes('σωλην')) return 'plumbing';
     if (k.includes('ελαιοχρ') || k.includes('χρωμα') || k.includes('μονωτικ')) return 'paint';
     if (k.includes('σημαν')) return 'signage';
-    return 'building';
+    if (k.includes('ξυλ')) return 'wood';
+    if (k.includes('υαλο') || k.includes('κρυσταλλ') || k.includes('τζαμ') || k.includes('γυαλ')) return 'glass';
+    if (k.includes('ατομικης προστασ') || k.includes('μαπ')) return 'ppe';
+    if (k.includes('εργαλει')) return 'tools';
+    if (k.includes('αστικ')) return 'urban_equipment';
+    return 'generic';
   }
 
   function getGroup(code) {
-    return LIB[code] || LIB.building;
+    return LIB[code] || GENERIC;
   }
 
   function itemRequirements(groupCode, material) {
@@ -844,6 +1132,55 @@ window.TenderSpecs = (() => {
       if (/ανακλαστηρ|ματι γατ|καρφι/.test(key)) { requirements.push('Να δηλώνονται διαστάσεις, μέγιστο ύψος προεξοχής, κατηγορία ανακλαστικότητας, αντοχή και τρόπος στερέωσης κατά EN 1463.'); evidence.push('Έκθεση δοκιμών ή DoP, όπου εφαρμόζεται.'); }
       if (/κων|φραγμα|προσωριν/.test(key)) requirements.push('Να δηλώνονται διαστάσεις, βάρος, ανακλαστικές ζώνες και συμμόρφωση με το εφαρμοζόμενο πρότυπο προσωρινής σήμανσης.');
       if (/διαγραμμ|χρωμα οδοστρ|υαλοσφαιρ/.test(key)) { requirements.push('Να δηλώνονται κατηγορία οπισθανακλαστικότητας, ολισθηρότητα, χρόνος ξήρανσης, κατανάλωση και ανθεκτικότητα.'); evidence.push('Τεχνικό φυλλάδιο, SDS και έκθεση επιδόσεων.'); }
+      if (/θερμοπλαστ|ψυχρο πλαστικ|cold plastic/.test(key)) { requirements.push('Να δηλώνονται τύπος υλικού, πάχος εφαρμογής, κατανάλωση, ανακλαστικότητα και αντοχή κατά EN 1871 και EN 1436.'); evidence.push('Τεχνικό φυλλάδιο, SDS και εκθέσεις επιδόσεων.'); }
+      if (/ιστο|σωλην|βαση στηρ|σφιγκτηρ/.test(key)) requirements.push('Να δηλώνονται διατομή, πάχος, ύψος, τρόπος γαλβανίσματος κατά EN ISO 1461 και τρόπος πάκτωσης ή στερέωσης.');
+      if (/καθρεπτ/.test(key)) requirements.push('Να δηλώνονται διάμετρος, υλικό (ακρυλικό ή πολυκαρβονικό), αντοχή σε υπεριώδη ακτινοβολία και σύστημα στερέωσης σε ιστό.');
+      if (/φανο|αναλαμπ/.test(key)) requirements.push('Να δηλώνονται τύπος LED, τροφοδοσία (μπαταρία ή φωτοβολταϊκό), ορατότητα και συμμόρφωση κατά EN 12352.');
+      if (/μεμβραν/.test(key)) requirements.push('Να δηλώνονται κλάση και τύπος αντανακλαστικής μεμβράνης, οπισθανακλαστικότητα και εγγύηση κατά EN 12899-1.');
+      if (/σαμαρακ|μειωτη ταχυτ/.test(key)) requirements.push('Να δηλώνονται υλικό, διαστάσεις, αντανακλαστικά στοιχεία και τρόπος στερέωσης στο οδόστρωμα.');
+      if (/new jersey|στηθαι/.test(key)) requirements.push('Να δηλώνονται υλικό, τρόπος γεμίσματος και σύνδεσης, αντανακλαστικά στοιχεία και καταλληλότητα προσωρινής σήμανσης.');
+    }
+
+    if (groupCode === 'wood') {
+      if (/δομικ|καδρον|μαδερ|ταβλ|καβιλ|δοκαρ/.test(key)) requirements.push('Να δηλώνονται είδος ξύλου, κατηγορία ή ποιότητα, διαστάσεις, υγρασία και, για δομική ξυλεία, κλάση αντοχής (C ή GL).');
+      if (/κοντρα ?πλακε|osb|mdf|μοριοσανιδ|νοβοπαν|πετασμα|μελαμιν/.test(key)) requirements.push('Να δηλώνονται τύπος πετάσματος, πάχος, κλάση κόλλας ή υγρασίας και κατηγορία εκπομπών φορμαλδεΰδης (π.χ. E1).');
+      if (/εμποτ|deck|πελμα|εξωτερικ/.test(key)) requirements.push('Να δηλώνονται κλάση χρήσης και τρόπος εμποτισμού, κατάλληλα για υπαίθρια ή θαλάσσια έκθεση.');
+      evidence.push('Τεκμηρίωση νομιμότητας ή προέλευσης ξυλείας και, για δομικά προϊόντα ή πετάσματα, DoP και CE όπου απαιτείται.');
+    }
+
+    if (groupCode === 'glass') {
+      requirements.push('Να δηλώνονται τύπος υάλου, πάχος, διαστάσεις και κατεργασία ακμών.');
+      if (/securit|tempered|σεκιουριτ|ασφαλει/.test(key)) requirements.push('Σε θέσεις κινδύνου να διατίθεται ύαλος ασφαλείας (securit ή triplex) κατηγορίας κατά EN 12600.');
+      if (/διπλ|θερμομον|ενεργειακ|ug/.test(key)) requirements.push('Για διπλούς υαλοπίνακες να δηλώνονται διάκενο, αφυγραντικό, αεριοπλήρωση και συντελεστής Ug.');
+      if (/laminat|τριπλεξ|triplex|πολυστρωμ/.test(key)) requirements.push('Για πολυστρωματική ύαλο να δηλώνεται σύνθεση μεμβρανών PVB και κατηγορία αντοχής.');
+      evidence.push('DoP και CE και τεχνικό φυλλάδιο με τύπο, πάχος και επιδόσεις (Ug ή κατηγορία ασφαλείας) όπου εφαρμόζεται.');
+    }
+
+    if (groupCode === 'ppe') {
+      requirements.push('Να φέρει σήμανση CE με κατηγορία προστασίας και αναφορά στο εφαρμοστέο εναρμονισμένο πρότυπο, με διαθέσιμα μεγέθη.');
+      if (/υποδημα|παπουτσ|μποτ|αρβυλ/.test(key)) requirements.push('Υπόδημα ασφαλείας κατά EN ISO 20345 με δηλωμένη κλάση (π.χ. S1 ή S3) και προστασία δακτύλων.');
+      if (/γαντ/.test(key)) requirements.push('Γάντια προστασίας με δηλωμένες κλάσεις κατά EN 388 και, για χημικούς κινδύνους, κατά EN ISO 374.');
+      if (/κρανο/.test(key)) requirements.push('Κράνος προστασίας κατά EN 397 ή EN 12492 όπου απαιτείται, με ρυθμιζόμενο σύστημα ανάρτησης.');
+      if (/γιλεκ|ενδυμ|στολ|μπουφαν|διακριτ|νιτσεραδ/.test(key)) requirements.push('Ένδυμα υψηλής διακριτότητας κατά EN ISO 20471 με δηλωμένη κλάση (2 ή 3).');
+      if (/γυαλι|οφθαλμ|ματογυαλ/.test(key)) requirements.push('Μέσο προστασίας οφθαλμών κατά EN 166 με κατάλληλη οπτική κλάση.');
+      if (/μασκα|αναπνευστ|ffp/.test(key)) requirements.push('Μάσκα προστασίας αναπνοής κατά EN 149 με δηλωμένη κλάση (FFP1, FFP2 ή FFP3).');
+      if (/ακο|ωτοασπιδ|ωτοβυσμ/.test(key)) requirements.push('Μέσο προστασίας ακοής κατά EN 352 με δηλωμένη μείωση θορύβου (SNR).');
+      if (/ζωνη|αναρτησ|αντιπτωτ/.test(key)) requirements.push('Εξοπλισμός προστασίας από πτώση κατά EN 361 και τα συναφή πρότυπα, με στοιχεία ανάρτησης.');
+      evidence.push('Δήλωση Συμμόρφωσης ΕΕ και, για ΜΑΠ κατηγορίας II ή III, πιστοποιητικό εξέτασης τύπου ΕΕ· οδηγίες χρήσης στην ελληνική.');
+    }
+
+    if (groupCode === 'tools') {
+      if (/ηλεκτρικ|επαναφορτ|μπαταρι|δραπαν|τριβ|γωνιακ|παλμικ|πιστολ|κρουστικ/.test(key)) { requirements.push('Για ηλεκτρικά ή επαναφορτιζόμενα εργαλεία να δηλώνονται τάση, ισχύς ή χωρητικότητα μπαταρίας, στροφές, κλάση μόνωσης και βαθμός προστασίας.'); evidence.push('Δήλωση Συμμόρφωσης ΕΕ, εγχειρίδιο χρήσης και ασφάλειας στην ελληνική και εγγύηση.'); }
+      if (/βενζιν|θαμνοκοπτ|αλυσοπριον|χλοοκοπτ|μηχανοκινητ|φυσητηρ/.test(key)) requirements.push('Για μηχανοκίνητα εργαλεία να δηλώνονται τύπος κινητήρα, κυβισμός ή ισχύς και στάθμη θορύβου ή δονήσεων.');
+      if (/κλειδ|κατσαβιδ|πενσ|σφυρ|μυστρ|χειρος|σετ|τσαπ|φτυαρ/.test(key)) requirements.push('Για εργαλεία χειρός να δηλώνονται υλικό (π.χ. Cr-V), διαστάσεις και εργονομική λαβή, χωρίς ελαττώματα κατασκευής.');
+    }
+
+    if (groupCode === 'urban_equipment') {
+      requirements.push('Τα μεταλλικά στοιχεία να είναι γαλβανισμένα ή και ηλεκτροστατικά βαμμένα, ανθεκτικά σε υπεριώδη ακτινοβολία και θαλάσσιο περιβάλλον.');
+      if (/παγκ|καθισμ/.test(key)) requirements.push('Για παγκάκια να δηλώνονται υλικά, διαστάσεις, τρόπος πάκτωσης και επιφανειακή προστασία ή βαφή.');
+      if (/καδ|καλαθ|απορριμμ/.test(key)) requirements.push('Για κάδους ή καλάθια να δηλώνονται χωρητικότητα, υλικό, τρόπος στερέωσης ή εκκένωσης και αντοχή.');
+      if (/κολων|εμποδ|μπαρα|προστατευτ|κιγκλιδ|μπολαρ/.test(key)) requirements.push('Για κολωνάκια ή προστατευτικά να δηλώνονται υλικό, ύψος, τρόπος έδρασης και αντιδιαβρωτική προστασία.');
+      if (/παιδικ|οργανο|κουνια|τσουληθρ|ελατηρ/.test(key)) { requirements.push('Για εξοπλισμό παιδικής χαράς να τεκμηριώνεται συμμόρφωση με ΕΛΟΤ EN 1176 και EN 1177 και πιστοποίηση.'); evidence.push('Πιστοποιητικό συμμόρφωσης EN 1176 και EN 1177 από αναγνωρισμένο φορέα.'); }
     }
 
     return {
@@ -853,7 +1190,7 @@ window.TenderSpecs = (() => {
     };
   }
 
-  return { version: '3.0', COMMON, LIB, resolveGroupCode, getGroup, itemRequirements };
+  return { version: '3.2', COMMON, LIB, resolveGroupCode, getGroup, itemRequirements };
 })();
 
 </script>
@@ -876,7 +1213,7 @@ let ME={id:null,role:null,unitId:null,name:''};
 let UNITS=[], GROUPS=[], MAT_BY_GROUP={}, COUNTS={};
 let cur={unitId:null, groupId:null};
 let reqId=null, lines={}, baseline={}, dirty=false, prefillHint=false, cleanView=false;
-let hiddenMaterials=new Set(), undoStack=[], sortState={key:'sort_order',dir:'asc'};
+let hiddenMaterials=new Set(), undoStack=[], redoStack=[], sortState={key:'sort_order',dir:'asc'};
 
 function syncTotalsClearance(){
   const footer=document.querySelector('.totals');
@@ -928,7 +1265,7 @@ async function loadCatalog(){
   const [{data:u},{data:g},{data:m}]=await Promise.all([
     sb.from('municipal_units').select('id,name,short_name,sort_order').order('sort_order'),
     sb.from('procurement_groups').select('id,code,name,short_name,sort_order').order('sort_order'),
-    sb.from('materials').select('id,group_id,code,name,short_name,subcategory,unit,default_unit_price,sort_order,technical_specs,standards,ce_required,notes_for_tender').order('group_id').order('sort_order',{nullsFirst:false})
+    sb.from('materials').select('id,group_id,code,name,short_name,subcategory,unit,default_unit_price,sort_order,technical_specs,standards,ce_required,notes_for_tender,is_active').eq('is_active',true).order('group_id').order('sort_order',{nullsFirst:false})
   ]);
   UNITS=u||[]; GROUPS=g||[]; MAT_BY_GROUP={}; COUNTS={};
   (m||[]).forEach(x=>{(MAT_BY_GROUP[x.group_id]=MAT_BY_GROUP[x.group_id]||[]).push(x);});
@@ -944,9 +1281,50 @@ const matById=mid=>(MAT_BY_GROUP[cur.groupId]||[]).find(x=>x.id===mid);
 
 function cloneLines(obj){return JSON.parse(JSON.stringify(obj||{}));}
 function captureUiState(label){return {label:label||'Αλλαγή',lines:cloneLines(lines),hidden:[...hiddenMaterials],cleanView,prefillHint};}
-function pushUndo(label,snapshot){undoStack.push(snapshot||captureUiState(label));if(undoStack.length>30)undoStack.shift();updateUndoButton();}
-function updateUndoButton(){const b=$('#btnUndo');if(!b)return;b.disabled=undoStack.length===0;b.title=undoStack.length?('Αναίρεση: '+(undoStack[undoStack.length-1].label||'τελευταία αλλαγή')):'Δεν υπάρχει αλλαγή προς αναίρεση';}
-function undoLast(){if(!undoStack.length)return;const st=undoStack.pop();lines=cloneLines(st.lines);hiddenMaterials=new Set(st.hidden||[]);cleanView=!!st.cleanView;prefillHint=!!st.prefillHint;setDirty(true);render();updateUndoButton();toast('Αναιρέθηκε: '+(st.label||'τελευταία αλλαγή'),'accent');}
+function restoreUiState(st){
+  lines=cloneLines(st.lines);
+  hiddenMaterials=new Set(st.hidden||[]);
+  cleanView=!!st.cleanView;
+  prefillHint=!!st.prefillHint;
+  setDirty(true);
+  render();
+}
+function pushUndo(label,snapshot){
+  undoStack.push(snapshot||captureUiState(label));
+  if(undoStack.length>30)undoStack.shift();
+  redoStack=[];
+  updateHistoryButtons();
+}
+function updateHistoryButtons(){
+  const undo=$('#btnUndo'),redo=$('#btnRedo');
+  if(undo){
+    undo.disabled=undoStack.length===0;
+    undo.title=undoStack.length?('Αναίρεση: '+(undoStack[undoStack.length-1].label||'τελευταία αλλαγή')):'Δεν υπάρχει αλλαγή προς αναίρεση';
+  }
+  if(redo){
+    redo.disabled=redoStack.length===0;
+    redo.title=redoStack.length?('Ακύρωση αναίρεσης: '+(redoStack[redoStack.length-1].label||'τελευταία αλλαγή')):'Δεν υπάρχει αναίρεση προς ακύρωση';
+  }
+}
+function updateUndoButton(){updateHistoryButtons();}
+function undoLast(){
+  if(!undoStack.length)return;
+  const st=undoStack.pop();
+  redoStack.push(captureUiState(st.label));
+  if(redoStack.length>30)redoStack.shift();
+  restoreUiState(st);
+  updateHistoryButtons();
+  toast('Αναιρέθηκε: '+(st.label||'τελευταία αλλαγή'),'accent');
+}
+function redoLast(){
+  if(!redoStack.length)return;
+  const st=redoStack.pop();
+  undoStack.push(captureUiState(st.label));
+  if(undoStack.length>30)undoStack.shift();
+  restoreUiState(st);
+  updateHistoryButtons();
+  toast('Επαναλήφθηκε: '+(st.label||'τελευταία αλλαγή'),'accent');
+}
 function updateAdminControls(){
   const isAdmin=isAdminUser();
   $('#adminToolbar')?.classList.toggle('hidden',!isAdmin);
@@ -954,11 +1332,13 @@ function updateAdminControls(){
   if(restore)restore.disabled=!isAdmin;
   const undo=$('#btnUndo');
   if(undo)undo.classList.toggle('hidden',!isAdmin);
+  const redo=$('#btnRedo');
+  if(redo)redo.classList.toggle('hidden',!isAdmin);
   const copy=$('#btnCopyGroup');
   if(copy){copy.classList.toggle('hidden',!isAdmin);copy.disabled=!isAdmin||cur.unitId===CENTRAL_UNIT;}
   $('#thAdminActions')?.classList.toggle('hidden',!isAdmin);
   $('#targetBox')?.classList.toggle('hidden',!canWrite(cur.unitId));
-  updateUndoButton();
+  updateHistoryButtons();
   syncTotalsClearance();
 }
 function materialMetric(m,key){
@@ -1023,7 +1403,7 @@ async function openView(){
   $('#btnSave').disabled=!writable; $('#btnClean').disabled=!writable;
   $('#btnRefresh').classList.toggle('hidden', !(isCentral && writable));
   $('#banner').classList.add('hidden');
-  reqId=null; lines={}; baseline={}; prefillHint=false; cleanView=false; hiddenMaterials=new Set(); undoStack=[]; sortState={key:'sort_order',dir:'asc'}; setDirty(false); updateAdminControls();
+  reqId=null; lines={}; baseline={}; prefillHint=false; cleanView=false; hiddenMaterials=new Set(); undoStack=[]; redoStack=[]; sortState={key:'sort_order',dir:'asc'}; setDirty(false); updateAdminControls();
   renderLoading();
   try{ await loadUnitRequest(); }
   catch(e){ toast('Σφάλμα φόρτωσης: '+(e.message||e),'err'); }
@@ -1087,8 +1467,8 @@ function render(){
     const qty=(lines[m.id]&&lines[m.id].q)||0;
     const price=priceOf(m);
     const cost=(price!=null&&qty>0)?price*qty:null;
-    let dh=m.name;
-    if(q){const re=new RegExp('('+q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi');dh=m.name.replace(re,x=>'<span class="hl">'+x+'</span>');}
+    let dh=esc(m.name);
+    if(q){const re=new RegExp('('+q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi');dh=esc(m.name).replace(re,x=>'<span class="hl">'+x+'</span>');}
     const tr=document.createElement('tr');
     tr.innerHTML='<td class="col-aa">'+(i+1)+'</td>'+ 
       '<td class="col-desc">'+dh+'</td>'+ 
@@ -1098,12 +1478,12 @@ function render(){
         ?'<input class="qin filled" value="'+(qty||0)+'" disabled>'
         :'<input class="qin'+(qty>0?' filled':'')+'" type="number" min="0" step="1" inputmode="numeric" value="'+(qty||'')+'" data-integer="1" data-mid="'+m.id+'">')+'</td>'+ 
       '<td class="col-cost">'+(cost!=null?fmtE(cost):'<span class="none">—</span>')+'</td>'+ 
-      (isAdminUser()?'<td class="col-actions"><button type="button" class="del-item" data-delete-mid="'+m.id+'" title="Αφαίρεση είδους από το δελτίο"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/><path d="M10 11v5M14 11v5"/></svg></button></td>':'');
+      (isAdminUser()?'<td class="col-actions"><button type="button" class="del-item" data-delete-mid="'+m.id+'" title="Αφαίρεση μόνο από το τρέχον δελτίο"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/><path d="M10 11v5M14 11v5"/></svg></button><button type="button" class="catalog-delete" data-purge-mid="'+m.id+'" title="Οριστική αφαίρεση από τον κεντρικό κατάλογο"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m9 9 6 6M15 9l-6 6"/></svg></button></td>':'');
     tb.appendChild(tr);
   });
   if(!mats.length)tb.innerHTML='<tr class="emptyrow"><td colspan="7">'+(q?'Κανένα είδος δεν ταιριάζει στην αναζήτηση.':(cleanView?'Δεν υπάρχουν είδη με συμπληρωμένη ποσότητα στο καθαρισμένο δελτίο.':'Δεν υπάρχουν εμφανιζόμενα είδη.'))+'</td></tr>';
   $('#ptSub').innerHTML='Σύνολο καταλόγου: <b>'+allMats.length+'</b> · εμφανίζονται: <b>'+mats.length+'</b>'+(!writable?' · μόνο προβολή':'');
-  bindInputs(); bindDeleteButtons(); computeTotals(); updateSortMarks(); updateAdminControls();
+  bindInputs(); bindDeleteButtons(); bindPermanentDeleteButtons(); computeTotals(); updateSortMarks(); updateAdminControls();
 }
 
 function bindInputs(){
@@ -1141,6 +1521,42 @@ function bindDeleteButtons(){
   });
 }
 
+
+async function permanentlyRemoveMaterial(mid,button){
+  if(!isAdminUser())return;
+  const m=matById(mid); if(!m)return;
+  const first=confirm('ΟΡΙΣΤΙΚΗ ΑΦΑΙΡΕΣΗ ΑΠΟ ΤΟΝ ΚΕΝΤΡΙΚΟ ΚΑΤΑΛΟΓΟ\n\nΤο είδος «'+m.name+'» θα πάψει να εμφανίζεται σε όλες τις Δημοτικές Ενότητες, στις εξαγωγές Excel και στις νέες μελέτες/προσκλήσεις.\n\nΗ ενέργεια δεν αναιρείται από το κουμπί «Αναίρεση». Συνέχεια;');
+  if(!first)return;
+  const typed=prompt('Για επιβεβαίωση πληκτρολόγησε ακριβώς: ΔΙΑΓΡΑΦΗ');
+  if((typed||'').trim().toUpperCase()!=='ΔΙΑΓΡΑΦΗ'){
+    toast('Η οριστική αφαίρεση ακυρώθηκε.','accent');
+    return;
+  }
+  if(button)button.disabled=true;
+  try{
+    const {count,error:countError}=await sb.from('request_lines').select('*',{count:'exact',head:true}).eq('material_id',mid);
+    if(countError)throw countError;
+    const used=Number(count||0)>0;
+    if(used){
+      const {error}=await sb.from('materials').update({is_active:false,updated_at:new Date().toISOString()}).eq('id',mid);
+      if(error)throw error;
+    }else{
+      const {error}=await sb.from('materials').delete().eq('id',mid);
+      if(error)throw error;
+    }
+    delete lines[mid]; delete baseline[mid]; hiddenMaterials.delete(String(mid)); hiddenMaterials.delete(mid);
+    await loadCatalog(); buildGrpNav(); syncNav(); render();
+    toast(used?'Το είδος αφαιρέθηκε οριστικά από τον ενεργό κατάλογο. Οι παλιές καταχωρίσεις διατηρήθηκαν για ιστορικό.':'Το είδος διαγράφηκε οριστικά από τη βάση.','accent');
+  }catch(e){
+    toast('Αποτυχία οριστικής αφαίρεσης: '+(e.message||e),'err');
+  }finally{
+    if(button&&document.body.contains(button))button.disabled=false;
+  }
+}
+function bindPermanentDeleteButtons(){
+  $('#tbody').querySelectorAll('[data-purge-mid]').forEach(btn=>btn.onclick=()=>permanentlyRemoveMaterial(btn.dataset.purgeMid,btn));
+}
+
 function computeTotals(){
   const mats=MAT_BY_GROUP[cur.groupId]||[]; let net=0,qsum=0,n=0;
   mats.forEach(m=>{const price=priceOf(m);const qty=(lines[m.id]&&lines[m.id].q)||0;
@@ -1160,6 +1576,7 @@ async function ensureRequest(){
 $('#btnSave').onclick=()=>saveAll(false);
 $('#btnClean').onclick=()=>{pushUndo('Αποθήκευση & καθαρισμός');saveAll(true);};
 $('#btnUndo').onclick=undoLast;
+$('#btnRedo').onclick=redoLast;
 $('#btnRestore').onclick=()=>{if(!isAdminUser())return;pushUndo('Επαναφορά πλήρους καταλόγου');hiddenMaterials.clear();cleanView=false;prefillHint=false;setDirty(true);render();toast('Εμφανίστηκε ξανά ο πλήρης κατάλογος ειδών. Μπορείς τώρα να επιλέξεις πρόσθετα είδη.','accent');};
 async function saveAll(clean){
   if(!canWrite(cur.unitId))return;
@@ -1206,11 +1623,25 @@ $('#btnRefresh').onclick=async()=>{
 
 function exportRows(){
   const mats=MAT_BY_GROUP[cur.groupId]||[];
-  const rows=[['Α/Α','Κωδικός Είδους','Περιγραφή είδους','Μονάδα','Ενδεικτική τιμή (χωρίς ΦΠΑ)','Ποσότητα','Δαπάνη (χωρίς ΦΠΑ)']];
+  const rows=[[
+    'Α/Α',
+    'Περιγραφή είδους',
+    'Μονάδα',
+    'Ενδεικτική τιμή (χωρίς ΦΠΑ)',
+    'Ποσότητα',
+    'Δαπάνη (χωρίς ΦΠΑ)',
+    'Τεχνικές προδιαγραφές',
+    'Πρότυπα',
+    'Απαίτηση CE',
+    'Παρατηρήσεις τεύχους'
+  ]];
   mats.forEach((m,i)=>{
     const p=priceOf(m); const qv=(lines[m.id]&&lines[m.id].q)||0;
     const c=(p!=null&&qv>0)?Math.round(p*qv*100)/100:'';
-    rows.push([i+1,m.id,m.name,m.unit||'',p!=null?p:'',qv||'',c]);
+    rows.push([
+      i+1,m.name,m.unit||'',p!=null?p:'',qv||'',c,
+      m.technical_specs||'',m.standards||'',m.ce_required?'ΝΑΙ':'ΟΧΙ',m.notes_for_tender||''
+    ]);
   });
   return rows;
 }
@@ -1222,21 +1653,36 @@ function fileBaseName(){
 function rowsToCsv(rows){
   return '\uFEFF'+rows.map(r=>r.map(c=>{c=''+(c==null?'':c);return /[";\n]/.test(c)?'"'+c.replace(/"/g,'""')+'"':c;}).join(';')).join('\r\n');
 }
+function excelInstructions(){
+  return [
+    ['ΟΔΗΓΙΕΣ ΕΞΑΓΩΓΗΣ / ΕΠΑΝΕΙΣΑΓΩΓΗΣ'],
+    ['1. Για αλλαγή ποσότητας, τροποποιήστε τη στήλη «Ποσότητα».'],
+    ['2. Για αλλαγή υπάρχοντος είδους, κρατήστε τον ίδιο Α/Α της εξαγωγής. Ο administrator μπορεί να αλλάξει περιγραφή, μονάδα, τιμή και τεχνικά στοιχεία.'],
+    ['3. Για ΝΕΟ είδος, προσθέστε νέα γραμμή στο τέλος, αφήστε κενό το Α/Α και συμπληρώστε τουλάχιστον «Περιγραφή είδους» και «Μονάδα».'],
+    ['4. Η προσθήκη νέου είδους και η αλλαγή στοιχείων του κεντρικού καταλόγου επιτρέπονται μόνο στον administrator και ισχύουν για όλες τις Δημοτικές Ενότητες.'],
+    ['5. Όλες οι ποσότητες πρέπει να είναι ακέραιοι αριθμοί.'],
+    ['6. Η στήλη «Δαπάνη» υπολογίζεται από την εφαρμογή και αγνοείται κατά την εισαγωγή.'],
+    ['7. Αν αλλάξει η σειρά των γραμμών, η εφαρμογή προσπαθεί να αντιστοιχίσει τα είδη από την περιγραφή και τη μονάδα.'],
+  ];
+}
 $('#btnExport').onclick=()=>{
   const rows=exportRows();
   if(window.XLSX){
     const ws=XLSX.utils.aoa_to_sheet(rows);
-    ws['!cols']=[{wch:6},{wch:14},{wch:70},{wch:12},{wch:20},{wch:14},{wch:18}];
+    ws['!cols']=[{wch:6},{wch:62},{wch:12},{wch:20},{wch:14},{wch:18},{wch:55},{wch:32},{wch:14},{wch:55}];
     const wb=XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb,ws,'Ποσότητες');
+    XLSX.utils.book_append_sheet(wb,ws,'Υλικά και ποσότητες');
+    const wi=XLSX.utils.aoa_to_sheet(excelInstructions());
+    wi['!cols']=[{wch:125}];
+    XLSX.utils.book_append_sheet(wb,wi,'Οδηγίες');
     XLSX.writeFile(wb,fileBaseName()+'.xlsx');
-    toast('Έγινε εξαγωγή σε Excel (.xlsx)','accent');
+    toast('Έγινε εξαγωγή σε Excel με δυνατότητα προσθήκης νέων ειδών.','accent');
     return;
   }
   const csv=rowsToCsv(rows);
   const blob=new Blob([csv],{type:'text/csv;charset=utf-8'});const url=URL.createObjectURL(blob);
   const a=document.createElement('a');a.href=url;a.download=fileBaseName()+'.csv';a.click();URL.revokeObjectURL(url);
-  toast('Έγινε εξαγωγή σε CSV','accent');
+  toast('Έγινε εξαγωγή σε CSV. Για νέο είδος άφησε κενό το Α/Α.','accent');
 };
 
 $('#btnImport').onclick=()=>{
@@ -1260,6 +1706,15 @@ function parseElNumber(v){
   else if(s.includes(','))s=s.replace(',','.');
   const n=parseFloat(s);
   return isNaN(n)?0:n;
+}
+function cellText(v){return v==null?'':(''+v).trim();}
+function parseBooleanCell(v){
+  const raw=cellText(v);
+  if(!raw)return {provided:false,value:false};
+  const x=norm(raw).replace(/\s+/g,'');
+  if(['ναι','nai','yes','true','1','x'].includes(x))return {provided:true,value:true};
+  if(['οχι','oxi','no','false','0'].includes(x))return {provided:true,value:false};
+  return {provided:false,value:false};
 }
 function normHeader(s){return norm((''+(s||'')).replace(/\s+/g,' ').trim());}
 function parseCsvText(txt){
@@ -1287,7 +1742,8 @@ async function readWorkbookRows(file){
   }
   const buf=await file.arrayBuffer();
   const wb=XLSX.read(buf,{type:'array'});
-  const ws=wb.Sheets[wb.SheetNames[0]];
+  const preferred=wb.SheetNames.find(n=>norm(n).includes('υλικ'))||wb.SheetNames[0];
+  const ws=wb.Sheets[preferred];
   return XLSX.utils.sheet_to_json(ws,{header:1,defval:''});
 }
 function rowObject(headers,row){
@@ -1300,35 +1756,193 @@ function getByHeaders(o,names){
   }
   return undefined;
 }
+function hasCellValue(v){return v!==undefined&&v!==null&&cellText(v)!=='';}
+function parseImportRow(o,index){
+  const rawOrdinal=getByHeaders(o,['α/α','αα','σειρα','ordinal']);
+  const rawId=getByHeaders(o,['id ειδους','κωδικος ειδους','kodikos eidous','material_id']);
+  const rawName=getByHeaders(o,['περιγραφη ειδους','περιγραφη','υλικο','eidos','name']);
+  const rawUnit=getByHeaders(o,['μοναδα','unit']);
+  const rawPrice=getByHeaders(o,['ενδεικτικη τιμη','τιμη μοναδας','default_unit_price','price']);
+  const rawQty=getByHeaders(o,['ποσοτητα','quantity','qty']);
+  const rawSpecs=getByHeaders(o,['τεχνικες προδιαγραφες','technical_specs']);
+  const rawStandards=getByHeaders(o,['προτυπα','standards']);
+  const rawCe=getByHeaders(o,['απαιτηση ce','σημανση ce','ce_required','ce required']);
+  const rawNotes=getByHeaders(o,['παρατηρησεις τευχους','notes_for_tender','σημειωσεις τευχους']);
+  const ce=parseBooleanCell(rawCe);
+  return {
+    index,
+    ordinal:Math.max(0,Math.round(parseElNumber(rawOrdinal))),
+    id:cellText(rawId),
+    name:cellText(rawName),
+    unit:cellText(rawUnit),
+    priceProvided:hasCellValue(rawPrice),
+    price:Math.max(0,parseElNumber(rawPrice)),
+    qtyProvided:rawQty!==undefined,
+    qty:Math.max(0,Math.round(parseElNumber(rawQty))),
+    specs:cellText(rawSpecs), specsProvided:hasCellValue(rawSpecs),
+    standards:cellText(rawStandards), standardsProvided:hasCellValue(rawStandards),
+    ce:ce.value, ceProvided:ce.provided,
+    notes:cellText(rawNotes), notesProvided:hasCellValue(rawNotes)
+  };
+}
+function buildMaterialPatch(m,r){
+  const patch={};
+  if(r.name&&r.name!==m.name)patch.name=r.name;
+  if(r.name&&r.name!==(m.short_name||''))patch.short_name=r.name;
+  if(r.unit&&r.unit!==(m.unit||''))patch.unit=r.unit;
+  if(r.priceProvided&&Math.abs(Number(m.default_unit_price??0)-r.price)>0.00005)patch.default_unit_price=r.price;
+  if(r.specsProvided&&r.specs!==(m.technical_specs||''))patch.technical_specs=r.specs;
+  if(r.standardsProvided&&r.standards!==(m.standards||''))patch.standards=r.standards;
+  if(r.ceProvided&&Boolean(m.ce_required)!==r.ce)patch.ce_required=r.ce;
+  if(r.notesProvided&&r.notes!==(m.notes_for_tender||''))patch.notes_for_tender=r.notes;
+  return patch;
+}
 async function importQuantitiesFromFile(file){
   const rows=await readWorkbookRows(file);
   if(!rows||rows.length<2)throw new Error('Το αρχείο δεν περιέχει γραμμές προς εισαγωγή.');
   const headers=rows[0].map(x=>(''+x).trim());
-  const mats=MAT_BY_GROUP[cur.groupId]||[];
-  const byId=new Map(mats.map(m=>[''+m.id,m]));
-  const byName=new Map(mats.map(m=>[norm(m.name),m]));
-  let changed=0, skipped=0;
-  const importSnapshot=captureUiState('Εισαγωγή Excel');
-  rows.slice(1).forEach(r=>{
-    if(!r || r.every(c=>(''+(c??'')).trim()===''))return;
-    const o=rowObject(headers,r);
-    const rawId=getByHeaders(o,['κωδικος ειδους','kodikos eidous','material_id','id']);
-    const rawName=getByHeaders(o,['περιγραφη ειδους','περιγραφη','υλικο','eidos','name']);
-    const rawQty=getByHeaders(o,['ποσοτητα','quantity','qty']);
-    let m=null;
-    if(rawId!=null && (''+rawId).trim()!=='' && byId.has((''+rawId).trim()))m=byId.get((''+rawId).trim());
-    if(!m && rawName!=null)m=byName.get(norm(rawName));
-    if(!m){skipped++;return;}
-    const qv=normalizeQuantityForMaterial(m,parseElNumber(rawQty));
-    const p=priceOf(m);
-    lines[m.id]={q:qv,p:p==null?priceVal(m):p};
-    changed++;
+  const currentMaterials=MAT_BY_GROUP[cur.groupId]||[];
+  const allMaterials=Object.values(MAT_BY_GROUP).flat();
+  const byIdCurrent=new Map(currentMaterials.map(m=>[''+m.id,m]));
+  const byIdAll=new Map(allMaterials.map(m=>[''+m.id,m]));
+  const byNameCurrent=new Map();
+  currentMaterials.forEach(m=>{
+    const key=norm(m.name)+'|'+norm(m.unit||'');
+    if(!byNameCurrent.has(key))byNameCurrent.set(key,m);
   });
-  if(!changed)throw new Error('Δεν αντιστοιχίστηκε καμία γραμμή του αρχείου με τα είδη της τρέχουσας ομάδας.');
-  pushUndo('Εισαγωγή Excel',importSnapshot); hiddenMaterials.clear();
+  const byOrdinal=new Map(currentMaterials.map((m,i)=>[i+1,m]));
+  const parsed=[];
+  rows.slice(1).forEach((r,i)=>{
+    if(!r||r.every(c=>cellText(c)===''))return;
+    const pr=parseImportRow(rowObject(headers,r),i+2);
+    if(!pr.id&&!pr.name)return;
+    parsed.push(pr);
+  });
+  if(!parsed.length)throw new Error('Δεν βρέθηκαν έγκυρες γραμμές δεδομένων.');
+
+  const existing=[],newRows=[],foreign=[],unknown=[];
+  const pendingNames=new Set();
+  for(const r of parsed){
+    let m=null;
+    // Συμβατότητα με παλαιά αρχεία που είχαν ID.
+    if(r.id&&byIdCurrent.has(r.id))m=byIdCurrent.get(r.id);
+    // Στις νέες εξαγωγές η βασική αντιστοίχιση γίνεται με περιγραφή + μονάδα.
+    if(!m&&r.name){
+      const nameUnitKey=norm(r.name)+'|'+norm(r.unit||'');
+      if(byNameCurrent.has(nameUnitKey))m=byNameCurrent.get(nameUnitKey);
+    }
+    // Ο Α/Α επιτρέπει στον administrator να αλλάξει ακόμη και την περιγραφή υπάρχοντος είδους.
+    if(!m&&r.ordinal&&byOrdinal.has(r.ordinal))m=byOrdinal.get(r.ordinal);
+    if(m){existing.push({r,m});continue;}
+    if(r.id&&byIdAll.has(r.id)){foreign.push(r);continue;}
+    if(r.id){unknown.push(r);continue;}
+    if(!r.name||!r.unit){unknown.push(r);continue;}
+    const key=norm(r.name)+'|'+norm(r.unit);
+    if(pendingNames.has(key)){unknown.push(r);continue;}
+    pendingNames.add(key);newRows.push(r);
+  }
+
+  const admin=isAdminUser();
+  const updates=[];
+  if(admin){
+    for(const x of existing){
+      const patch=buildMaterialPatch(x.m,x.r);
+      if(Object.keys(patch).length)updates.push({id:x.m.id,name:x.m.name,patch});
+    }
+  }
+  const quantityRows=existing.filter(x=>x.r.qtyProvided);
+  const allowedNew=admin?newRows:[];
+
+  if(!quantityRows.length&&!updates.length&&!allowedNew.length){
+    if(!admin&&newRows.length)throw new Error('Το αρχείο περιέχει νέα είδη, αλλά η προσθήκη νέων ειδών επιτρέπεται μόνο στον administrator.');
+    throw new Error('Δεν βρέθηκαν αλλαγές που μπορούν να εισαχθούν στην τρέχουσα ομάδα.');
+  }
+
+  if(admin&&(updates.length||allowedNew.length)){
+    const preview=[];
+    if(quantityRows.length)preview.push(quantityRows.length+' γραμμές ποσοτήτων');
+    if(updates.length)preview.push(updates.length+' αλλαγές σε υπάρχοντα είδη');
+    if(allowedNew.length)preview.push(allowedNew.length+' νέα είδη');
+    const warning='Θα εισαχθούν: '+preview.join(', ')+'.\n\nΟι αλλαγές στα στοιχεία των ειδών και τα νέα είδη καταχωρίζονται στον κεντρικό κατάλογο και θα είναι διαθέσιμα σε όλες τις Δημοτικές Ενότητες.\n\nΝα συνεχιστεί η εισαγωγή;';
+    if(!confirm(warning))return;
+  }
+
+  const importSnapshot=captureUiState('Εισαγωγή Excel');
+
+  // Αλλαγές υπαρχόντων ειδών — μόνο administrator.
+  for(const u of updates){
+    const {error}=await sb.from('materials').update(u.patch).eq('id',u.id);
+    if(error)throw new Error('Αποτυχία ενημέρωσης είδους «'+u.name+'»: '+error.message);
+  }
+
+  // Νέα είδη — μόνο administrator, στην τρέχουσα ομάδα.
+  const insertedByRow=new Map();
+  if(allowedNew.length){
+    const maxSort=currentMaterials.reduce((mx,m)=>Math.max(mx,Number(m.sort_order)||0),0);
+    const stamp=Date.now();
+    const payload=allowedNew.map((r,i)=>{
+      r._importCode='IMP-'+cur.groupId+'-'+stamp+'-'+(i+1);
+      return {
+        group_id:cur.groupId,
+        code:r._importCode,
+        name:r.name,
+        short_name:r.name,
+        unit:r.unit,
+        default_unit_price:r.priceProvided?r.price:null,
+        technical_specs:r.specsProvided?r.specs:null,
+        standards:r.standardsProvided?r.standards:null,
+        ce_required:r.ceProvided?r.ce:false,
+        notes_for_tender:r.notesProvided?r.notes:null,
+        is_active:true,
+        sort_order:maxSort+i+1
+      };
+    });
+    const {data,error}=await sb.from('materials').insert(payload).select('id,code,name,unit,default_unit_price');
+    if(error)throw new Error('Αποτυχία προσθήκης νέων ειδών: '+error.message);
+    (data||[]).forEach(m=>insertedByRow.set(m.code,m));
+  }
+
+  // Επαναφόρτωση καταλόγου ώστε τα νέα/τροποποιημένα είδη να εμφανιστούν αμέσως.
+  if(updates.length||allowedNew.length){
+    await loadCatalog();
+    buildGrpNav();
+    syncNav();
+  }
+  const refreshed=MAT_BY_GROUP[cur.groupId]||[];
+  const refreshedById=new Map(refreshed.map(m=>[''+m.id,m]));
+  const refreshedByName=new Map(refreshed.map(m=>[norm(m.name),m]));
+
+  let quantitiesApplied=0;
+  for(const x of quantityRows){
+    const m=refreshedById.get(''+x.m.id)||refreshedByName.get(norm(x.r.name||x.m.name));
+    if(!m)continue;
+    const qv=normalizeQuantityForMaterial(m,x.r.qty);
+    const importedPrice=admin&&x.r.priceProvided?x.r.price:null;
+    const p=importedPrice!=null?importedPrice:(priceOf(m)==null?priceVal(m):priceOf(m));
+    lines[m.id]={q:qv,p:p==null?0:p};
+    quantitiesApplied++;
+  }
+  for(const r of allowedNew){
+    const inserted=insertedByRow.get(r._importCode);
+    const m=inserted?(refreshedById.get(''+inserted.id)||refreshedByName.get(norm(r.name))):refreshedByName.get(norm(r.name));
+    if(!m||!r.qtyProvided)continue;
+    const qv=normalizeQuantityForMaterial(m,r.qty);
+    const p=r.priceProvided?r.price:(priceVal(m)==null?0:priceVal(m));
+    lines[m.id]={q:qv,p};
+    quantitiesApplied++;
+  }
+
+  pushUndo('Εισαγωγή Excel',importSnapshot);
+  hiddenMaterials.clear();
   cleanView=false; prefillHint=false; setDirty(true); render();
-  await saveAll(false);
-  toast('Εισήχθησαν και αποθηκεύτηκαν '+changed+' γραμμές'+(skipped?' · παραλείφθηκαν '+skipped:'')+'.','accent');
+  if(quantitiesApplied)await saveAll(false);
+
+  const notes=[];
+  if(quantitiesApplied)notes.push(quantitiesApplied+' ποσότητες');
+  if(updates.length)notes.push(updates.length+' ενημερωμένα είδη');
+  if(allowedNew.length)notes.push(allowedNew.length+' νέα είδη');
+  const skipped=foreign.length+unknown.length+(!admin?newRows.length:0);
+  toast('Η εισαγωγή ολοκληρώθηκε: '+notes.join(', ')+(skipped?' · παραλείφθηκαν '+skipped+' γραμμές':'')+'.','accent');
 }
 
 
@@ -1414,24 +2028,6 @@ function applyBudgetTarget(){
   }
   (bestState?.picks||[]).forEach(i=>{planned[i].q+=1;lines[planned[i].m.id].q=planned[i].q;});
 
-  // Αν απομένει διαθέσιμο ποσό, προσθέτουμε ακέραιες μονάδες μόνο όπου χωρούν κάτω από τον στόχο.
-  // Η επιλογή κάθε επόμενης μονάδας προκαλεί τη μικρότερη δυνατή απόκλιση από τον αναλογικό συντελεστή.
-  const plannedNet=()=>planned.reduce((s,x)=>s+x.price*Number(lines[x.m.id].q||0),0);
-  let fillGuard=0;
-  while(fillGuard<10000){
-    fillGuard++;
-    const remainingNet=targetNet-plannedNet();
-    const affordable=planned.filter(x=>x.price<=remainingNet+1e-9);
-    if(!affordable.length)break;
-    affordable.sort((a,b)=>{
-      const qa=Number(lines[a.m.id].q||0),qb=Number(lines[b.m.id].q||0);
-      const da=Math.pow((qa+1)/a.oldQ-factor,2)-Math.pow(qa/a.oldQ-factor,2);
-      const db=Math.pow((qb+1)/b.oldQ-factor,2)-Math.pow(qb/b.oldQ-factor,2);
-      return da-db||b.price-a.price;
-    });
-    lines[affordable[0].m.id].q+=1;
-  }
-
   // Τελικός έλεγχος: όλες οι ποσότητες ακέραιες και το εμφανιζόμενο ποσό ποτέ πάνω από τον στόχο.
   planned.forEach(x=>{lines[x.m.id].q=Math.max(1,Math.floor(Number(lines[x.m.id].q)||1));});
   const grossNow=()=>active.reduce((s,m)=>s+Number(priceOf(m))*Number(lines[m.id].q||0),0)*(1+VAT);
@@ -1513,11 +2109,7 @@ function htmlList(items, ordered=false){
   const arr=(items||[]).filter(Boolean); if(!arr.length)return '<p class="small">Δεν προβλέπονται πρόσθετες απαιτήσεις.</p>';
   const tag=ordered?'ol':'ul'; return '<'+tag+'>'+arr.map(x=>'<li>'+esc(x)+'</li>').join('')+'</'+tag+'>';
 }
-function chooseTenderMethod(){
-  const v=window.prompt('Τρόπος εκτέλεσης:\n1 = Απευθείας ανάθεση\n2 = Διαγωνιστική διαδικασία','1');
-  return v==='2' ? 'Διαγωνιστική διαδικασία' : 'Απευθείας ανάθεση';
-}
-function generateTexos(){
+function generateStudy(){
   const g=GROUPS.find(x=>x.id===cur.groupId); const rows=texosRows();
   if(!rows.length){toast('Δεν υπάρχουν είδη με ποσότητα για το τεύχος.','err');return;}
   if(!window.TenderSpecs){toast('Δεν φορτώθηκε η βιβλιοθήκη τεχνικών προδιαγραφών.','err');return;}
@@ -1525,7 +2117,6 @@ function generateTexos(){
   const groupCode=window.TenderSpecs.resolveGroupCode(g);
   const pkg=window.TenderSpecs.getGroup(groupCode);
   const common=window.TenderSpecs.COMMON;
-  const method=chooseTenderMethod();
   const isC=cur.unitId===CENTRAL_UNIT;
   const scope=isC?'Δήμος Ρόδου (σύνολο Δημοτικών Ενοτήτων)':('Δημοτική Ενότητα '+unitName(cur.unitId));
   let net=0; rows.forEach(x=>{if(x.p!=null)net+=x.p*x.q;});
@@ -1541,6 +2132,11 @@ function generateTexos(){
     const ev=o.s.evidence.length?`<p><b>Αποδεικτικά:</b></p>${htmlList(o.s.evidence)}`:'';
     return `<div class="article"><h3>Άρθρο ${o.i} — ${esc(o.x.m.name)}</h3><p><b>Μονάδα:</b> ${esc(o.x.m.unit||'—')} · <b>Ποσότητα:</b> ${fmtN(o.x.q)}</p>${htmlList(o.s.requirements)}${std}${ev}</div>`;
   }).join('');
+  const articleTariff=itemData.map(o=>{
+    const price=o.x.p!=null?fmtE(o.x.p):'συμπληρώνεται';
+    const desc=o.s.requirements.length?o.s.requirements[0]:'Σύμφωνα με τις τεχνικές προδιαγραφές της παρούσας μελέτης.';
+    return `<div class="article"><h3>Άρθρο ${o.i} — ${esc(o.x.m.name)}</h3><p><b>Μονάδα μέτρησης:</b> ${esc(o.x.m.unit||'—')} · <b>Ενδεικτική τιμή μονάδος (χωρίς ΦΠΑ):</b> ${price}</p><p class="small">${esc(desc)}</p></div>`;
+  }).join('');
 
   const complianceRows=[];
   let cr=0;
@@ -1551,12 +2147,12 @@ function generateTexos(){
   const framework=[...common.framework,...pkg.framework];
   const evidence=[...common.evidence,...pkg.evidence];
 
-  const doc=`<!doctype html><html lang="el"><head><meta charset="utf-8"><title>Τεύχος — ${esc(g?g.short_name:'')} — ${esc(scope)}</title>
-<style>@page{size:A4;margin:20mm 17mm}body{font-family:'Times New Roman',Georgia,serif;color:#111;font-size:11.5pt;line-height:1.45;margin:0}.tools{position:fixed;top:10px;right:10px;display:flex;gap:8px;z-index:20}.tools button{font-family:system-ui,sans-serif;font-size:13px;padding:8px 14px;border:1px solid #15524F;background:#15524F;color:#fff;border-radius:7px;cursor:pointer}.tools button.alt{background:#fff;color:#15524F}@media print{.tools{display:none}.pb{page-break-before:always}.article{break-inside:avoid}}h1{font-size:15pt;text-align:center;margin:0 0 4pt}h2{font-size:13pt;border-bottom:1.5px solid #333;padding-bottom:3px;margin:20px 0 9px}h3{font-size:11.5pt;margin:13px 0 5px}.hdr{text-align:center;margin-bottom:7px}.hdr .l1{font-weight:bold}.hdr .l2{font-size:10.5pt}.meta{text-align:center;font-size:10.5pt;color:#333;margin-bottom:14px}.cover{min-height:245mm;display:flex;flex-direction:column;justify-content:center}.cover .box{border:2px solid #333;padding:25px;text-align:center}.cover .big{font-size:17pt;font-weight:bold;margin:18px 0}.cover .info{margin-top:18px;line-height:1.8}table{width:100%;border-collapse:collapse;margin:8px 0;font-size:9.8pt}th,td{border:1px solid #555;padding:5px 6px;vertical-align:top}th{background:#eee;text-align:left}td.c{text-align:center}td.r{text-align:right;white-space:nowrap}tfoot td{font-weight:bold;background:#f6f6f6}.sign{margin-top:38px;display:flex;justify-content:space-between}.sign div{text-align:center;width:45%}.sign .line{margin-top:45px;border-top:1px solid #333;padding-top:4px;font-size:10pt}p{margin:6px 0;text-align:justify}ol,ul{margin:6px 0 8px 22px;padding:0}li{margin:3px 0}.small{font-size:9.5pt;color:#444}.article{border-bottom:1px solid #bbb;padding-bottom:7px}.note{border:1px solid #999;background:#f7f7f7;padding:8px 10px;font-size:9.5pt}</style></head><body>
-<div class="tools"><button onclick="window.print()">Εκτύπωση / PDF</button><button class="alt" onclick="window.close()">Κλείσιμο</button></div>
-<section class="cover"><div class="box"><div class="hdr"><div class="l1">ΕΛΛΗΝΙΚΗ ΔΗΜΟΚΡΑΤΙΑ</div><div class="l1">ΔΗΜΟΣ ΡΟΔΟΥ</div><div class="l2">Διεύθυνση Τεχνικών Έργων & Υποδομών</div></div><div class="big">ΜΕΛΕΤΗ / ΤΕΥΧΟΣ ΠΡΟΜΗΘΕΙΑΣ</div><h1>«ΠΡΟΜΗΘΕΙΑ: ${esc(gname)}»</h1><div class="info"><b>${esc(scope)}</b><br>Έτος ${YEAR}<br>Τρόπος εκτέλεσης: ${esc(method)}<br>Ενδεικτικός CPV: ${esc(pkg.cpv)}<br>Προϋπολογισμός με ΦΠΑ: <b>${fmtE(tot)}</b></div></div><p class="small" style="text-align:center;margin-top:20px">Ρόδος, ${today}</p></section>
+  const doc=`<!doctype html><html lang="el"><head><meta charset="utf-8"><title>Μελέτη — ${esc(g?g.short_name:'')} — ${esc(scope)}</title>
+<style>@page{size:A4;margin:25mm 22mm}body{font-family:'Times New Roman',Georgia,serif;color:#111;font-size:11.5pt;line-height:1.45;margin:0}.tools{position:fixed;top:10px;right:10px;display:flex;gap:8px;z-index:20}.tools button{font-family:system-ui,sans-serif;font-size:13px;padding:8px 14px;border:1px solid #1E5BA8;background:#1E5BA8;color:#fff;border-radius:7px;cursor:pointer}.tools button.alt{background:#fff;color:#1E5BA8}@media print{.tools{display:none}.pb{page-break-before:always}.article{break-inside:avoid}}h1{font-size:15pt;text-align:center;margin:0 0 4pt}h2{font-size:13pt;border-bottom:1.5px solid #333;padding-bottom:3px;margin:20px 0 9px}h3{font-size:11.5pt;margin:13px 0 5px}.hdr{text-align:center;margin-bottom:7px}.hdr .l1{font-weight:bold}.hdr .l2{font-size:10.5pt}.meta{text-align:center;font-size:10.5pt;color:#333;margin-bottom:14px}.cover{min-height:232mm;display:flex;flex-direction:column;justify-content:center}.cover .box{border:2px solid #333;padding:25px;text-align:center}.cover .big{font-size:17pt;font-weight:bold;margin:18px 0}.cover .info{margin-top:18px;line-height:1.8}table{width:100%;border-collapse:collapse;margin:8px 0;font-size:9.8pt}th,td{border:1px solid #555;padding:5px 6px;vertical-align:top}th{background:#eee;text-align:left}td.c{text-align:center}td.r{text-align:right;white-space:nowrap}tfoot td{font-weight:bold;background:#f6f6f6}.sign{margin-top:38px;display:flex;justify-content:space-between}.sign div{text-align:center;width:45%}.sign .line{margin-top:45px;border-top:1px solid #333;padding-top:4px;font-size:10pt}p{margin:6px 0;text-align:justify}ol,ul{margin:6px 0 8px 22px;padding:0}li{margin:3px 0}.small{font-size:9.5pt;color:#444}.article{border-bottom:1px solid #bbb;padding-bottom:7px}.note{border:1px solid #999;background:#f7f7f7;padding:8px 10px;font-size:9.5pt}</style></head><body>
+<div class="tools"><button onclick="window.print()">Εκτύπωση / PDF</button><button class="alt" id="btnWord">Λήψη Word</button><button class="alt" onclick="window.close()">Κλείσιμο</button></div>
+<section class="cover"><div class="box"><div class="hdr"><div class="l1">ΕΛΛΗΝΙΚΗ ΔΗΜΟΚΡΑΤΙΑ</div><div class="l1">ΔΗΜΟΣ ΡΟΔΟΥ</div><div class="l2">Διεύθυνση Τεχνικών Έργων & Υποδομών</div></div><div class="big">ΜΕΛΕΤΗ ΠΡΟΜΗΘΕΙΑΣ</div><h1>«ΠΡΟΜΗΘΕΙΑ: ${esc(gname)}»</h1><div class="info"><b>${esc(scope)}</b><br>Έτος ${YEAR}<br>Ενδεικτικός CPV: ${esc(pkg.cpv)}<br>Προϋπολογισμός με ΦΠΑ: <b>${fmtE(tot)}</b></div></div><p class="small" style="text-align:center;margin-top:20px">Ρόδος, ${today}</p></section>
 
-<h2 class="pb">1. Τεχνική έκθεση</h2><p>Η παρούσα μελέτη αφορά την προμήθεια ειδών της κατηγορίας «${esc(g?g.name:'')}» για ${esc(pkg.purpose)}, για τις ανάγκες ${isC?'του Δήμου Ρόδου και των Δημοτικών του Ενοτήτων':'της '+esc('Δ.Ε. '+unitName(cur.unitId))}. Η διαδικασία θα εκτελεστεί ως «${esc(method)}», σύμφωνα με τον Ν. 4412/2016 όπως ισχύει και τις αποφάσεις των αρμόδιων οργάνων.</p><p>Το αντικείμενο περιλαμβάνει την πλήρη προμήθεια και παράδοση των ειδών στους χώρους που θα υποδείξει η Υπηρεσία. Η συνολική ενδεικτική δαπάνη ανέρχεται σε <b>${fmtE(tot)}</b>, συμπεριλαμβανομένου ΦΠΑ 24%.</p><div class="note">Οι τελικές κλάσεις, διαστάσεις, επιδόσεις, CPV, χρόνοι παράδοσης και ειδικοί όροι πρέπει να ελέγχονται από τον αρμόδιο μηχανικό πριν από τη δημοσίευση.</div>
+<h2 class="pb">1. Τεχνική έκθεση</h2><p>Η παρούσα μελέτη αφορά την προμήθεια ειδών της κατηγορίας «${esc(g?g.name:'')}» για ${esc(pkg.purpose)}, για τις ανάγκες ${isC?'του Δήμου Ρόδου και των Δημοτικών του Ενοτήτων':'της '+esc('Δ.Ε. '+unitName(cur.unitId))}. Η ανάθεση και η εκτέλεση της προμήθειας θα πραγματοποιηθούν σύμφωνα με τον Ν. 4412/2016, όπως ισχύει, και τα τεύχη της διαδικασίας.</p><p>Το αντικείμενο περιλαμβάνει την πλήρη προμήθεια και παράδοση των ειδών στους χώρους που θα υποδείξει η Υπηρεσία. Η συνολική ενδεικτική δαπάνη ανέρχεται σε <b>${fmtE(tot)}</b>, συμπεριλαμβανομένου ΦΠΑ 24%.</p><div class="note">Οι τελικές κλάσεις, διαστάσεις, επιδόσεις, CPV, χρόνοι παράδοσης και ειδικοί όροι πρέπει να ελέγχονται από τον αρμόδιο μηχανικό πριν από τη δημοσίευση.</div>
 
 <h2>2. Τεχνικό και κανονιστικό πλαίσιο</h2>${htmlList(framework)}
 <h2>3. Γενικές τεχνικές προδιαγραφές</h2>${htmlList(common.requirements)}
@@ -1566,7 +2162,7 @@ function generateTexos(){
 
 <h2 class="pb">7. Ενδεικτικός προϋπολογισμός</h2><table><thead><tr><th class="c">Α/Α</th><th>Περιγραφή είδους</th><th class="c">Μον.</th><th class="r">Ποσότητα</th><th class="r">Τιμή μον. χωρίς ΦΠΑ</th><th class="r">Δαπάνη</th></tr></thead><tbody>${budgetRows}</tbody><tfoot><tr><td colspan="5" class="r">Καθαρή αξία</td><td class="r">${fmtE(net)}</td></tr><tr><td colspan="5" class="r">ΦΠΑ 24%</td><td class="r">${fmtE(vat)}</td></tr><tr><td colspan="5" class="r">ΓΕΝΙΚΟ ΣΥΝΟΛΟ</td><td class="r">${fmtE(tot)}</td></tr></tfoot></table>
 
-<h2>8. Τιμολόγιο μελέτης — άρθρα προμήθειας</h2>${itemSpecs}
+<h2>8. Τιμολόγιο μελέτης — άρθρα προμήθειας</h2><p class="small">Τιμές μονάδος ανά άρθρο. Στην προσφερόμενη τιμή κάθε άρθρου περιλαμβάνονται όλες οι δαπάνες πλήρους παράδοσης, σύμφωνα με τις τεχνικές προδιαγραφές.</p>${articleTariff}
 
 <h2 class="pb">9. Ειδική συγγραφή υποχρεώσεων</h2><h3>Άρθρο 1ο — Αντικείμενο</h3><p>Αντικείμενο είναι η πλήρης προμήθεια των ειδών του προϋπολογισμού, σύμφωνα με τις τεχνικές προδιαγραφές και τις έγγραφες εντολές της Υπηρεσίας.</p><h3>Άρθρο 2ο — Ισχύουσες διατάξεις</h3><p>Η ανάθεση και εκτέλεση διέπεται από τον Ν. 4412/2016, όπως ισχύει, το εφαρμοζόμενο πλαίσιο οικονομικής διαχείρισης των Ο.Τ.Α. και τις ειδικές διατάξεις που αναφέρονται στο τεχνικό πλαίσιο της παρούσας.</p><h3>Άρθρο 3ο — Συμβατικά στοιχεία</h3><p>Τα συμβατικά στοιχεία και η σειρά ισχύος τους καθορίζονται στην πρόσκληση, διακήρυξη ή σύμβαση. Οι τεχνικές προδιαγραφές, ο προϋπολογισμός, η οικονομική προσφορά και ο πίνακας συμμόρφωσης αποτελούν αναπόσπαστα μέρη.</p><h3>Άρθρο 4ο — Τρόπος και χρόνος παράδοσης</h3><p>Η παράδοση γίνεται εφάπαξ ή τμηματικά στους χώρους που θα υποδείξει η Υπηρεσία, εντός της συμβατικής προθεσμίας. Κάθε δαπάνη πλήρους παράδοσης περιλαμβάνεται στην τιμή.</p><h3>Άρθρο 5ο — Έλεγχος και παραλαβή</h3>${htmlList(pkg.acceptance)}<h3>Άρθρο 6ο — Απόρριψη και αντικατάσταση</h3><p>Είδη που δεν πληρούν τις προδιαγραφές, διαφέρουν από το εγκεκριμένο μοντέλο ή παρουσιάζουν φθορά απορρίπτονται και αντικαθίστανται με δαπάνη του αναδόχου.</p><h3>Άρθρο 7ο — Εγγύηση</h3><p>${esc(pkg.warranty)}. Η τυχόν μεγαλύτερη εγγύηση του κατασκευαστή δεσμεύει τον ανάδοχο.</p><h3>Άρθρο 8ο — Τιμές και πληρωμή</h3><p>Οι τιμές περιλαμβάνουν όλες τις δαπάνες πλήρους παράδοσης. Η πληρωμή γίνεται μετά την οριστική παραλαβή και την υποβολή των νόμιμων παραστατικών.</p><h3>Άρθρο 9ο — Ειδικοί όροι ομάδας</h3>${htmlList(clauses)}
 
@@ -1576,9 +2172,96 @@ function generateTexos(){
 <div class="sign"><div><div class="line">Ο/Η Συντάξας/ασα</div></div><div><div class="line">ΘΕΩΡΗΘΗΚΕ<br>Ο/Η Προϊστάμενος/η</div></div></div><p class="small" style="margin-top:18px;text-align:right">Ρόδος, ${today}</p></body></html>`;
   const w=window.open('','_blank'); if(!w){toast('Επέτρεψε τα αναδυόμενα παράθυρα για το τεύχος.','err');return;}
   w.document.open(); w.document.write(doc); w.document.close(); w.focus();
-  toast('Δημιουργήθηκε ολοκληρωμένο τεύχος '+window.TenderSpecs.version+' · εργαλεία v5','accent');
+  var _wb=w.document.getElementById('btnWord'); if(_wb)_wb.onclick=function(){downloadDocAsWord(w,w.document.title);};
+  toast('Δημιουργήθηκε η ολοκληρωμένη μελέτη '+window.TenderSpecs.version+'.','accent');
 }
-$('#btnTexos').onclick=generateTexos;
+function downloadDocAsWord(win,title){
+  try{
+    var c=win.document.body.cloneNode(true);
+    var rm=c.querySelectorAll('.tools,.editnote'); for(var i=0;i<rm.length;i++){rm[i].remove();}
+    var head="<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><style>@page{size:A4;margin:25mm 22mm}body{font-family:'Times New Roman',Georgia,serif;font-size:11.5pt;line-height:1.45;color:#111}h1{font-size:15pt;text-align:center}h2{font-size:13pt;border-bottom:1px solid #333;padding-bottom:3px;margin:18px 0 9px}h3{font-size:11.5pt;margin:12px 0 5px}table{border-collapse:collapse;width:100%;margin:8px 0}th,td{border:1px solid #555;padding:5px 6px;vertical-align:top;font-size:10pt}th{background:#eee;text-align:left}p{text-align:justify;margin:6px 0}ul,ol{margin:6px 0 8px 22px}.r{text-align:right}.c{text-align:center}.small{font-size:9.5pt;color:#444}</style></head><body>";
+    var blob=new Blob(['\ufeff',head+c.innerHTML+"</body></html>"],{type:'application/msword'});
+    var name=(title||'Eggrafo').replace(/[\\/:*?"<>|]/g,'-').trim();
+    var a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name+'.doc'; document.body.appendChild(a); a.click();
+    setTimeout(function(){a.remove(); URL.revokeObjectURL(a.href);},1500);
+  }catch(e){alert('Σφάλμα εξαγωγής Word: '+(e.message||e));}
+}
+
+$('#btnStudy').onclick=generateStudy;
+
+function editableField(text){return '<span class="editable" contenteditable="true">'+esc(text)+'</span>';}
+function generateDirectAwardInvitation(){
+  const g=GROUPS.find(x=>x.id===cur.groupId); const rows=texosRows();
+  if(!rows.length){toast('Δεν υπάρχουν είδη με ποσότητα για τα τεύχη.','err');return;}
+  if(!window.TenderSpecs){toast('Δεν φορτώθηκε η βιβλιοθήκη τεχνικών προδιαγραφών.','err');return;}
+  const groupCode=window.TenderSpecs.resolveGroupCode(g);
+  const pkg=window.TenderSpecs.getGroup(groupCode);
+  const common=window.TenderSpecs.COMMON;
+  const isC=cur.unitId===CENTRAL_UNIT;
+  const unitLabel=isC?'ΔΗΜΟΥ ΡΟΔΟΥ':('Δ.Ε. '+unitName(cur.unitId));
+  const scope=isC?'Δήμος Ρόδου (σύνολο Δημοτικών Ενοτήτων)':('Δημοτική Ενότητα '+unitName(cur.unitId));
+  const gname=(g?g.name:'').toUpperCase();
+  const procurementTitle=('ΠΡΟΜΗΘΕΙΑ '+gname+' '+unitLabel+' '+YEAR).replace(/\s+/g,' ').trim();
+  let net=0; rows.forEach(x=>{if(x.p!=null)net+=x.p*x.q;});
+  const vat=net*VAT,tot=net+vat;
+  const today=new Date().toLocaleDateString('el-GR',{day:'2-digit',month:'long',year:'numeric'});
+  const budgetRows=rows.map((x,i)=>`<tr><td class="c">${i+1}</td><td>${esc(x.m.name)}</td><td class="c">${esc(x.m.unit||'')}</td><td class="r">${fmtN(x.q)}</td><td class="r">${x.p!=null?fmtE(x.p):'—'}</td><td class="r">${x.p!=null?fmtE(x.p*x.q):'—'}</td></tr>`).join('');
+  const offerRows=rows.map((x,i)=>`<tr><td class="c">${i+1}</td><td>${esc(x.m.name)}</td><td class="c">${esc(x.m.unit||'')}</td><td class="r">${fmtN(x.q)}</td><td></td><td></td></tr>`).join('');
+  const itemData=rows.map((x,i)=>({i:i+1,x,s:window.TenderSpecs.itemRequirements(groupCode,x.m)}));
+  const itemSpecs=itemData.map(o=>{
+    const std=o.s.standards.length?`<p><b>Πρότυπα/αναφορές:</b> ${esc(o.s.standards.join(' · '))}</p>`:'';
+    const ev=o.s.evidence.length?`<p><b>Αποδεικτικά:</b></p>${htmlList(o.s.evidence)}`:'';
+    return `<div class="article"><h3>Άρθρο ${o.i} - ${esc(o.x.m.name)}</h3><p><b>Μονάδα:</b> ${esc(o.x.m.unit||'—')} · <b>Ποσότητα:</b> ${fmtN(o.x.q)}</p>${htmlList(o.s.requirements)}${std}${ev}</div>`;
+  }).join('');
+  const articleTariff=itemData.map(o=>{
+    const price=o.x.p!=null?fmtE(o.x.p):'συμπληρώνεται';
+    const desc=o.s.requirements.length?o.s.requirements[0]:'Σύμφωνα με τις τεχνικές προδιαγραφές της παρούσας μελέτης.';
+    return `<div class="article"><h3>Άρθρο ${o.i} - ${esc(o.x.m.name)}</h3><p><b>Μονάδα μέτρησης:</b> ${esc(o.x.m.unit||'—')} · <b>Ενδεικτική τιμή μονάδος (χωρίς ΦΠΑ):</b> ${price}</p><p class="small">${esc(desc)}</p></div>`;
+  }).join('');
+  const clauses=[...common.clauses,...pkg.special,`Η εγγύηση για την παρούσα ομάδα ορίζεται ως: ${pkg.warranty}.`];
+  const framework=[...common.framework,...pkg.framework];
+  const evidence=[...common.evidence,...pkg.evidence];
+
+  const doc=`<!doctype html><html lang="el"><head><meta charset="utf-8"><title>Πρόσκληση - ${esc(procurementTitle)}</title>
+<style>@page{size:A4;margin:25mm 22mm}body{font-family:'Times New Roman',Georgia,serif;color:#111;font-size:11pt;line-height:1.42;margin:0}.tools{position:fixed;top:8px;right:8px;display:flex;gap:7px;z-index:30}.tools button{font-family:system-ui,sans-serif;font-size:12px;padding:7px 12px;border:1px solid #1E5BA8;background:#1E5BA8;color:#fff;border-radius:6px;cursor:pointer}.tools button.alt{background:#fff;color:#1E5BA8}.editable{background:#FFF3B0;border-bottom:1px dotted #9A6A00;padding:0 2px;min-width:45px;display:inline-block}.editnote{font-family:system-ui,sans-serif;background:#FFF7D6;border:1px solid #E4C46B;padding:8px 10px;margin:0 0 12px;font-size:10pt}.authority{width:100%;border-collapse:collapse;margin:8px 0 14px;font-size:10pt}.authority td{border:1px solid #555;padding:5px 7px}.authority td:first-child{font-weight:bold;width:43%;background:#f0f0f0}.invhead{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:12px}.right{text-align:right}.center{text-align:center}.title{font-size:14pt;font-weight:bold;text-align:center;margin:15px 0 4px}.subtitle{text-align:center;font-weight:bold;margin-bottom:14px}h2{font-size:13pt;border-bottom:1.4px solid #333;padding-bottom:3px;margin:20px 0 8px}h3{font-size:11.5pt;margin:12px 0 5px}p{margin:6px 0;text-align:justify}ol,ul{margin:6px 0 8px 22px;padding:0}li{margin:3px 0}table.data{width:100%;border-collapse:collapse;margin:8px 0;font-size:9.7pt}table.data th,table.data td{border:1px solid #555;padding:5px 6px;vertical-align:top}table.data th{background:#eee;text-align:left}.c{text-align:center}.r{text-align:right;white-space:nowrap}.pb{page-break-before:always}.article{break-inside:avoid;border-bottom:1px solid #bbb;padding-bottom:6px}.sign{margin-top:32px;text-align:right}.small{font-size:9.5pt;color:#444}.note{border:1px solid #999;background:#f7f7f7;padding:8px 10px}.annex{font-size:15pt;text-align:center;font-weight:bold;margin:18px 0}.cover{min-height:214mm;display:flex;flex-direction:column;justify-content:center}.cover .box{border:2px solid #333;padding:24px;text-align:center}.cover .big{font-size:17pt;font-weight:bold;margin:16px 0}@media print{.tools,.editnote{display:none}.editable{background:transparent;border:0;padding:0}.pb{page-break-before:always}}</style></head><body>
+<div class="tools"><button onclick="window.print()">Εκτύπωση / PDF</button><button class="alt" id="btnWord">Λήψη Word</button><button class="alt" onclick="window.close()">Κλείσιμο</button></div>
+<div class="editnote"><b>Πρότυπη πρόσκληση απευθείας ανάθεσης.</b> Τα κίτρινα πεδία είναι επεξεργάσιμα πριν από την εκτύπωση. Η μελέτη της επιλεγμένης ομάδας και Δημοτικής Ενότητας έχει ενσωματωθεί ως παράρτημα.</div>
+<div class="invhead"><div><b>ΕΛΛΗΝΙΚΗ ΔΗΜΟΚΡΑΤΙΑ</b><br><b>ΝΟΜΟΣ ΔΩΔΕΚΑΝΗΣΟΥ</b><br><b>ΔΗΜΟΣ ΡΟΔΟΥ</b><br>Δ/ΝΣΗ ΟΙΚΟΝΟΜΙΚΩΝ<br>ΤΜΗΜΑ ΠΡΟΜΗΘΕΙΩΝ<br>Πληροφορίες: ${editableField('[ΟΝΟΜΑΤΕΠΩΝΥΜΟ]')}<br>Τηλ.: ${editableField('[ΤΗΛΕΦΩΝΟ]')}<br>e-mail: ${editableField('[EMAIL]')}</div><div class="right">ΚΑΤΑΧΩΡΙΣΤΕΑ ΣΤΟ ΚΗΜΔΗΣ<br>ΑΝΑΡΤΗΤΕΑ ΣΤΗ ΔΙΑΥΓΕΙΑ<br><br>Ρόδος, ${editableField(today)}<br>Αριθμ. Πρωτ.: ${editableField('[ΑΡΙΘΜΟΣ ΠΡΩΤΟΚΟΛΛΟΥ]')}<br>ΑΔΑ: ${editableField('[ΑΔΑ]')}<br>ΑΔΑΜ: ${editableField('[ΑΔΑΜ ΠΡΟΣΚΛΗΣΗΣ]')}</div></div>
+<p><b>ΠΡΟΣ:</b> ${editableField('[ΕΠΩΝΥΜΙΑ ΟΙΚΟΝΟΜΙΚΟΥ ΦΟΡΕΑ]')}<br>${editableField('[ΔΙΕΥΘΥΝΣΗ - Τ.Κ. - ΠΟΛΗ]')}<br>Α.Φ.Μ.: ${editableField('[ΑΦΜ]')} · Δ.Ο.Υ.: ${editableField('[ΔΟΥ]')}<br>Τηλ.: ${editableField('[ΤΗΛΕΦΩΝΟ]')} · e-mail: ${editableField('[EMAIL]')}</p>
+<p><b>ΚΟΙΝ.:</b> Δ/νση Διοικητικών Υπηρεσιών, για τις νόμιμες ενέργειες ανάρτησης.</p>
+<div class="title">ΑΠΟΦΑΣΗ ${editableField('[ΑΡΙΘΜΟΣ ΑΠΟΦΑΣΗΣ]')}/${YEAR}</div>
+<div class="subtitle">ΠΡΟΣΚΛΗΣΗ ΕΚΔΗΛΩΣΗΣ ΕΝΔΙΑΦΕΡΟΝΤΟΣ<br>(με τη διαδικασία της απευθείας ανάθεσης)</div>
+<p class="center"><b>«${esc(procurementTitle)}»</b></p>
+<table class="authority"><tr><td>Επωνυμία</td><td>ΔΗΜΟΣ ΡΟΔΟΥ</td></tr><tr><td>Α.Φ.Μ.</td><td>997561152</td></tr><tr><td>Κωδικός ηλεκτρονικής τιμολόγησης</td><td>1007.E86901.0001</td></tr><tr><td>Ταχυδρομική διεύθυνση</td><td>${editableField('[ΔΙΕΥΘΥΝΣΗ ΥΠΗΡΕΣΙΑΣ]')}</td></tr><tr><td>Πόλη / Τ.Κ.</td><td>ΡΟΔΟΣ / 85100</td></tr><tr><td>Χώρα / NUTS</td><td>ΕΛΛΑΔΑ / GR 421</td></tr><tr><td>Αρμόδιος για πληροφορίες</td><td>${editableField('[ΟΝΟΜΑ - ΤΗΛΕΦΩΝΟ - EMAIL]')}</td></tr><tr><td>Διεύθυνση διαδικτύου</td><td>www.rhodes.gr</td></tr></table>
+<h2>Έχοντας υπόψη</h2><ol><li>Τις διατάξεις του Ν. 3852/2010, όπως ισχύει.</li><li>Τις διατάξεις του Ν. 4412/2016, όπως ισχύει, ιδίως όσες αφορούν την απευθείας ανάθεση και την εκτέλεση συμβάσεων προμηθειών.</li><li>Το άρθρο 209 του Ν. 3463/2006, όπως ισχύει.</li><li>Το Π.Δ. 80/2016 και τις διατάξεις περί ανάληψης υποχρεώσεων.</li><li>Τις διατάξεις περί ΚΗΜΔΗΣ, Διαύγειας και ηλεκτρονικής τιμολόγησης, όπως ισχύουν.</li><li>Το πρωτογενές αίτημα με ΑΔΑΜ ${editableField('[ΑΔΑΜ ΠΡΩΤΟΓΕΝΟΥΣ]')}.</li><li>Το τεκμηριωμένο αίτημα με αριθμό ${editableField('[ΑΡΙΘΜΟΣ / ΗΜΕΡΟΜΗΝΙΑ]')}.</li><li>Την απόφαση ανάληψης υποχρέωσης με ΑΔΑ ${editableField('[ΑΔΑ ΑΝΑΛΗΨΗΣ]')} και ποσό ${fmtE(tot)}.</li><li>Το εγκεκριμένο αίτημα με ΑΔΑΜ ${editableField('[ΑΔΑΜ ΕΓΚΕΚΡΙΜΕΝΟΥ]')}.</li><li>Την ισχύουσα απόφαση μεταβίβασης αρμοδιοτήτων ${editableField('[ΑΡΙΘΜΟΣ / ΑΔΑ]')}.</li><li>Την εγγεγραμμένη πίστωση στον ${editableField('[Κ.Α. / ΑΛΕ]')}.</li></ol>
+<h2>Αποφασίζει</h2><p><b>Α.</b> Τη διεξαγωγή διαδικασίας απευθείας ανάθεσης για την προμήθεια «${esc(procurementTitle)}», συνολικής ενδεικτικής δαπάνης <b>${fmtE(tot)}</b> με Φ.Π.Α. 24%.</p><p><b>Β.</b> Την έγκριση της τεχνικής έκθεσης, των τεχνικών προδιαγραφών, του ενδεικτικού προϋπολογισμού, του τιμολογίου μελέτης και της συγγραφής υποχρεώσεων που περιλαμβάνονται στα παραρτήματα και αποτελούν αναπόσπαστο μέρος της παρούσας.</p><p><b>Γ.</b> Την πρόσκληση του ανωτέρω οικονομικού φορέα για υποβολή έγγραφης οικονομικής και τεχνικής προσφοράς, με κριτήριο ανάθεσης την πλέον συμφέρουσα από οικονομική άποψη προσφορά βάσει τιμής, υπό την προϋπόθεση πλήρους συμμόρφωσης με τις τεχνικές προδιαγραφές.</p>
+<h2>Αντικείμενο - προϋπολογισμός</h2><p>Το αντικείμενο αφορά την προμήθεια ειδών της ομάδας «${esc(g?g.name:'')}» για τις ανάγκες της ${esc(scope)}. Ενδεικτικός CPV: <b>${esc(pkg.cpv)}</b>. Η καθαρή αξία ανέρχεται σε <b>${fmtE(net)}</b>, ο Φ.Π.Α. 24% σε <b>${fmtE(vat)}</b> και η συνολική δαπάνη σε <b>${fmtE(tot)}</b>.</p>
+<h2>Δικαιολογητικά και περιεχόμενο προσφοράς</h2><ul><li>Υπεύθυνη δήλωση αποδοχής όλων των όρων της πρόσκλησης, της μελέτης και της συγγραφής υποχρεώσεων.</li><li>Δικαιολογητικά περί μη συνδρομής λόγων αποκλεισμού, σύμφωνα με τα άρθρα 73 και 74 του Ν. 4412/2016, όπως ισχύουν.</li><li>Αποδεικτικό φορολογικής ενημερότητας και αποδεικτικό ασφαλιστικής ενημερότητας σε ισχύ.</li><li>Νομιμοποιητικά έγγραφα και στοιχεία εκπροσώπησης του οικονομικού φορέα.</li><li>Τεχνική προσφορά, τεχνικά φυλλάδια, δηλώσεις συμμόρφωσης, πιστοποιητικά και λοιπά αποδεικτικά που απαιτούνται από τη μελέτη.</li><li>Συμπληρωμένο έντυπο οικονομικής προσφοράς.</li></ul>
+<h2>Υποβολή προσφοράς</h2><p>Η προσφορά θα υποβληθεί έως ${editableField('[ΗΜΕΡΟΜΗΝΙΑ]')} και ώρα ${editableField('[ΩΡΑ]')}, ${editableField('[ΤΡΟΠΟΣ ΚΑΙ ΤΟΠΟΣ ΥΠΟΒΟΛΗΣ / EMAIL]')}.</p><p>Η προσφορά πρέπει να αφορά ${editableField('[ΟΛΑ ΤΑ ΕΙΔΗ / ΤΜΗΜΑΤΑ]')} της παρούσας. Η διάρκεια της σύμβασης ορίζεται ${editableField('[ΔΙΑΡΚΕΙΑ ΣΥΜΒΑΣΗΣ]')}. Ο τόπος και ο χρόνος παράδοσης ορίζονται ${editableField('[ΤΟΠΟΣ ΚΑΙ ΧΡΟΝΟΣ ΠΑΡΑΔΟΣΗΣ]')}.</p><p>Εγγύηση συμμετοχής: δεν απαιτείται. Εγγύηση καλής εκτέλεσης: ${editableField('[ΔΕΝ ΑΠΑΙΤΕΙΤΑΙ / ΑΠΑΙΤΕΙΤΑΙ ΚΑΙ ΠΟΣΟΣΤΟ]')}.</p>
+<h2>Ηλεκτρονική τιμολόγηση</h2><p>Για την πληρωμή του αναδόχου απαιτείται η έκδοση ηλεκτρονικού τιμολογίου σύμφωνα με το ισχύον θεσμικό πλαίσιο. Το ηλεκτρονικό τιμολόγιο πρέπει να δρομολογείται στον Δήμο Ρόδου με κωδικό ηλεκτρονικής τιμολόγησης <b>1007.E86901.0001</b>.</p>
+<div class="sign"><b>${editableField('[ΑΡΜΟΔΙΟΣ ΑΝΤΙΔΗΜΑΡΧΟΣ / ΔΗΜΑΡΧΟΣ]')}</b><br><br><br>${editableField('[ΟΝΟΜΑΤΕΠΩΝΥΜΟ]')}</div>
+
+<div class="pb annex">ΠΑΡΑΡΤΗΜΑ Α<br>ΜΕΛΕΤΗ ΠΡΟΜΗΘΕΙΑΣ</div>
+<section class="cover"><div class="box"><div><b>ΕΛΛΗΝΙΚΗ ΔΗΜΟΚΡΑΤΙΑ - ΔΗΜΟΣ ΡΟΔΟΥ</b><br>Διεύθυνση Τεχνικών Έργων & Υποδομών</div><div class="big">ΜΕΛΕΤΗ ΠΡΟΜΗΘΕΙΑΣ</div><h1>«${esc(procurementTitle)}»</h1><p class="center"><b>${esc(scope)}</b><br>Έτος ${YEAR}<br>Ενδεικτικός CPV: ${esc(pkg.cpv)}<br>Προϋπολογισμός με Φ.Π.Α.: <b>${fmtE(tot)}</b></p></div></section>
+<h2 class="pb">1. Τεχνική έκθεση</h2><p>Η παρούσα μελέτη αφορά την προμήθεια ειδών της κατηγορίας «${esc(g?g.name:'')}» για ${esc(pkg.purpose)}, για τις ανάγκες ${isC?'του Δήμου Ρόδου και των Δημοτικών του Ενοτήτων':'της '+esc('Δ.Ε. '+unitName(cur.unitId))}. Το αντικείμενο περιλαμβάνει την πλήρη προμήθεια, μεταφορά και παράδοση των ειδών στους χώρους που θα υποδείξει η Υπηρεσία.</p><p>Η συνολική ενδεικτική δαπάνη ανέρχεται σε <b>${fmtE(tot)}</b>, συμπεριλαμβανομένου Φ.Π.Α. 24%.</p><div class="note">Πριν από την υπογραφή και δημοσίευση πρέπει να ελεγχθούν τα διοικητικά στοιχεία της πρόσκλησης, οι πιστώσεις, οι κωδικοί ΑΔΑ/ΑΔΑΜ, οι χρόνοι παράδοσης και τυχόν ειδικές απαιτήσεις.</div>
+<h2>2. Τεχνικό και κανονιστικό πλαίσιο</h2>${htmlList(framework)}
+<h2>3. Γενικές τεχνικές προδιαγραφές</h2>${htmlList(common.requirements)}
+<h2>4. Ειδικές τεχνικές προδιαγραφές ομάδας</h2><h3>${esc(pkg.title)}</h3>${htmlList(pkg.technical)}
+<h2>5. Προδιαγραφές ανά είδος</h2>${itemSpecs}
+<h2>6. Αποδεικτικά τεχνικής συμμόρφωσης</h2>${htmlList(evidence)}
+<h2 class="pb">7. Ενδεικτικός προϋπολογισμός</h2><table class="data"><thead><tr><th class="c">Α/Α</th><th>Περιγραφή είδους</th><th class="c">Μον.</th><th class="r">Ποσότητα</th><th class="r">Τιμή μον. χωρίς ΦΠΑ</th><th class="r">Δαπάνη</th></tr></thead><tbody>${budgetRows}</tbody><tfoot><tr><td colspan="5" class="r"><b>Καθαρή αξία</b></td><td class="r"><b>${fmtE(net)}</b></td></tr><tr><td colspan="5" class="r"><b>ΦΠΑ 24%</b></td><td class="r"><b>${fmtE(vat)}</b></td></tr><tr><td colspan="5" class="r"><b>ΓΕΝΙΚΟ ΣΥΝΟΛΟ</b></td><td class="r"><b>${fmtE(tot)}</b></td></tr></tfoot></table>
+<h2>8. Τιμολόγιο μελέτης - άρθρα προμήθειας</h2><p class="small">Τιμές μονάδος ανά άρθρο. Στην προσφερόμενη τιμή κάθε άρθρου περιλαμβάνονται όλες οι δαπάνες πλήρους παράδοσης, σύμφωνα με τις τεχνικές προδιαγραφές.</p>${articleTariff}
+<h2 class="pb">9. Ειδική συγγραφή υποχρεώσεων</h2><h3>Άρθρο 1 - Αντικείμενο</h3><p>Αντικείμενο είναι η πλήρης προμήθεια των ειδών του προϋπολογισμού, σύμφωνα με τις τεχνικές προδιαγραφές και τις έγγραφες εντολές της Υπηρεσίας.</p><h3>Άρθρο 2 - Ισχύουσες διατάξεις</h3><p>Η ανάθεση και εκτέλεση διέπονται από τον Ν. 4412/2016, όπως ισχύει, και από το λοιπό εφαρμοστέο πλαίσιο οικονομικής διαχείρισης των Ο.Τ.Α.</p><h3>Άρθρο 3 - Συμβατικά στοιχεία</h3><p>Συμβατικά στοιχεία, κατά σειρά ισχύος, είναι η σύμβαση, η πρόσκληση, η προσφορά του αναδόχου, η μελέτη, οι τεχνικές προδιαγραφές, η συγγραφή υποχρεώσεων, ο προϋπολογισμός και το τιμολόγιο.</p><h3>Άρθρο 4 - Παράδοση</h3><p>Η παράδοση γίνεται εφάπαξ ή τμηματικά στους χώρους που θα υποδείξει η Υπηρεσία, με όλες τις δαπάνες μεταφοράς, εκφόρτωσης και τακτοποίησης να περιλαμβάνονται στις τιμές.</p><h3>Άρθρο 5 - Έλεγχος και παραλαβή</h3>${htmlList(pkg.acceptance)}<h3>Άρθρο 6 - Απόρριψη και αντικατάσταση</h3><p>Είδη που δεν πληρούν τις προδιαγραφές απορρίπτονται και αντικαθίστανται άμεσα με δαπάνη του αναδόχου.</p><h3>Άρθρο 7 - Εγγύηση</h3><p>${esc(pkg.warranty)}.</p><h3>Άρθρο 8 - Τιμές και πληρωμή</h3><p>Οι τιμές περιλαμβάνουν κάθε δαπάνη πλήρους παράδοσης. Η πληρωμή γίνεται μετά την οριστική παραλαβή και την υποβολή των νόμιμων παραστατικών.</p><h3>Άρθρο 9 - Ειδικοί όροι</h3>${htmlList(clauses)}
+<h2 class="pb">10. Έντυπο οικονομικής προσφοράς</h2><table class="data"><thead><tr><th class="c">Α/Α</th><th>Περιγραφή είδους</th><th class="c">Μον.</th><th class="r">Ποσότητα</th><th class="r">Τιμή μον.</th><th class="r">Δαπάνη</th></tr></thead><tbody>${offerRows}</tbody><tfoot><tr><td colspan="5" class="r">Καθαρή αξία</td><td></td></tr><tr><td colspan="5" class="r">ΦΠΑ 24%</td><td></td></tr><tr><td colspan="5" class="r">ΓΕΝΙΚΟ ΣΥΝΟΛΟ</td><td></td></tr></tfoot></table>
+<p>Τόπος/ημερομηνία: .............................................</p><p>Ο προσφέρων: ....................................................</p>
+</body></html>`;
+  const w=window.open('','_blank'); if(!w){toast('Επέτρεψε τα αναδυόμενα παράθυρα για τα τεύχη.','err');return;}
+  w.document.open(); w.document.write(doc); w.document.close(); w.focus();
+  var _wb=w.document.getElementById('btnWord'); if(_wb)_wb.onclick=function(){downloadDocAsWord(w,w.document.title);};
+  toast('Δημιουργήθηκε πρότυπη πρόσκληση απευθείας ανάθεσης με ενσωματωμένη τη μελέτη.','accent');
+}
+$('#btnTefxi').onclick=generateDirectAwardInvitation;
+
 $('#search').addEventListener('input',render);
 window.addEventListener('beforeunload',e=>{if(dirty){e.preventDefault();e.returnValue='';}});
 
@@ -1626,5 +2309,6 @@ $('#selfSave').onclick=async()=>{
 
 boot();
 </script>
+<div class="dev-credit">developer Vasilis Diakolios · v13</div>
 </body>
 </html>
