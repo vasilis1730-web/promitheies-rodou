@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Δήμος Ρόδου · Προμήθειες υλικών v20</title>
+<title>Δήμος Ρόδου · Προμήθειες υλικών v22</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Commissioner:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap&subset=greek,greek-ext,latin" rel="stylesheet">
@@ -366,8 +366,8 @@ table.mat{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
         <button class="btn btn--primary" id="btnSave"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"/><path d="M17 21v-8H7v8M7 3v5h8"/></svg>Αποθήκευση</button>
         <button class="btn" id="btnClean"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/><path d="M10 11v5M14 11v5"/></svg>Αποθήκευση & καθαρισμός</button>
         <button class="btn" id="btnExport"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4"/><path d="M5 21h14"/></svg>Εξαγωγή Excel</button>
-        <button class="btn hidden" id="btnImport"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V9m0 0 4 4m-4-4-4 4"/><path d="M5 3h14"/></svg>Εισαγωγή Excel</button>
-        <input id="importFile" class="hidden" type="file" accept=".xlsx,.xls,.csv,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel">
+        <button class="btn" id="btnImport"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V9m0 0 4 4m-4-4-4 4"/><path d="M5 3h14"/></svg>Εισαγωγή Excel</button>
+        <input id="importFile" class="hidden" type="file" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
         <button class="btn btn--study" id="btnStudy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5V5a2 2 0 0 1 2-2h9l5 5v11.5a1.5 1.5 0 0 1-1.5 1.5H6a2 2 0 0 1-2-2Z"/><path d="M14 3v6h6M8 13h8M8 17h6"/></svg>Μελέτη</button>
         <button class="btn btn--tender" id="btnTefxi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6M9 13h6M9 17h6"/><path d="M8 9h2"/></svg>Τεύχη</button>
       </div>
@@ -386,7 +386,7 @@ table.mat{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
         <thead><tr>
           <th class="ctr">Α/Α</th>
           <th class="sortable" data-sort="name">Περιγραφή είδους<span class="sort-mark"></span></th>
-          <th class="ctr sortable" data-sort="unit">Μονάδα<span class="sort-mark"></span></th>
+          <th class="ctr sortable" data-sort="unit">Μονάδα μέτρησης<span class="sort-mark"></span></th>
           <th class="num sortable" data-sort="price">Ενδ. τιμή (χωρίς ΦΠΑ)<span class="sort-mark"></span></th>
           <th class="num sortable" data-sort="qty">Ποσότητα<span class="sort-mark"></span></th>
           <th class="num sortable" data-sort="cost">Δαπάνη<span class="sort-mark"></span></th>
@@ -455,7 +455,7 @@ table.mat{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js"></script>
 <script>
-/* Δήμος Ρόδου - Προμήθειες v20: δικαιώματα χρηστών, εργαλεία δελτίου και εισαγωγή Excel μόνο από administrator */
+/* Δήμος Ρόδου - Προμήθειες v22: ασφαλής εισαγωγή Excel με έλεγχο ομάδας, Δημοτικής Ενότητας και έτους */
 /* Δήμος Ρόδου — Βιβλιοθήκη 14 ειδικών πακέτων και ασφαλές γενικό πακέτο
    Έκδοση 3.2 — 18/06/2026
    Οι αναφορές σε πρότυπα νοούνται ως «ή ισοδύναμο» και στην ισχύουσα έκδοση.
@@ -1669,15 +1669,94 @@ function excelInstructions(){
     ['',''],
     ['ΒΑΣΙΚΕΣ ΟΔΗΓΙΕΣ',''],
     ['1. Ποσότητα','Μεταβάλλεται μόνο στη στήλη «ΠΟΣΟΤΗΤΑ». Όλες οι ποσότητες πρέπει να είναι ακέραιοι αριθμοί.'],
-    ['2. Υπάρχον είδος','Κρατήστε τον ίδιο Α/Α. Ο administrator μπορεί να αλλάξει περιγραφή, μονάδα, CPV, τιμή και πρότυπα.'],
-    ['3. Νέο είδος','Προσθέστε νέα γραμμή στο τέλος, αφήστε κενό το Α/Α και συμπληρώστε τουλάχιστον περιγραφή και μονάδα.'],
+    ['2. Υπάρχον είδος','Κρατήστε τον ίδιο Α/Α. Ο administrator μπορεί να αλλάξει περιγραφή, μονάδα μέτρησης, CPV, τιμή και πρότυπα.'],
+    ['3. Νέο είδος','Προσθέστε νέα γραμμή στο τέλος, αφήστε κενό το Α/Α και συμπληρώστε τουλάχιστον περιγραφή και μονάδα μέτρησης.'],
     ['4. Κεντρικός κατάλογος','Οι αλλαγές ειδών από administrator ισχύουν για όλες τις Δημοτικές Ενότητες.'],
     ['5. Υπολογισμοί','Η «ΔΑΠΑΝΗ» και η «ΤΙΜΗ ΜΕ ΦΠΑ» είναι τύποι και δεν χρειάζεται να τροποποιούνται.'],
-    ['6. Αντιστοίχιση','Η εφαρμογή αντιστοιχίζει κατά Α/Α ή, εναλλακτικά, κατά περιγραφή και μονάδα.']
+    ['6. Αντιστοίχιση','Η εφαρμογή χρησιμοποιεί κρυφό αναγνωριστικό είδους και, επικουρικά, Α/Α ή περιγραφή + μονάδα μέτρησης.'],
+    ['7. Δικλείδα ασφαλείας','Το αρχείο εισάγεται μόνο στην ίδια Δημοτική Ενότητα, ίδια ομάδα υλικών και ίδιο έτος από τα οποία εξήχθη.']
   ];
 }
 function safeSheetName(name){
   return (name||'ΥΛΙΚΑ').replace(/[\\\/\?\*\[\]\:]/g,' ').trim().slice(0,31)||'ΥΛΙΚΑ';
+}
+function contextChecksum(text){
+  let h=2166136261;
+  const s=String(text||'');
+  for(let i=0;i<s.length;i++){
+    h^=s.charCodeAt(i);
+    h=Math.imul(h,16777619);
+  }
+  return ('00000000'+(h>>>0).toString(16)).slice(-8).toUpperCase();
+}
+function currentExcelContext(){
+  const g=GROUPS.find(x=>String(x.id)===String(cur.groupId))||{};
+  const unitLabel=cur.unitId===CENTRAL_UNIT?'Δήμος Ρόδου — Συγκεντρωτικό':unitName(cur.unitId);
+  const contextKey=[YEAR,cur.unitId,cur.groupId,g.code||'',unitLabel,g.name||g.short_name||''].join('|');
+  return {
+    signature:'RHODES_PROCUREMENT_EXPORT_V2',
+    appVersion:'v22',
+    year:String(YEAR),
+    unitId:String(cur.unitId),
+    unitName:unitLabel,
+    groupId:String(cur.groupId),
+    groupCode:String(g.code||''),
+    groupName:String(g.name||g.short_name||''),
+    contextKey,
+    checksum:contextChecksum(contextKey)
+  };
+}
+function metadataRows(ctx,catalogCount){
+  return [
+    ['ΚΛΕΙΔΙ','ΤΙΜΗ'],
+    ['SIGNATURE',ctx.signature],
+    ['APP_VERSION',ctx.appVersion],
+    ['REQUEST_YEAR',ctx.year],
+    ['MUNICIPAL_UNIT_ID',ctx.unitId],
+    ['MUNICIPAL_UNIT_NAME',ctx.unitName],
+    ['GROUP_ID',ctx.groupId],
+    ['GROUP_CODE',ctx.groupCode],
+    ['GROUP_NAME',ctx.groupName],
+    ['CONTEXT_KEY',ctx.contextKey],
+    ['CHECKSUM',ctx.checksum],
+    ['CATALOG_COUNT',String(catalogCount||0)],
+    ['QUANTITY_SCOPE','ONLY_THIS_MUNICIPAL_UNIT'],
+    ['CATALOG_SCOPE','ALL_UNITS_SAME_GROUP'],
+    ['EXPORTED_AT',new Date().toISOString()]
+  ];
+}
+function parseMetadataRows(rows){
+  const out={};
+  (rows||[]).forEach(r=>{
+    const k=cellText(r&&r[0]).toUpperCase();
+    if(k)out[k]=cellText(r&&r[1]);
+  });
+  return out;
+}
+function validateImportContext(meta,fileName){
+  const expected=currentExcelContext();
+  if(!meta||meta.SIGNATURE!==expected.signature){
+    throw new Error('Το αρχείο δεν αναγνωρίζεται ως ασφαλής εξαγωγή της εφαρμογής. Για να αποφευχθεί εισαγωγή σε λάθος ομάδα ή Δημοτική Ενότητα, εξήγαγε νέο Excel από τη σωστή οθόνη και χρησιμοποίησε εκείνο το αρχείο.');
+  }
+  const storedKey=meta.CONTEXT_KEY||'';
+  const storedChecksum=(meta.CHECKSUM||'').toUpperCase();
+  if(!storedKey||!storedChecksum||contextChecksum(storedKey)!==storedChecksum){
+    throw new Error('Τα στοιχεία ταυτότητας του αρχείου έχουν αλλοιωθεί ή δεν είναι πλήρη. Η εισαγωγή ακυρώθηκε.');
+  }
+  if(String(meta.REQUEST_YEAR)!==expected.year){
+    throw new Error('Το αρχείο αφορά το έτος '+meta.REQUEST_YEAR+', ενώ η εφαρμογή βρίσκεται στο έτος '+expected.year+'. Η εισαγωγή ακυρώθηκε.');
+  }
+  if(String(meta.GROUP_ID)!==expected.groupId || String(meta.GROUP_CODE||'')!==expected.groupCode){
+    throw new Error('ΛΑΘΟΣ ΟΜΑΔΑ ΥΛΙΚΩΝ: το αρχείο αφορά «'+(meta.GROUP_NAME||meta.GROUP_CODE||'άγνωστη ομάδα')+'», ενώ έχεις επιλέξει «'+expected.groupName+'». Επίλεξε τη σωστή ομάδα και ξαναδοκίμασε.');
+  }
+  if(String(meta.MUNICIPAL_UNIT_ID)!==expected.unitId){
+    throw new Error('ΛΑΘΟΣ ΔΗΜΟΤΙΚΗ ΕΝΟΤΗΤΑ: το αρχείο αφορά «'+(meta.MUNICIPAL_UNIT_NAME||'άγνωστη Δ.Ε.')+'», ενώ έχεις επιλέξει «'+expected.unitName+'». Οι ποσότητες δεν εισήχθησαν.');
+  }
+  const rebuilt=[meta.REQUEST_YEAR,meta.MUNICIPAL_UNIT_ID,meta.GROUP_ID,meta.GROUP_CODE||'',meta.MUNICIPAL_UNIT_NAME||'',meta.GROUP_NAME||''].join('|');
+  if(rebuilt!==storedKey){
+    throw new Error('Η ταυτότητα ομάδας ή Δημοτικής Ενότητας του αρχείου δεν συμφωνεί με τα μεταδεδομένα του. Η εισαγωγή ακυρώθηκε.');
+  }
+  return expected;
 }
 function exportCatalogRows(){
   const mats=(MAT_BY_GROUP[cur.groupId]||[]).slice().sort((a,b)=>(Number(a.sort_order)||0)-(Number(b.sort_order)||0));
@@ -1717,7 +1796,7 @@ async function buildStyledExcelExport(){
   const thin={style:'thin',color:{argb:colors.border}};
   const border={top:thin,left:thin,bottom:thin,right:thin};
   ws.columns=[
-    {key:'aa',width:6},{key:'name',width:78},{key:'unit',width:8},{key:'cpv',width:14},
+    {key:'aa',width:6},{key:'name',width:78},{key:'unit',width:18},{key:'cpv',width:14},
     {key:'standard',width:36},{key:'price',width:16},{key:'qty',width:13},
     {key:'cost',width:18},{key:'vatprice',width:16},
     {key:'specs',width:55,hidden:true},{key:'ce',width:14,hidden:true},{key:'notes',width:55,hidden:true}
@@ -1742,7 +1821,7 @@ async function buildStyledExcelExport(){
   ws.getCell('A4').font={name:'Arial',size:9,italic:true,color:{argb:colors.muted}};
   ws.getRow(5).height=12;
 
-  const headers=['Α/Α','ΠΕΡΙΓΡΑΦΗ ΕΙΔΟΥΣ','Μ.Μ.','CPV','ΠΡΟΤΥΠΟ / ΕΤΕΠ',
+  const headers=['Α/Α','ΠΕΡΙΓΡΑΦΗ ΕΙΔΟΥΣ','ΜΟΝΑΔΑ ΜΕΤΡΗΣΗΣ','CPV','ΠΡΟΤΥΠΟ / ΕΤΕΠ',
     'ΤΙΜΗ ΜΟΝΑΔΑΣ\n(€, άνευ ΦΠΑ)','ΠΟΣΟΤΗΤΑ',
     'ΔΑΠΑΝΗ\n(€, άνευ ΦΠΑ)','ΤΙΜΗ ΜΕ ΦΠΑ\n24% (€)',
     'ΤΕΧΝΙΚΕΣ ΠΡΟΔΙΑΓΡΑΦΕΣ','ΑΠΑΙΤΗΣΗ CE','ΠΑΡΑΤΗΡΗΣΕΙΣ ΤΕΥΧΟΥ'];
@@ -1817,6 +1896,19 @@ async function buildStyledExcelExport(){
   });
   note.getCell('B2').numFmt='0%';
 
+  // Κρυφά μεταδεδομένα: αποτρέπουν την εισαγωγή αρχείου σε λάθος ομάδα ή Δ.Ε.
+  const ctx=currentExcelContext();
+  const meta=workbook.addWorksheet('ΜΕΤΑΔΕΔΟΜΕΝΑ');
+  meta.state='veryHidden';
+  metadataRows(ctx,rows.length).forEach((r,i)=>{meta.getRow(i+1).values=r;});
+
+  // Κρυφός χάρτης ειδών. Το ID δεν εμφανίζεται στον χρήστη, αλλά επιτρέπει ασφαλή αντιστοίχιση.
+  const keys=workbook.addWorksheet('ΚΛΕΙΔΙΑ_ΕΙΔΩΝ');
+  keys.state='veryHidden';
+  keys.getRow(1).values=['Α/Α','MATERIAL_ID','MATERIAL_CODE','GROUP_ID','ΠΕΡΙΓΡΑΦΗ','ΜΟΝΑΔΑ'];
+  const currentMats=(MAT_BY_GROUP[cur.groupId]||[]).slice().sort((a,b)=>(Number(a.sort_order)||0)-(Number(b.sort_order)||0));
+  currentMats.forEach((m,i)=>{keys.getRow(i+2).values=[i+1,String(m.id),m.code||'',String(cur.groupId),m.name||'',m.unit||''];});
+
   const buffer=await workbook.xlsx.writeBuffer();
   const blob=new Blob([buffer],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
   const url=URL.createObjectURL(blob);
@@ -1832,11 +1924,21 @@ $('#btnExport').onclick=async()=>{
       toast('Έγινε εξαγωγή σε Excel με το πρότυπο μορφοποίησης του Δήμου Ρόδου.','accent');
       return;
     }
-    const rows=[['Α/Α','Περιγραφή είδους','Μονάδα','CPV','Πρότυπο / ΕΤΕΠ','Τιμή μονάδας','Ποσότητα']];
-    exportCatalogRows().forEach(r=>rows.push([r.ordinal,r.name,r.unit,r.cpv,r.standards,r.price,r.qty]));
-    const csv=rowsToCsv(rows),blob=new Blob([csv],{type:'text/csv;charset=utf-8'}),url=URL.createObjectURL(blob);
-    const a=document.createElement('a');a.href=url;a.download=fileBaseName()+'.csv';a.click();URL.revokeObjectURL(url);
-    toast('Η μορφοποιημένη εξαγωγή δεν ήταν διαθέσιμη· δημιουργήθηκε CSV.','accent');
+    if(!window.XLSX)throw new Error('Δεν φορτώθηκε βιβλιοθήκη δημιουργίας Excel.');
+    const data=[['Α/Α','Περιγραφή είδους','Μονάδα μέτρησης','CPV','Πρότυπο / ΕΤΕΠ','Τιμή μονάδας','Ποσότητα']];
+    const exported=exportCatalogRows();
+    exported.forEach(r=>data.push([r.ordinal,r.name,r.unit,r.cpv,r.standards,r.price,r.qty]));
+    const wb=XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(data),'Υλικά και ποσότητες');
+    const ctx=currentExcelContext();
+    XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(metadataRows(ctx,exported.length)),'ΜΕΤΑΔΕΔΟΜΕΝΑ');
+    const mats=(MAT_BY_GROUP[cur.groupId]||[]).slice().sort((a,b)=>(Number(a.sort_order)||0)-(Number(b.sort_order)||0));
+    const keyRows=[['Α/Α','MATERIAL_ID','MATERIAL_CODE','GROUP_ID','ΠΕΡΙΓΡΑΦΗ','ΜΟΝΑΔΑ']];
+    mats.forEach((m,i)=>keyRows.push([i+1,String(m.id),m.code||'',String(cur.groupId),m.name||'',m.unit||'']));
+    XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(keyRows),'ΚΛΕΙΔΙΑ_ΕΙΔΩΝ');
+    wb.Workbook={Sheets:[{name:'Υλικά και ποσότητες',Hidden:0},{name:'ΜΕΤΑΔΕΔΟΜΕΝΑ',Hidden:2},{name:'ΚΛΕΙΔΙΑ_ΕΙΔΩΝ',Hidden:2}]};
+    XLSX.writeFile(wb,fileBaseName()+'.xlsx');
+    toast('Δημιουργήθηκε ασφαλές Excel με στοιχεία ομάδας και Δημοτικής Ενότητας.','accent');
   }catch(e){toast('Σφάλμα εξαγωγής: '+(e.message||e),'err');}
   finally{btn.disabled=false;btn.innerHTML=old;}
 };
@@ -1897,32 +1999,85 @@ function parseCsvText(txt){
 }
 async function readWorkbookRows(file){
   const name=(file.name||'').toLowerCase();
-  if(name.endsWith('.csv')||!window.XLSX){
-    const txt=await file.text();
-    return parseCsvText(txt);
+  if(name.endsWith('.csv')){
+    throw new Error('Για λόγους ασφαλείας η εισαγωγή επιτρέπεται μόνο από αρχείο .xlsx που έχει εξαχθεί από την εφαρμογή.');
   }
+  if(!window.XLSX)throw new Error('Δεν φορτώθηκε η βιβλιοθήκη ανάγνωσης Excel.');
   const buf=await file.arrayBuffer();
   const wb=XLSX.read(buf,{type:'array'});
-  const preferred=wb.SheetNames.find(n=>norm(n).includes('ποσοτ'))||wb.SheetNames.find(n=>norm(n).includes('υλικ'))||wb.SheetNames[0];
-  const ws=wb.Sheets[preferred];
-  return XLSX.utils.sheet_to_json(ws,{header:1,defval:''});
+  const metaName=wb.SheetNames.find(n=>normHeader(n)==='μεταδεδομενα');
+  const keysName=wb.SheetNames.find(n=>normHeader(n)==='κλειδια ειδων');
+  if(!metaName)throw new Error('Λείπει το κρυφό φύλλο ταυτότητας «ΜΕΤΑΔΕΔΟΜΕΝΑ». Εξήγαγε ξανά το Excel από τη σωστή ομάδα και Δημοτική Ενότητα.');
+  const metaRows=XLSX.utils.sheet_to_json(wb.Sheets[metaName],{header:1,defval:''});
+  const metadata=parseMetadataRows(metaRows);
+  const preferred=wb.SheetNames.find(n=>norm(n).includes('ποσοτ'))||wb.SheetNames.find(n=>norm(n).includes('υλικ'))||wb.SheetNames.find(n=>n!==metaName&&n!==keysName);
+  if(!preferred)throw new Error('Δεν βρέθηκε φύλλο υλικών και ποσοτήτων.');
+  const rows=XLSX.utils.sheet_to_json(wb.Sheets[preferred],{header:1,defval:''});
+  const keyMap=new Map();
+  if(keysName){
+    const kr=XLSX.utils.sheet_to_json(wb.Sheets[keysName],{header:1,defval:''});
+    kr.slice(1).forEach(r=>{
+      const ordinal=Math.max(0,Math.round(parseElNumber(r[0])));
+      const materialId=cellText(r[1]);
+      const groupId=cellText(r[3]);
+      if(ordinal&&materialId&&groupId===String(cur.groupId))keyMap.set(ordinal,materialId);
+    });
+  }
+  return {rows,metadata,keyMap,sheetName:preferred};
 }
+
 function rowObject(headers,row){
   const o={}; headers.forEach((h,i)=>o[h]=row[i]); return o;
 }
 function getByHeaders(o,names){
+  const wanted=names.map(normHeader);
+  // Πρώτα γίνεται ακριβής αντιστοίχιση. Έτσι η «Μονάδα» δεν συγχέεται
+  // με την «Τιμή μονάδας» ή το «Κόστος ανά μονάδα».
   for(const k of Object.keys(o)){
     const nk=normHeader(k);
-    if(names.some(n=>nk.includes(n)))return o[k];
+    if(wanted.includes(nk))return o[k];
+  }
+  // Δευτερεύουσα συμβατότητα για παλαιότερες/εκτενέστερες επικεφαλίδες.
+  for(const k of Object.keys(o)){
+    const nk=normHeader(k);
+    if(wanted.some(n=>n.length>=4&&nk.includes(n)))return o[k];
   }
   return undefined;
 }
+function getByExactHeaders(o,names){
+  const wanted=names.map(normHeader);
+  for(const k of Object.keys(o)){
+    if(wanted.includes(normHeader(k)))return o[k];
+  }
+  return undefined;
+}
+function normalizeImportedUnit(v){
+  const raw=cellText(v).replace(/\u00a0/g,' ').trim();
+  if(!raw)return '';
+  const compact=norm(raw).replace(/\s+/g,' ').trim();
+  const noSpace=compact.replace(/\s+/g,'');
+  // Ασφαλιστική δικλίδα: αριθμός ή χρηματική τιμή δεν μπορεί να γίνει μονάδα μέτρησης.
+  if(/^[+-]?(?:\d+(?:[.,]\d*)?|[.,]\d+)(?:€|eur)?$/i.test(noSpace))return '';
+  if(['τεμ','τεμ.','τεμαχιο','τεμαχια','τμχ','piece','pieces','pcs'].includes(compact))return 'τεμ.';
+  if(['m','μετρο','μετρα','τρεχον μετρο','τρεχοντα μετρα','γραμμικο μετρο','γραμμικα μετρα'].includes(compact))return 'm';
+  if(['m2','m²','τ.μ.','τμ','τετραγωνικο μετρο','τετραγωνικα μετρα','τετραγ. μετρο'].includes(compact))return 'm²';
+  if(['m3','m³','κ.μ.','κμ','κυβικο μετρο','κυβικα μετρα'].includes(compact))return 'm³';
+  if(['kg','κιλο','κιλα','χιλιογραμμο','χιλιογραμμα'].includes(compact))return 'kg';
+  if(['lt','l','λιτρο','λιτρα'].includes(compact))return 'lt';
+  if(['σετ','set'].includes(compact))return 'σετ';
+  if(['ζευγος','ζευγη'].includes(compact))return 'ζεύγος';
+  if(['ρολο','ρολα'].includes(compact))return 'ρολό';
+  if(['σακος','σακοι'].includes(compact))return 'σάκος';
+  if(['συσκευασια','συσκευασιες'].includes(compact))return 'συσκευασία';
+  return raw;
+}
+function unitMatchKey(v){return norm(normalizeImportedUnit(v)||cellText(v));}
 function hasCellValue(v){return v!==undefined&&v!==null&&cellText(v)!=='';}
 function parseImportRow(o,index){
   const rawOrdinal=getByHeaders(o,['α/α','αα','σειρα','ordinal']);
   const rawId=getByHeaders(o,['id ειδους','κωδικος ειδους','kodikos eidous','material_id']);
   const rawName=getByHeaders(o,['περιγραφη ειδους','περιγραφη','υλικο','eidos','name']);
-  const rawUnit=getByHeaders(o,['μοναδα','unit']);
+  const rawUnit=getByExactHeaders(o,['μονάδα μέτρησης','μοναδα μετρησης','μονάδα','μοναδα','μ.μ.','μμ','unit','uom']);
   const rawCpv=getByHeaders(o,['cpv','κωδικος cpv']);
   const rawPrice=getByHeaders(o,['ενδεικτικη τιμη','τιμη μοναδας','default_unit_price','price']);
   const rawQty=getByHeaders(o,['ποσοτητα','quantity','qty']);
@@ -1936,7 +2091,8 @@ function parseImportRow(o,index){
     ordinal:Math.max(0,Math.round(parseElNumber(rawOrdinal))),
     id:cellText(rawId),
     name:cellText(rawName),
-    unit:cellText(rawUnit),
+    unit:normalizeImportedUnit(rawUnit),
+    unitInvalid:hasCellValue(rawUnit)&&!normalizeImportedUnit(rawUnit),
     cpv:cellText(rawCpv), cpvProvided:hasCellValue(rawCpv),
     priceProvided:hasCellValue(rawPrice),
     price:Math.max(0,parseElNumber(rawPrice)),
@@ -1962,15 +2118,18 @@ function buildMaterialPatch(m,r){
   return patch;
 }
 async function importQuantitiesFromFile(file){
-  const rows=await readWorkbookRows(file);
+  const imported=await readWorkbookRows(file);
+  const rows=imported.rows;
+  const importContext=validateImportContext(imported.metadata,file.name);
   if(!rows||rows.length<2)throw new Error('Το αρχείο δεν περιέχει γραμμές προς εισαγωγή.');
   const headerIndex=rows.findIndex(r=>{
     const hs=(r||[]).map(normHeader);
-    const hasDesc=hs.some(h=>h.includes('περιγραφη ειδους')||h==='περιγραφη');
-    const hasQty=hs.some(h=>h.includes('ποσοτητα'));
-    return hasDesc&&hasQty;
+    const hasDesc=hs.some(h=>h.includes('περιγραφη ειδους')||h.includes('περιγραφη υλικου')||h==='περιγραφη'||h==='ειδος');
+    const hasUnit=hs.some(h=>['μοναδα','μοναδα μετρησης','μ.μ.','μμ','unit','uom'].includes(h));
+    const hasDataColumn=hs.some(h=>h.includes('ποσοτητα')||h.includes('ενδεικτικη τιμη')||h.includes('τιμη μοναδας')||h==='cpv');
+    return hasDesc&&hasUnit&&hasDataColumn;
   });
-  if(headerIndex<0)throw new Error('Δεν εντοπίστηκε γραμμή επικεφαλίδων με «ΠΕΡΙΓΡΑΦΗ ΕΙΔΟΥΣ» και «ΠΟΣΟΤΗΤΑ».');
+  if(headerIndex<0)throw new Error('Δεν εντοπίστηκε έγκυρη γραμμή επικεφαλίδων με «Περιγραφή είδους» και «Μονάδα μέτρησης».');
   const headers=rows[headerIndex].map(x=>(''+x).trim());
   const currentMaterials=MAT_BY_GROUP[cur.groupId]||[];
   const allMaterials=Object.values(MAT_BY_GROUP).flat();
@@ -1978,7 +2137,7 @@ async function importQuantitiesFromFile(file){
   const byIdAll=new Map(allMaterials.map(m=>[''+m.id,m]));
   const byNameCurrent=new Map();
   currentMaterials.forEach(m=>{
-    const key=norm(m.name)+'|'+norm(m.unit||'');
+    const key=norm(m.name)+'|'+unitMatchKey(m.unit||'');
     if(!byNameCurrent.has(key))byNameCurrent.set(key,m);
   });
   const byOrdinal=new Map(currentMaterials.map((m,i)=>[i+1,m]));
@@ -1991,16 +2150,20 @@ async function importQuantitiesFromFile(file){
     parsed.push(pr);
   });
   if(!parsed.length)throw new Error('Δεν βρέθηκαν έγκυρες γραμμές δεδομένων.');
+  const invalidUnitRows=parsed.filter(r=>r.unitInvalid);
 
   const existing=[],newRows=[],foreign=[],unknown=[];
   const pendingNames=new Set();
   for(const r of parsed){
     let m=null;
-    // Συμβατότητα με παλαιά αρχεία που είχαν ID.
-    if(r.id&&byIdCurrent.has(r.id))m=byIdCurrent.get(r.id);
+    // Πρώτη και ασφαλέστερη αντιστοίχιση: κρυφό ID από το φύλλο «ΚΛΕΙΔΙΑ_ΕΙΔΩΝ».
+    const hiddenId=r.ordinal&&imported.keyMap?imported.keyMap.get(r.ordinal):null;
+    if(hiddenId&&byIdCurrent.has(hiddenId))m=byIdCurrent.get(hiddenId);
+    // Συμβατότητα με παλαιά αρχεία που είχαν ορατό ID.
+    if(!m&&r.id&&byIdCurrent.has(r.id))m=byIdCurrent.get(r.id);
     // Στις νέες εξαγωγές η βασική αντιστοίχιση γίνεται με περιγραφή + μονάδα.
     if(!m&&r.name){
-      const nameUnitKey=norm(r.name)+'|'+norm(r.unit||'');
+      const nameUnitKey=norm(r.name)+'|'+unitMatchKey(r.unit||'');
       if(byNameCurrent.has(nameUnitKey))m=byNameCurrent.get(nameUnitKey);
     }
     // Ο Α/Α επιτρέπει στον administrator να αλλάξει ακόμη και την περιγραφή υπάρχοντος είδους.
@@ -2009,7 +2172,7 @@ async function importQuantitiesFromFile(file){
     if(r.id&&byIdAll.has(r.id)){foreign.push(r);continue;}
     if(r.id){unknown.push(r);continue;}
     if(!r.name||!r.unit){unknown.push(r);continue;}
-    const key=norm(r.name)+'|'+norm(r.unit);
+    const key=norm(r.name)+'|'+unitMatchKey(r.unit);
     if(pendingNames.has(key)){unknown.push(r);continue;}
     pendingNames.add(key);newRows.push(r);
   }
@@ -2035,7 +2198,14 @@ async function importQuantitiesFromFile(file){
     if(quantityRows.length)preview.push(quantityRows.length+' γραμμές ποσοτήτων');
     if(updates.length)preview.push(updates.length+' αλλαγές σε υπάρχοντα είδη');
     if(allowedNew.length)preview.push(allowedNew.length+' νέα είδη');
-    const warning='Θα εισαχθούν: '+preview.join(', ')+'.\n\nΟι αλλαγές στα στοιχεία των ειδών και τα νέα είδη καταχωρίζονται στον κεντρικό κατάλογο και θα είναι διαθέσιμα σε όλες τις Δημοτικές Ενότητες.\n\nΝα συνεχιστεί η εισαγωγή;';
+    const warning='ΕΛΕΓΧΟΣ ΤΑΥΤΟΤΗΤΑΣ ΑΡΧΕΙΟΥ\n\n'+
+      'Δημοτική Ενότητα: '+importContext.unitName+'\n'+
+      'Ομάδα υλικών: '+importContext.groupName+'\n'+
+      'Έτος: '+importContext.year+'\n\n'+
+      'Θα εισαχθούν: '+preview.join(', ')+'.\n\n'+
+      'Οι ΠΟΣΟΤΗΤΕΣ ενημερώνουν μόνο τη συγκεκριμένη Δημοτική Ενότητα.\n'+
+      'Τα ΝΕΑ ή ΤΡΟΠΟΠΟΙΗΜΕΝΑ ΕΙΔΗ ενημερώνουν τον κεντρικό κατάλογο της ίδιας ομάδας και εμφανίζονται σε όλες τις Δημοτικές Ενότητες.\n\n'+
+      'Να συνεχιστεί η εισαγωγή;';
     if(!confirm(warning))return;
   }
 
@@ -2115,7 +2285,8 @@ async function importQuantitiesFromFile(file){
   if(updates.length)notes.push(updates.length+' ενημερωμένα είδη');
   if(allowedNew.length)notes.push(allowedNew.length+' νέα είδη');
   const skipped=foreign.length+unknown.length+(!admin?newRows.length:0);
-  toast('Η εισαγωγή ολοκληρώθηκε: '+notes.join(', ')+(skipped?' · παραλείφθηκαν '+skipped+' γραμμές':'')+'.','accent');
+  const unitNote=invalidUnitRows.length?' · αγνοήθηκαν '+invalidUnitRows.length+' μη έγκυρες αριθμητικές τιμές στη «Μονάδα μέτρησης»':'';
+  toast('Η εισαγωγή ολοκληρώθηκε: '+notes.join(', ')+(skipped?' · παραλείφθηκαν '+skipped+' γραμμές':'')+unitNote+'.','accent');
 }
 
 
