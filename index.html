@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Δήμος Ρόδου · Προμήθειες υλικών v14</title>
+<title>Δήμος Ρόδου · Προμήθειες υλικών v20</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Commissioner:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap&subset=greek,greek-ext,latin" rel="stylesheet">
@@ -207,80 +207,105 @@ table.mat{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
 @media (max-width:760px){.dev-credit{display:none}}
 
 
-/* ===== v14: σαφής χρωματική διάκριση πλοήγησης ===== */
-/* Δημοτικές Ενότητες: πιο σκούρο διοικητικό μπλε */
+/* ===== v18: πολύ απαλό μπλε στις Δ.Ε. και πολύ απαλό πορτοκαλί στις ομάδες ===== */
+/* Δημοτικές Ενότητες: ουδέτερο γκρι, μπλε μόνο στην ενεργή επιλογή */
 #deNav .pill:not(.pill--agg){
-  color:#FFFFFF;
-  background:linear-gradient(180deg,#245EA5 0%,#173F78 100%);
-  border-color:#123766;
-  box-shadow:0 3px 9px rgba(15,46,94,.20);
+  color:#335F91;
+  background:linear-gradient(180deg,#F8FBFF 0%,#EAF3FD 100%);
+  border-color:#CFE0F2;
+  box-shadow:0 2px 7px rgba(30,91,168,.08);
 }
 #deNav .pill:not(.pill--agg):hover{
-  color:#FFFFFF;
-  background:linear-gradient(180deg,#2E70BD 0%,#1B4F91 100%);
-  border-color:#17477F;
-  box-shadow:0 5px 13px rgba(15,46,94,.27);
+  color:#244E7B;
+  background:linear-gradient(180deg,#F1F7FE 0%,#DCEBFA 100%);
+  border-color:#B7D1EC;
+  box-shadow:0 4px 10px rgba(30,91,168,.13);
 }
 #deNav .pill:not(.pill--agg)[aria-selected="true"]{
   color:#FFFFFF;
-  background:linear-gradient(180deg,#163F79 0%,#0C2D59 100%);
-  border-color:#08254A;
-  box-shadow:0 0 0 2px rgba(255,255,255,.95),0 6px 16px rgba(9,34,70,.38);
+  background:linear-gradient(180deg,#347FD3 0%,#1E5BA8 100%);
+  border-color:#174D91;
+  box-shadow:0 0 0 2px rgba(255,255,255,.95),0 6px 16px rgba(30,91,168,.34);
 }
 #deNav .pill--agg{
-  color:#FFFFFF;
-  background:linear-gradient(180deg,#173B70 0%,#09274F 100%);
-  border-color:#071F40;
-  box-shadow:0 3px 10px rgba(9,34,70,.28);
+  color:#2E5B8C;
+  background:linear-gradient(180deg,#F3F8FE 0%,#DFECFA 100%);
+  border-color:#C3D8EE;
+  box-shadow:0 2px 8px rgba(30,91,168,.10);
 }
 #deNav .pill--agg:hover{
-  background:linear-gradient(180deg,#20528F 0%,#103768 100%);
-  border-color:#0C2D59;
+  color:#214A76;
+  background:linear-gradient(180deg,#EAF3FD 0%,#D2E4F7 100%);
+  border-color:#AFCBE8;
 }
 #deNav .pill--agg[aria-selected="true"]{
-  background:linear-gradient(180deg,#102F5C 0%,#061D3D 100%);
-  border-color:#041731;
-}
-
-/* Ομάδες υλικών: ελαφρύ σιέλ, με πιο έντονο σιέλ στην επιλογή */
-#grpNav .pill{
-  color:#075C72;
-  background:linear-gradient(180deg,#E8FAFD 0%,#D4F3F8 100%);
-  border-color:#8FD8E5;
-  box-shadow:0 2px 7px rgba(17,133,157,.10);
-}
-#grpNav .pill:hover{
-  color:#064E61;
-  background:linear-gradient(180deg,#D9F7FB 0%,#C1EDF5 100%);
-  border-color:#43BBD0;
-  box-shadow:0 4px 11px rgba(17,133,157,.17);
-}
-#grpNav .pill[aria-selected="true"]{
   color:#FFFFFF;
-  background:linear-gradient(180deg,#32BBD2 0%,#168EAC 100%);
-  border-color:#117B96;
-  box-shadow:0 5px 14px rgba(13,122,150,.30);
+  background:linear-gradient(180deg,#2D70C4 0%,#174B91 100%);
+  border-color:#123E79;
+  box-shadow:0 0 0 2px rgba(255,255,255,.95),0 6px 16px rgba(23,75,145,.36);
 }
-#grpNav .pill .badge{
-  color:#075C72;
-  background:#BFEAF2;
+#deNav .pill .badge{
+  color:#4E6F95;
+  background:#E6F0FA;
 }
-#grpNav .pill[aria-selected="true"] .badge{
+#deNav .pill[aria-selected="true"] .badge{
   color:#FFFFFF;
   background:rgba(255,255,255,.24);
 }
+
+/* Ομάδες υλικών: γκρι στην κανονική κατάσταση, πορτοκαλί όταν επιλέγονται */
+#grpNav .pill{
+  color:#5E6670;
+  background:linear-gradient(180deg,#FAFBFC 0%,#ECEFF3 100%);
+  border-color:#D4D9E0;
+  box-shadow:0 2px 7px rgba(55,65,81,.08);
+}
+#grpNav .pill:hover{
+  color:#6F4A22;
+  background:linear-gradient(180deg,#FFF8EF 0%,#F4E4D1 100%);
+  border-color:#E5BE91;
+  box-shadow:0 4px 11px rgba(217,119,6,.14);
+}
+#grpNav .pill[aria-selected="true"]{
+  color:#FFFFFF;
+  background:linear-gradient(180deg,#F29A3A 0%,#D97706 100%);
+  border-color:#B85F05;
+  box-shadow:0 5px 14px rgba(185,95,5,.30);
+}
+#grpNav .pill .badge{
+  color:#66707C;
+  background:#E1E5EA;
+}
+#grpNav .pill[aria-selected="true"] .badge{
+  color:#FFFFFF;
+  background:rgba(255,255,255,.27);
+}
 #grpNav .pill--zero{
-  color:#638E99;
-  background:linear-gradient(180deg,#F1FBFD 0%,#E5F7FA 100%);
-  border-color:#C5EAF0;
+  color:#7A828C;
+  background:linear-gradient(180deg,#FCFCFD 0%,#F1F3F5 100%);
+  border-color:#E0E3E7;
 }
 #grpNav .pill--zero .badge{
-  color:#638E99;
-  background:#D7F0F4;
+  color:#7B838D;
+  background:#E8EAED;
+}
+#grpNav .pill--zero[aria-selected="true"]{
+  color:#FFFFFF;
+  background:linear-gradient(180deg,#F29A3A 0%,#D97706 100%);
+  border-color:#B85F05;
+}
+
+/* ===== v20: δικαιώματα εργαλείων δελτίου και εισαγωγής Excel ===== */
+/* ===== v17: χρώματα τίτλων πλοήγησης ===== */
+.nav[aria-label="Δημοτική Ενότητα"] .nav-label{
+  color:#1E5BA8;
+}
+.nav[aria-label="Ομάδα υλικών"] .nav-label{
+  color:#D97706;
 }
 
 </style>
-<!-- v14: distinct municipal-unit and group navigation colours -->
+<!-- v18: very light blue/orange inactive navigation, blue/orange active selections -->
 </head>
 <body>
 
@@ -341,7 +366,7 @@ table.mat{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
         <button class="btn btn--primary" id="btnSave"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"/><path d="M17 21v-8H7v8M7 3v5h8"/></svg>Αποθήκευση</button>
         <button class="btn" id="btnClean"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/><path d="M10 11v5M14 11v5"/></svg>Αποθήκευση & καθαρισμός</button>
         <button class="btn" id="btnExport"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4"/><path d="M5 21h14"/></svg>Εξαγωγή Excel</button>
-        <button class="btn" id="btnImport"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V9m0 0 4 4m-4-4-4 4"/><path d="M5 3h14"/></svg>Εισαγωγή Excel</button>
+        <button class="btn hidden" id="btnImport"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V9m0 0 4 4m-4-4-4 4"/><path d="M5 3h14"/></svg>Εισαγωγή Excel</button>
         <input id="importFile" class="hidden" type="file" accept=".xlsx,.xls,.csv,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel">
         <button class="btn btn--study" id="btnStudy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5V5a2 2 0 0 1 2-2h9l5 5v11.5a1.5 1.5 0 0 1-1.5 1.5H6a2 2 0 0 1-2-2Z"/><path d="M14 3v6h6M8 13h8M8 17h6"/></svg>Μελέτη</button>
         <button class="btn btn--tender" id="btnTefxi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6M9 13h6M9 17h6"/><path d="M8 9h2"/></svg>Τεύχη</button>
@@ -349,7 +374,7 @@ table.mat{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
     </div>
 
     <div class="admin-toolbar hidden" id="adminToolbar">
-      <span class="admin-label">Εργαλεία διαχειριστή</span>
+      <span class="admin-label">Εργαλεία δελτίου</span>
       <button class="btn btn--restore" id="btnRestore" title="Εμφάνιση ξανά του πλήρους καταλόγου ειδών"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>Επαναφορά όλων των ειδών</button>
       <button class="btn" id="btnUndo" disabled title="Αναίρεση τελευταίας αλλαγής"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14 4 9l5-5"/><path d="M4 9h9a7 7 0 1 1 0 14h-2"/></svg>Αναίρεση</button>
       <button class="btn" id="btnRedo" disabled title="Ακύρωση αναίρεσης / επανάληψη τελευταίας αλλαγής"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 14 5-5-5-5"/><path d="M20 9h-9a7 7 0 1 0 0 14h2"/></svg>Ακύρωση αναίρεσης</button>
@@ -428,8 +453,9 @@ table.mat{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js"></script>
 <script>
-/* Δήμος Ρόδου - Προμήθειες v14: έλεγχος v13 και διακριτός χρωματισμός Δημοτικών Ενοτήτων / Ομάδων */
+/* Δήμος Ρόδου - Προμήθειες v20: δικαιώματα χρηστών, εργαλεία δελτίου και εισαγωγή Excel μόνο από administrator */
 /* Δήμος Ρόδου — Βιβλιοθήκη 14 ειδικών πακέτων και ασφαλές γενικό πακέτο
    Έκδοση 3.2 — 18/06/2026
    Οι αναφορές σε πρότυπα νοούνται ως «ή ισοδύναμο» και στην ισχύουσα έκδοση.
@@ -1265,7 +1291,7 @@ async function loadCatalog(){
   const [{data:u},{data:g},{data:m}]=await Promise.all([
     sb.from('municipal_units').select('id,name,short_name,sort_order').order('sort_order'),
     sb.from('procurement_groups').select('id,code,name,short_name,sort_order').order('sort_order'),
-    sb.from('materials').select('id,group_id,code,name,short_name,subcategory,unit,default_unit_price,sort_order,technical_specs,standards,ce_required,notes_for_tender,is_active').eq('is_active',true).order('group_id').order('sort_order',{nullsFirst:false})
+    sb.from('materials').select('id,group_id,code,name,short_name,subcategory,unit,cpv,default_unit_price,sort_order,technical_specs,standards,ce_required,notes_for_tender,is_active').eq('is_active',true).order('group_id').order('sort_order',{nullsFirst:false})
   ]);
   UNITS=u||[]; GROUPS=g||[]; MAT_BY_GROUP={}; COUNTS={};
   (m||[]).forEach(x=>{(MAT_BY_GROUP[x.group_id]=MAT_BY_GROUP[x.group_id]||[]).push(x);});
@@ -1327,17 +1353,23 @@ function redoLast(){
 }
 function updateAdminControls(){
   const isAdmin=isAdminUser();
-  $('#adminToolbar')?.classList.toggle('hidden',!isAdmin);
+  const writable=canWrite(cur.unitId);
+  // Επαναφορά, αναίρεση και ακύρωση αναίρεσης είναι εργαλεία του δελτίου
+  // και είναι διαθέσιμα σε κάθε χρήστη που έχει δικαίωμα επεξεργασίας της Δ.Ε.
+  $('#adminToolbar')?.classList.toggle('hidden',!writable);
   const restore=$('#btnRestore');
-  if(restore)restore.disabled=!isAdmin;
+  if(restore)restore.disabled=!writable;
   const undo=$('#btnUndo');
-  if(undo)undo.classList.toggle('hidden',!isAdmin);
+  if(undo)undo.classList.remove('hidden');
   const redo=$('#btnRedo');
-  if(redo)redo.classList.toggle('hidden',!isAdmin);
+  if(redo)redo.classList.remove('hidden');
+  // Η αντιγραφή ομάδας και η επεξεργασία του κεντρικού καταλόγου παραμένουν μόνο για administrator.
   const copy=$('#btnCopyGroup');
   if(copy){copy.classList.toggle('hidden',!isAdmin);copy.disabled=!isAdmin||cur.unitId===CENTRAL_UNIT;}
+  const importBtn=$('#btnImport');
+  if(importBtn)importBtn.classList.toggle('hidden',!isAdmin);
   $('#thAdminActions')?.classList.toggle('hidden',!isAdmin);
-  $('#targetBox')?.classList.toggle('hidden',!canWrite(cur.unitId));
+  $('#targetBox')?.classList.toggle('hidden',!writable);
   updateHistoryButtons();
   syncTotalsClearance();
 }
@@ -1577,7 +1609,7 @@ $('#btnSave').onclick=()=>saveAll(false);
 $('#btnClean').onclick=()=>{pushUndo('Αποθήκευση & καθαρισμός');saveAll(true);};
 $('#btnUndo').onclick=undoLast;
 $('#btnRedo').onclick=redoLast;
-$('#btnRestore').onclick=()=>{if(!isAdminUser())return;pushUndo('Επαναφορά πλήρους καταλόγου');hiddenMaterials.clear();cleanView=false;prefillHint=false;setDirty(true);render();toast('Εμφανίστηκε ξανά ο πλήρης κατάλογος ειδών. Μπορείς τώρα να επιλέξεις πρόσθετα είδη.','accent');};
+$('#btnRestore').onclick=()=>{if(!canWrite(cur.unitId))return;pushUndo('Επαναφορά πλήρους καταλόγου');hiddenMaterials.clear();cleanView=false;prefillHint=false;setDirty(true);render();toast('Εμφανίστηκε ξανά ο πλήρης κατάλογος ειδών. Μπορείς τώρα να επιλέξεις πρόσθετα είδη.','accent');};
 async function saveAll(clean){
   if(!canWrite(cur.unitId))return;
   const btn=clean?$('#btnClean'):$('#btnSave'); const old=btn.innerHTML; btn.disabled=true; btn.innerHTML='<span class="spin" style="width:14px;height:14px;margin:0 6px 0 0"></span>'+(clean?'Καθαρισμός…':'Αποθήκευση…');
@@ -1621,30 +1653,7 @@ $('#btnRefresh').onclick=async()=>{
   finally{b.disabled=false;b.innerHTML=old;}
 };
 
-function exportRows(){
-  const mats=MAT_BY_GROUP[cur.groupId]||[];
-  const rows=[[
-    'Α/Α',
-    'Περιγραφή είδους',
-    'Μονάδα',
-    'Ενδεικτική τιμή (χωρίς ΦΠΑ)',
-    'Ποσότητα',
-    'Δαπάνη (χωρίς ΦΠΑ)',
-    'Τεχνικές προδιαγραφές',
-    'Πρότυπα',
-    'Απαίτηση CE',
-    'Παρατηρήσεις τεύχους'
-  ]];
-  mats.forEach((m,i)=>{
-    const p=priceOf(m); const qv=(lines[m.id]&&lines[m.id].q)||0;
-    const c=(p!=null&&qv>0)?Math.round(p*qv*100)/100:'';
-    rows.push([
-      i+1,m.name,m.unit||'',p!=null?p:'',qv||'',c,
-      m.technical_specs||'',m.standards||'',m.ce_required?'ΝΑΙ':'ΟΧΙ',m.notes_for_tender||''
-    ]);
-  });
-  return rows;
-}
+
 function fileBaseName(){
   const g=GROUPS.find(x=>x.id===cur.groupId);
   const lbl=cur.unitId===CENTRAL_UNIT?'ΔΗΜΟΣ_ΡΟΔΟΥ_ΣΥΝΟΛΟ':unitName(cur.unitId);
@@ -1655,42 +1664,194 @@ function rowsToCsv(rows){
 }
 function excelInstructions(){
   return [
-    ['ΟΔΗΓΙΕΣ ΕΞΑΓΩΓΗΣ / ΕΠΑΝΕΙΣΑΓΩΓΗΣ'],
-    ['1. Για αλλαγή ποσότητας, τροποποιήστε τη στήλη «Ποσότητα».'],
-    ['2. Για αλλαγή υπάρχοντος είδους, κρατήστε τον ίδιο Α/Α της εξαγωγής. Ο administrator μπορεί να αλλάξει περιγραφή, μονάδα, τιμή και τεχνικά στοιχεία.'],
-    ['3. Για ΝΕΟ είδος, προσθέστε νέα γραμμή στο τέλος, αφήστε κενό το Α/Α και συμπληρώστε τουλάχιστον «Περιγραφή είδους» και «Μονάδα».'],
-    ['4. Η προσθήκη νέου είδους και η αλλαγή στοιχείων του κεντρικού καταλόγου επιτρέπονται μόνο στον administrator και ισχύουν για όλες τις Δημοτικές Ενότητες.'],
-    ['5. Όλες οι ποσότητες πρέπει να είναι ακέραιοι αριθμοί.'],
-    ['6. Η στήλη «Δαπάνη» υπολογίζεται από την εφαρμογή και αγνοείται κατά την εισαγωγή.'],
-    ['7. Αν αλλάξει η σειρά των γραμμών, η εφαρμογή προσπαθεί να αντιστοιχίσει τα είδη από την περιγραφή και τη μονάδα.'],
+    ['ΟΔΗΓΙΕΣ ΕΞΑΓΩΓΗΣ / ΕΠΑΝΕΙΣΑΓΩΓΗΣ',''],
+    ['Συντελεστής ΦΠΑ:',VAT],
+    ['',''],
+    ['ΒΑΣΙΚΕΣ ΟΔΗΓΙΕΣ',''],
+    ['1. Ποσότητα','Μεταβάλλεται μόνο στη στήλη «ΠΟΣΟΤΗΤΑ». Όλες οι ποσότητες πρέπει να είναι ακέραιοι αριθμοί.'],
+    ['2. Υπάρχον είδος','Κρατήστε τον ίδιο Α/Α. Ο administrator μπορεί να αλλάξει περιγραφή, μονάδα, CPV, τιμή και πρότυπα.'],
+    ['3. Νέο είδος','Προσθέστε νέα γραμμή στο τέλος, αφήστε κενό το Α/Α και συμπληρώστε τουλάχιστον περιγραφή και μονάδα.'],
+    ['4. Κεντρικός κατάλογος','Οι αλλαγές ειδών από administrator ισχύουν για όλες τις Δημοτικές Ενότητες.'],
+    ['5. Υπολογισμοί','Η «ΔΑΠΑΝΗ» και η «ΤΙΜΗ ΜΕ ΦΠΑ» είναι τύποι και δεν χρειάζεται να τροποποιούνται.'],
+    ['6. Αντιστοίχιση','Η εφαρμογή αντιστοιχίζει κατά Α/Α ή, εναλλακτικά, κατά περιγραφή και μονάδα.']
   ];
 }
-$('#btnExport').onclick=()=>{
-  const rows=exportRows();
-  if(window.XLSX){
-    const ws=XLSX.utils.aoa_to_sheet(rows);
-    ws['!cols']=[{wch:6},{wch:62},{wch:12},{wch:20},{wch:14},{wch:18},{wch:55},{wch:32},{wch:14},{wch:55}];
-    const wb=XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb,ws,'Υλικά και ποσότητες');
-    const wi=XLSX.utils.aoa_to_sheet(excelInstructions());
-    wi['!cols']=[{wch:125}];
-    XLSX.utils.book_append_sheet(wb,wi,'Οδηγίες');
-    XLSX.writeFile(wb,fileBaseName()+'.xlsx');
-    toast('Έγινε εξαγωγή σε Excel με δυνατότητα προσθήκης νέων ειδών.','accent');
-    return;
-  }
-  const csv=rowsToCsv(rows);
-  const blob=new Blob([csv],{type:'text/csv;charset=utf-8'});const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');a.href=url;a.download=fileBaseName()+'.csv';a.click();URL.revokeObjectURL(url);
-  toast('Έγινε εξαγωγή σε CSV. Για νέο είδος άφησε κενό το Α/Α.','accent');
+function safeSheetName(name){
+  return (name||'ΥΛΙΚΑ').replace(/[\\\/\?\*\[\]\:]/g,' ').trim().slice(0,31)||'ΥΛΙΚΑ';
+}
+function exportCatalogRows(){
+  const mats=(MAT_BY_GROUP[cur.groupId]||[]).slice().sort((a,b)=>(Number(a.sort_order)||0)-(Number(b.sort_order)||0));
+  return mats.map((m,i)=>{
+    const p=priceOf(m);
+    const qv=(lines[m.id]&&lines[m.id].q)||0;
+    return {
+      ordinal:i+1,name:m.name||'',unit:m.unit||'',cpv:m.cpv||'',
+      standards:m.standards||'',price:p==null?'':Number(p),qty:qv||'',
+      specs:m.technical_specs||'',ce:m.ce_required?'ΝΑΙ':'ΟΧΙ',
+      notes:m.notes_for_tender||'',subcategory:m.subcategory||''
+    };
+  });
+}
+async function buildStyledExcelExport(){
+  if(!window.ExcelJS)throw new Error('Δεν φορτώθηκε η βιβλιοθήκη μορφοποίησης Excel.');
+  const g=GROUPS.find(x=>x.id===cur.groupId)||{};
+  const unitLabel=cur.unitId===CENTRAL_UNIT?'ΔΗΜΟΣ ΡΟΔΟΥ — ΣΥΓΚΕΝΤΡΩΤΙΚΟ':unitName(cur.unitId);
+  const groupLabel=(g.name||g.short_name||'ΥΛΙΚΑ').toUpperCase();
+  const rows=exportCatalogRows();
+
+  const workbook=new ExcelJS.Workbook();
+  workbook.creator='Δήμος Ρόδου';
+  workbook.lastModifiedBy=ME.name||'Δήμος Ρόδου';
+  workbook.created=new Date();
+  workbook.modified=new Date();
+  workbook.calcProperties.fullCalcOnLoad=true;
+
+  const ws=workbook.addWorksheet(safeSheetName(g.short_name||g.name),{
+    views:[{showGridLines:false,state:'frozen',ySplit:6}],
+    pageSetup:{orientation:'landscape',fitToPage:true,fitToWidth:1,fitToHeight:0,
+      margins:{left:0.7,right:0.7,top:0.75,bottom:0.75,header:0.3,footer:0.3}}
+  });
+
+  const colors={navy:'FF1F4E79',blue:'FF2E75B6',section:'FFDDEBF7',alt:'FFF2F7FC',
+    white:'FFFFFFFF',border:'FFBFBFBF',text:'FF000000',muted:'FF595959'};
+  const thin={style:'thin',color:{argb:colors.border}};
+  const border={top:thin,left:thin,bottom:thin,right:thin};
+  ws.columns=[
+    {key:'aa',width:6},{key:'name',width:78},{key:'unit',width:8},{key:'cpv',width:14},
+    {key:'standard',width:36},{key:'price',width:16},{key:'qty',width:13},
+    {key:'cost',width:18},{key:'vatprice',width:16},
+    {key:'specs',width:55,hidden:true},{key:'ce',width:14,hidden:true},{key:'notes',width:55,hidden:true}
+  ];
+
+  const lastCol=12;
+  [1,2,3,4].forEach(row=>ws.mergeCells(row,1,row,lastCol));
+  ws.getCell('A1').value='ΕΛΛΗΝΙΚΗ ΔΗΜΟΚΡΑΤΙΑ — ΔΗΜΟΣ ΡΟΔΟΥ';
+  ws.getCell('A2').value='ΔΙΕΥΘΥΝΣΗ ΤΕΧΝΙΚΩΝ ΕΡΓΩΝ & ΥΠΟΔΟΜΩΝ';
+  ws.getCell('A3').value='ΠΙΝΑΚΑΣ '+groupLabel+' — ΠΕΡΙΓΡΑΦΕΣ, CPV, ΠΡΟΤΥΠΑ, ΤΙΜΕΣ & ΠΟΣΟΤΗΤΕΣ';
+  ws.getCell('A4').value='('+unitLabel+' — επαγγελματική/τεχνική ονοματολογία κατά τα ισχύοντα πρότυπα — άνευ εμπορικών χαρακτηρισμών)';
+  [1,2,3,4].forEach(r=>ws.getCell(r,1).alignment={horizontal:'center',vertical:'middle',wrapText:true});
+  [1,2].forEach(r=>{
+    ws.getRow(r).height=22;
+    const c=ws.getCell(r,1);c.fill={type:'pattern',pattern:'solid',fgColor:{argb:colors.navy}};
+    c.font={name:'Arial',size:r===1?13:11,bold:true,color:{argb:colors.white}};
+  });
+  ws.getRow(3).height=34;
+  ws.getCell('A3').fill={type:'pattern',pattern:'solid',fgColor:{argb:colors.blue}};
+  ws.getCell('A3').font={name:'Arial',size:11,bold:true,color:{argb:colors.white}};
+  ws.getRow(4).height=28;
+  ws.getCell('A4').font={name:'Arial',size:9,italic:true,color:{argb:colors.muted}};
+  ws.getRow(5).height=12;
+
+  const headers=['Α/Α','ΠΕΡΙΓΡΑΦΗ ΕΙΔΟΥΣ','Μ.Μ.','CPV','ΠΡΟΤΥΠΟ / ΕΤΕΠ',
+    'ΤΙΜΗ ΜΟΝΑΔΑΣ\n(€, άνευ ΦΠΑ)','ΠΟΣΟΤΗΤΑ',
+    'ΔΑΠΑΝΗ\n(€, άνευ ΦΠΑ)','ΤΙΜΗ ΜΕ ΦΠΑ\n24% (€)',
+    'ΤΕΧΝΙΚΕΣ ΠΡΟΔΙΑΓΡΑΦΕΣ','ΑΠΑΙΤΗΣΗ CE','ΠΑΡΑΤΗΡΗΣΕΙΣ ΤΕΥΧΟΥ'];
+  const hr=ws.getRow(6);hr.values=headers;hr.height=42;
+  hr.eachCell({includeEmpty:true},cell=>{
+    cell.fill={type:'pattern',pattern:'solid',fgColor:{argb:colors.blue}};
+    cell.font={name:'Arial',size:10,bold:true,color:{argb:colors.white}};
+    cell.alignment={horizontal:'center',vertical:'middle',wrapText:true};
+    cell.border=border;
+  });
+
+  let excelRow=7,currentSection=null,visibleItemIndex=0;
+  rows.forEach(item=>{
+    const section=item.subcategory||('ΟΜΑΔΑ ΥΛΙΚΩΝ — '+groupLabel);
+    if(section!==currentSection){
+      ws.mergeCells(excelRow,1,excelRow,lastCol);
+      const sc=ws.getCell(excelRow,1);sc.value=section;
+      sc.fill={type:'pattern',pattern:'solid',fgColor:{argb:colors.section}};
+      sc.font={name:'Arial',size:10,bold:true,color:{argb:colors.navy}};
+      sc.alignment={horizontal:'left',vertical:'middle'};sc.border=border;
+      ws.getRow(excelRow).height=20;excelRow++;currentSection=section;
+    }
+    visibleItemIndex++;
+    const row=ws.getRow(excelRow);
+    row.values=[item.ordinal,item.name,item.unit,item.cpv,item.standards,item.price,item.qty,
+      null,null,item.specs,item.ce,item.notes];
+    row.height=18;
+    const fillColor=(visibleItemIndex%2===0)?colors.alt:colors.white;
+    row.eachCell({includeEmpty:true},cell=>{
+      cell.fill={type:'pattern',pattern:'solid',fgColor:{argb:fillColor}};
+      cell.font={name:'Arial',size:9,color:{argb:colors.text}};
+      cell.border=border;cell.alignment={vertical:'middle',wrapText:false};
+    });
+    row.getCell(1).alignment={horizontal:'center',vertical:'middle'};
+    row.getCell(2).alignment={horizontal:'left',vertical:'middle',wrapText:true};
+    row.getCell(3).alignment={horizontal:'center',vertical:'middle'};
+    row.getCell(4).alignment={horizontal:'center',vertical:'middle'};
+    row.getCell(5).alignment={horizontal:'left',vertical:'middle',wrapText:true};
+    [6,7,8,9].forEach(c=>row.getCell(c).alignment={horizontal:'right',vertical:'middle'});
+    row.getCell(6).numFmt='#,##0.00 "€"';row.getCell(7).numFmt='0';
+    row.getCell(7).dataValidation={type:'whole',operator:'greaterThanOrEqual',showErrorMessage:true,
+      errorTitle:'Μη έγκυρη ποσότητα',error:'Η ποσότητα πρέπει να είναι ακέραιος αριθμός μεγαλύτερος ή ίσος του μηδενός.',formulae:[0]};
+    const p=Number(item.price)||0,q=Number(item.qty)||0;
+    row.getCell(8).value={formula:`IF(OR(F${excelRow}="",G${excelRow}=""),"",F${excelRow}*G${excelRow})`,result:q>0?p*q:''};
+    row.getCell(8).numFmt='#,##0.00 "€"';
+    row.getCell(9).value={formula:`IF(F${excelRow}="","",F${excelRow}*(1+'ΣΗΜΕΙΩΣΕΙΣ'!$B$2))`,result:p?p*(1+VAT):''};
+    row.getCell(9).numFmt='#,##0.00 "€"';
+    excelRow++;
+  });
+
+  ws.autoFilter={from:{row:6,column:1},to:{row:6,column:9}};
+  ws.pageSetup.printTitlesRow='1:6';
+  ws.headerFooter.oddFooter='&LΔήμος Ρόδου — '+groupLabel+'&RΣελίδα &P από &N';
+
+  const note=workbook.addWorksheet('ΣΗΜΕΙΩΣΕΙΣ',{views:[{showGridLines:false}]});
+  note.columns=[{width:28},{width:105}];
+  note.mergeCells('A1:B1');note.getCell('A1').value='ΣΗΜΕΙΩΣΕΙΣ, ΥΠΟΜΝΗΜΑ & ΠΑΡΑΔΟΧΕΣ';
+  note.getCell('A1').fill={type:'pattern',pattern:'solid',fgColor:{argb:colors.navy}};
+  note.getCell('A1').font={name:'Arial',size:13,bold:true,color:{argb:colors.white}};
+  note.getCell('A1').alignment={horizontal:'center',vertical:'middle'};note.getRow(1).height=24;
+  excelInstructions().slice(1).forEach((r,i)=>{
+    const rr=i+2;note.getRow(rr).values=r;
+    note.getRow(rr).height=Math.max(18,Math.min(55,18+Math.ceil(String(r[1]||'').length/90)*12));
+    note.getRow(rr).eachCell({includeEmpty:true},c=>{
+      c.font={name:'Arial',size:10};c.border=border;c.alignment={vertical:'top',wrapText:true};
+    });
+    if(r[0]==='ΒΑΣΙΚΕΣ ΟΔΗΓΙΕΣ'){
+      note.mergeCells(rr,1,rr,2);const c=note.getCell(rr,1);
+      c.fill={type:'pattern',pattern:'solid',fgColor:{argb:colors.section}};
+      c.font={name:'Arial',size:10,bold:true,color:{argb:colors.navy}};
+    }
+  });
+  note.getCell('B2').numFmt='0%';
+
+  const buffer=await workbook.xlsx.writeBuffer();
+  const blob=new Blob([buffer],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download=fileBaseName()+'.xlsx';document.body.appendChild(a);a.click();a.remove();
+  URL.revokeObjectURL(url);
+}
+$('#btnExport').onclick=async()=>{
+  const btn=$('#btnExport'),old=btn.innerHTML;
+  btn.disabled=true;btn.innerHTML='<span class="spin" style="width:14px;height:14px;margin:0 6px 0 0"></span>Δημιουργία…';
+  try{
+    if(window.ExcelJS){
+      await buildStyledExcelExport();
+      toast('Έγινε εξαγωγή σε Excel με το πρότυπο μορφοποίησης του Δήμου Ρόδου.','accent');
+      return;
+    }
+    const rows=[['Α/Α','Περιγραφή είδους','Μονάδα','CPV','Πρότυπο / ΕΤΕΠ','Τιμή μονάδας','Ποσότητα']];
+    exportCatalogRows().forEach(r=>rows.push([r.ordinal,r.name,r.unit,r.cpv,r.standards,r.price,r.qty]));
+    const csv=rowsToCsv(rows),blob=new Blob([csv],{type:'text/csv;charset=utf-8'}),url=URL.createObjectURL(blob);
+    const a=document.createElement('a');a.href=url;a.download=fileBaseName()+'.csv';a.click();URL.revokeObjectURL(url);
+    toast('Η μορφοποιημένη εξαγωγή δεν ήταν διαθέσιμη· δημιουργήθηκε CSV.','accent');
+  }catch(e){toast('Σφάλμα εξαγωγής: '+(e.message||e),'err');}
+  finally{btn.disabled=false;btn.innerHTML=old;}
 };
 
 $('#btnImport').onclick=()=>{
-  if(!canWrite(cur.unitId)){toast('Δεν έχεις δικαίωμα εισαγωγής σε αυτή την ενότητα.','err');return;}
+  if(!isAdminUser()){toast('Η εισαγωγή Excel επιτρέπεται μόνο στον administrator.','err');return;}
   $('#importFile').value='';
   $('#importFile').click();
 };
 $('#importFile').addEventListener('change',async e=>{
+  if(!isAdminUser()){
+    e.target.value='';
+    toast('Η εισαγωγή Excel επιτρέπεται μόνο στον administrator.','err');
+    return;
+  }
   const file=e.target.files&&e.target.files[0];
   if(!file)return;
   try{ await importQuantitiesFromFile(file); }
@@ -1742,7 +1903,7 @@ async function readWorkbookRows(file){
   }
   const buf=await file.arrayBuffer();
   const wb=XLSX.read(buf,{type:'array'});
-  const preferred=wb.SheetNames.find(n=>norm(n).includes('υλικ'))||wb.SheetNames[0];
+  const preferred=wb.SheetNames.find(n=>norm(n).includes('ποσοτ'))||wb.SheetNames.find(n=>norm(n).includes('υλικ'))||wb.SheetNames[0];
   const ws=wb.Sheets[preferred];
   return XLSX.utils.sheet_to_json(ws,{header:1,defval:''});
 }
@@ -1762,6 +1923,7 @@ function parseImportRow(o,index){
   const rawId=getByHeaders(o,['id ειδους','κωδικος ειδους','kodikos eidous','material_id']);
   const rawName=getByHeaders(o,['περιγραφη ειδους','περιγραφη','υλικο','eidos','name']);
   const rawUnit=getByHeaders(o,['μοναδα','unit']);
+  const rawCpv=getByHeaders(o,['cpv','κωδικος cpv']);
   const rawPrice=getByHeaders(o,['ενδεικτικη τιμη','τιμη μοναδας','default_unit_price','price']);
   const rawQty=getByHeaders(o,['ποσοτητα','quantity','qty']);
   const rawSpecs=getByHeaders(o,['τεχνικες προδιαγραφες','technical_specs']);
@@ -1775,6 +1937,7 @@ function parseImportRow(o,index){
     id:cellText(rawId),
     name:cellText(rawName),
     unit:cellText(rawUnit),
+    cpv:cellText(rawCpv), cpvProvided:hasCellValue(rawCpv),
     priceProvided:hasCellValue(rawPrice),
     price:Math.max(0,parseElNumber(rawPrice)),
     qtyProvided:rawQty!==undefined,
@@ -1790,6 +1953,7 @@ function buildMaterialPatch(m,r){
   if(r.name&&r.name!==m.name)patch.name=r.name;
   if(r.name&&r.name!==(m.short_name||''))patch.short_name=r.name;
   if(r.unit&&r.unit!==(m.unit||''))patch.unit=r.unit;
+  if(r.cpvProvided&&r.cpv!==(m.cpv||''))patch.cpv=r.cpv;
   if(r.priceProvided&&Math.abs(Number(m.default_unit_price??0)-r.price)>0.00005)patch.default_unit_price=r.price;
   if(r.specsProvided&&r.specs!==(m.technical_specs||''))patch.technical_specs=r.specs;
   if(r.standardsProvided&&r.standards!==(m.standards||''))patch.standards=r.standards;
@@ -1800,7 +1964,14 @@ function buildMaterialPatch(m,r){
 async function importQuantitiesFromFile(file){
   const rows=await readWorkbookRows(file);
   if(!rows||rows.length<2)throw new Error('Το αρχείο δεν περιέχει γραμμές προς εισαγωγή.');
-  const headers=rows[0].map(x=>(''+x).trim());
+  const headerIndex=rows.findIndex(r=>{
+    const hs=(r||[]).map(normHeader);
+    const hasDesc=hs.some(h=>h.includes('περιγραφη ειδους')||h==='περιγραφη');
+    const hasQty=hs.some(h=>h.includes('ποσοτητα'));
+    return hasDesc&&hasQty;
+  });
+  if(headerIndex<0)throw new Error('Δεν εντοπίστηκε γραμμή επικεφαλίδων με «ΠΕΡΙΓΡΑΦΗ ΕΙΔΟΥΣ» και «ΠΟΣΟΤΗΤΑ».');
+  const headers=rows[headerIndex].map(x=>(''+x).trim());
   const currentMaterials=MAT_BY_GROUP[cur.groupId]||[];
   const allMaterials=Object.values(MAT_BY_GROUP).flat();
   const byIdCurrent=new Map(currentMaterials.map(m=>[''+m.id,m]));
@@ -1812,10 +1983,11 @@ async function importQuantitiesFromFile(file){
   });
   const byOrdinal=new Map(currentMaterials.map((m,i)=>[i+1,m]));
   const parsed=[];
-  rows.slice(1).forEach((r,i)=>{
+  rows.slice(headerIndex+1).forEach((r,i)=>{
     if(!r||r.every(c=>cellText(c)===''))return;
-    const pr=parseImportRow(rowObject(headers,r),i+2);
+    const pr=parseImportRow(rowObject(headers,r),headerIndex+i+2);
     if(!pr.id&&!pr.name)return;
+    if(norm(pr.name).startsWith('ομαδα ')&&!pr.unit)return;
     parsed.push(pr);
   });
   if(!parsed.length)throw new Error('Δεν βρέθηκαν έγκυρες γραμμές δεδομένων.');
@@ -1888,6 +2060,7 @@ async function importQuantitiesFromFile(file){
         name:r.name,
         short_name:r.name,
         unit:r.unit,
+        cpv:r.cpvProvided?r.cpv:null,
         default_unit_price:r.priceProvided?r.price:null,
         technical_specs:r.specsProvided?r.specs:null,
         standards:r.standardsProvided?r.standards:null,
