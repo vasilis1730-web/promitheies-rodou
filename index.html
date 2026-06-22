@@ -555,7 +555,8 @@ window.TenderSpecs = (() => {
       "Πλάκες, κυβόλιθοι και κράσπεδα θα δηλώνουν διαστάσεις, ανοχές, αντοχή, υδατοαπορρόφηση, αντοχή σε τριβή και αντιολισθηρότητα, όπου αυτά είναι ουσιώδη για τη χρήση.",
       "Χάλυβας οπλισμού και πλέγματα θα είναι της απαιτούμενης κατηγορίας, διαμέτρου, γεωμετρίας και συγκολλησιμότητας και θα συνοδεύονται από στοιχεία παρτίδας.",
       "Έτοιμο σκυρόδεμα, όταν περιλαμβάνεται, θα προσδιορίζεται τουλάχιστον με κατηγορία αντοχής, κατηγορία έκθεσης, κατηγορία κάθισης, μέγιστο κόκκο, κατηγορία χλωριόντων και λοιπές απαιτήσεις της μελέτης.",
-      "Τα προϊόντα θα είναι κατάλληλα για το υπόστρωμα και τις συνθήκες εφαρμογής, με ιδιαίτερη πρόβλεψη για υγρασία, εξωτερική έκθεση, θαλάσσιο περιβάλλον και μηχανικές καταπονήσεις όπου απαιτείται."
+      "Τα προϊόντα θα είναι κατάλληλα για το υπόστρωμα και τις συνθήκες εφαρμογής, με ιδιαίτερη πρόβλεψη για υγρασία, εξωτερική έκθεση, θαλάσσιο περιβάλλον και μηχανικές καταπονήσεις όπου απαιτείται.",
+      "Τα θερμομονωτικά θα δηλώνουν συντελεστή θερμικής αγωγιμότητας (λ) και αντίδραση στη φωτιά (Euroclass), τα στεγανωτικά τις επιδόσεις κατά το αντίστοιχο εναρμονισμένο πρότυπο, τα πλακίδια την κλάση αντιολισθηρότητας (R) όπου απαιτείται και τα συστήματα γυψοσανίδων την κατηγορία (κοινή/ανθυγρή/πυράντοχη)."
     ],
     "evidence": [
       "DoP και σήμανση CE για προϊόντα που καλύπτονται από εναρμονισμένο πρότυπο ή ευρωπαϊκή τεχνική αξιολόγηση.",
@@ -603,7 +604,8 @@ window.TenderSpecs = (() => {
     "special": [
       "Δεν παραλαμβάνεται φορτίο με εμφανή ανομοιογένεια, υπερβολική υγρασία, προσμίξεις ή διαφορετική κοκκομετρία από την εγκεκριμένη.",
       "Οι σωροί διαφορετικών κατηγοριών θα παραδίδονται και θα αποθηκεύονται χωριστά ώστε να αποφεύγεται η ανάμιξη.",
-      "Η Υπηρεσία μπορεί να ζητήσει δοκιμαστική ποσότητα πριν από την κύρια παράδοση."
+      "Η Υπηρεσία μπορεί να ζητήσει δοκιμαστική ποσότητα πριν από την κύρια παράδοση.",
+      "Όπου η χρήση το απαιτεί, η μελέτη ή η πρόσκληση ορίζει αριθμητικά κατώφλια (π.χ. ισοδύναμο άμμου, κατηγορία Los Angeles, δείκτη πλακοειδούς, περιεκτικότητα παιπάλης) σύμφωνα με το εφαρμοστέο πρότυπο και τη θέση ενσωμάτωσης."
     ],
     "acceptance": [
       "Έλεγχος προέλευσης, κοκκομετρίας και καθαρότητας ανά φορτίο.",
@@ -2456,6 +2458,47 @@ function htmlList(items, ordered=false){
   const arr=(items||[]).filter(Boolean); if(!arr.length)return '<p class="small">Δεν προβλέπονται πρόσθετες απαιτήσεις.</p>';
   const tag=ordered?'ol':'ul'; return '<'+tag+'>'+arr.map(x=>'<li>'+esc(x)+'</li>').join('')+'</'+tag+'>';
 }
+/* === Στάδιο 3: ομαδοποίηση προδιαγραφών ανά τύπο (ομοειδή είδη → μία προδιαγραφή) === */
+function specGroupsFor(rows, groupCode){
+  const groups=[]; const idx={};
+  (rows||[]).forEach(function(x){
+    const key=(x.m.subcategory||'Λοιπά είδη');
+    if(idx[key]==null){idx[key]=groups.length;groups.push({label:key,items:[],specs:[],notes:[],reqs:[],stds:[],cpvs:[],ceYes:0,ceNo:0});}
+    const grp=groups[idx[key]];
+    grp.items.push(x);
+    var ir={requirements:[],evidence:[],standards:[]};
+    try{ if(window.TenderSpecs&&window.TenderSpecs.itemRequirements) ir=window.TenderSpecs.itemRequirements(groupCode,x.m)||ir; }catch(e){}
+    if(x.m.technical_specs && grp.specs.indexOf(x.m.technical_specs)<0) grp.specs.push(x.m.technical_specs);
+    if(x.m.notes_for_tender && grp.notes.indexOf(x.m.notes_for_tender)<0) grp.notes.push(x.m.notes_for_tender);
+    (ir.requirements||[]).forEach(function(r){ if(r!==x.m.technical_specs && r!==x.m.notes_for_tender && grp.reqs.indexOf(r)<0) grp.reqs.push(r); });
+    var sset=(ir.standards||[]).slice(); if(x.m.standards) sset.push(x.m.standards);
+    sset.forEach(function(s){ if(s && grp.stds.indexOf(s)<0) grp.stds.push(s); });
+    if(x.m.cpv){ String(x.m.cpv).split(/[,;]+/).forEach(function(c){ c=c.trim(); if(c && grp.cpvs.indexOf(c)<0) grp.cpvs.push(c); }); }
+    if(x.m.ce_required) grp.ceYes++; else grp.ceNo++;
+  });
+  return groups;
+}
+function ceLabel(g){
+  if(g.ceYes>0 && g.ceNo===0) return 'ΝΑΙ — υποχρεωτική σήμανση CE με δήλωση επιδόσεων/συμμόρφωσης (DoP/DoC).';
+  if(g.ceYes===0) return 'ΟΧΙ — δεν εμπίπτει σε υποχρεωτικό εναρμονισμένο πλαίσιο· τεκμηρίωση με τεχνικό φυλλάδιο/δηλώσεις.';
+  return 'Κατά περίπτωση — ΝΑΙ για όσα εμπίπτουν σε εναρμονισμένο πρότυπο, ΟΧΙ για τα υπόλοιπα.';
+}
+function renderSpecTable(groups){
+  if(!groups.length) return '<p class="small">Δεν υπάρχουν είδη.</p>';
+  var body=groups.map(function(g){
+    var left='<b>'+esc(g.label)+'</b><ul>'+g.items.map(function(x){return '<li>'+esc(x.m.name)+(x.m.unit?' <span class="small">('+esc(x.m.unit)+')</span>':'')+'</li>';}).join('')+'</ul>';
+    var right='';
+    g.specs.forEach(function(s){ right+='<p>'+esc(s)+'</p>'; });
+    if(g.reqs.length) right+='<p class="small"><b>Επιπλέον απαιτήσεις ανά είδος:</b></p>'+htmlList(g.reqs);
+    if(g.notes.length) right+='<p class="small"><b>Σημειώσεις τεύχους:</b> '+esc(g.notes.join(' · '))+'</p>';
+    if(g.stds.length) right+='<p class="small"><b>Πρότυπα/αναφορές:</b> '+esc(g.stds.join(' · '))+'</p>';
+    if(g.cpvs.length) right+='<p class="small"><b>CPV:</b> '+esc(g.cpvs.join(', '))+'</p>';
+    right+='<p class="small"><b>Σήμανση CE:</b> '+esc(ceLabel(g))+'</p>';
+    if(!right) right='<p class="small">Σύμφωνα με τις γενικές τεχνικές προδιαγραφές της παρούσας.</p>';
+    return '<tr><td>'+left+'</td><td>'+right+'</td></tr>';
+  }).join('');
+  return '<table class="spec"><colgroup><col style="width:33%"><col></colgroup><thead><tr><th>Είδη (ανά τύπο/ομάδα)</th><th>Τεχνικές προδιαγραφές</th></tr></thead><tbody>'+body+'</tbody></table>';
+}
 function generateStudy(){
   const g=GROUPS.find(x=>x.id===cur.groupId); const rows=texosRows();
   if(!rows.length){toast('Δεν υπάρχουν είδη με ποσότητα για το τεύχος.','err');return;}
@@ -2481,14 +2524,17 @@ function generateStudy(){
   }).join('');
   const articleTariff=itemData.map(o=>{
     const price=o.x.p!=null?fmtE(o.x.p):'συμπληρώνεται';
-    const desc=o.s.requirements.length?o.s.requirements[0]:'Σύμφωνα με τις τεχνικές προδιαγραφές της παρούσας μελέτης.';
+    const desc='Πλήρης παράδοση σύμφωνα με τις τεχνικές προδιαγραφές της ομάδας «'+(o.x.m.subcategory||'')+'» της παρούσας.';
     return `<div class="article"><h3>Άρθρο ${o.i} — ${esc(o.x.m.name)}</h3><p><b>Μονάδα μέτρησης:</b> ${esc(o.x.m.unit||'—')} · <b>Ενδεικτική τιμή μονάδος (χωρίς ΦΠΑ):</b> ${price}</p><p class="small">${esc(desc)}</p></div>`;
   }).join('');
 
   const complianceRows=[];
   let cr=0;
-  [...common.requirements,...pkg.technical,...pkg.special].forEach(r=>complianceRows.push(`<tr><td class="c">${++cr}</td><td>${esc(r)}</td><td></td><td></td></tr>`));
-  itemData.forEach(o=>o.s.requirements.forEach(r=>complianceRows.push(`<tr><td class="c">${++cr}</td><td><b>${esc(o.x.m.name)}:</b> ${esc(r)}</td><td></td><td></td></tr>`)));
+  common.requirements.forEach(r=>complianceRows.push(`<tr><td class="c">${++cr}</td><td>${esc(r)}</td><td></td><td></td></tr>`));
+  specGroupsFor(rows,groupCode).forEach(g=>{
+    complianceRows.push(`<tr><td class="c">${++cr}</td><td><b>${esc(g.label)}:</b> πλήρης συμμόρφωση με τις τεχνικές προδιαγραφές της παρούσας (βλ. §5 — Πίνακας προδιαγραφών).</td><td></td><td></td></tr>`);
+    g.reqs.forEach(r=>complianceRows.push(`<tr><td class="c">${++cr}</td><td>${esc(r)}</td><td></td><td></td></tr>`));
+  });
 
   const clauses=[...common.clauses,...pkg.special,`Η εγγύηση για την παρούσα ομάδα ορίζεται ως: ${pkg.warranty}.`];
   const framework=[...common.framework,...pkg.framework];
@@ -2504,7 +2550,7 @@ function generateStudy(){
 <h2>2. Τεχνικό και κανονιστικό πλαίσιο</h2>${htmlList(framework)}
 <h2>3. Γενικές τεχνικές προδιαγραφές</h2>${htmlList(common.requirements)}
 <h2>4. Ειδικές τεχνικές προδιαγραφές ομάδας</h2><h3>${esc(pkg.title)}</h3>${htmlList(pkg.technical)}
-<h2>5. Προδιαγραφές ανά επιλεγμένο είδος</h2>${itemSpecs}
+<h2>5. Τεχνικές προδιαγραφές ανά τύπο/ομάδα ειδών</h2>${renderSpecTable(specGroupsFor(rows,groupCode))}
 <h2>6. Αποδεικτικά τεχνικής συμμόρφωσης</h2>${htmlList(evidence)}
 
 <h2 class="pb">7. Ενδεικτικός προϋπολογισμός</h2><table><thead><tr><th class="c">Α/Α</th><th>Περιγραφή είδους</th><th class="c">Μον.</th><th class="r">Ποσότητα</th><th class="r">Τιμή μον. χωρίς ΦΠΑ</th><th class="r">Δαπάνη</th></tr></thead><tbody>${budgetRows}</tbody><tfoot><tr><td colspan="5" class="r">Καθαρή αξία</td><td class="r">${fmtE(net)}</td></tr><tr><td colspan="5" class="r">ΦΠΑ 24%</td><td class="r">${fmtE(vat)}</td></tr><tr><td colspan="5" class="r">ΓΕΝΙΚΟ ΣΥΝΟΛΟ</td><td class="r">${fmtE(tot)}</td></tr></tfoot></table>
@@ -2562,45 +2608,66 @@ function generateDirectAwardInvitation(){
   }).join('');
   const articleTariff=itemData.map(o=>{
     const price=o.x.p!=null?fmtE(o.x.p):'συμπληρώνεται';
-    const desc=o.s.requirements.length?o.s.requirements[0]:'Σύμφωνα με τις τεχνικές προδιαγραφές της παρούσας μελέτης.';
+    const desc='Πλήρης παράδοση σύμφωνα με τις τεχνικές προδιαγραφές της ομάδας «'+(o.x.m.subcategory||'')+'» της παρούσας.';
     return `<div class="article"><h3>Άρθρο ${o.i} - ${esc(o.x.m.name)}</h3><p><b>Μονάδα μέτρησης:</b> ${esc(o.x.m.unit||'—')} · <b>Ενδεικτική τιμή μονάδος (χωρίς ΦΠΑ):</b> ${price}</p><p class="small">${esc(desc)}</p></div>`;
   }).join('');
   const clauses=[...common.clauses,...pkg.special,`Η εγγύηση για την παρούσα ομάδα ορίζεται ως: ${pkg.warranty}.`];
   const framework=[...common.framework,...pkg.framework];
   const evidence=[...common.evidence,...pkg.evidence];
 
+  const cpvAll=[...new Set(rows.flatMap(x=>String(x.m.cpv||'').split(/[,;]+/).map(s=>s.trim()).filter(Boolean)))].join('  ·  ')||'[ΣΥΜΠΛΗΡΩΝΕΤΑΙ ΑΠΟ ΤΗΝ ΥΠΗΡΕΣΙΑ]';
   const doc=`<!doctype html><html lang="el"><head><meta charset="utf-8"><title>Πρόσκληση - ${esc(procurementTitle)}</title>
-<style>@page{size:A4;margin:25mm 22mm}body{font-family:'Times New Roman',Georgia,serif;color:#111;font-size:11pt;line-height:1.42;margin:0}.tools{position:fixed;top:8px;right:8px;display:flex;gap:7px;z-index:30}.tools button{font-family:system-ui,sans-serif;font-size:12px;padding:7px 12px;border:1px solid #1E5BA8;background:#1E5BA8;color:#fff;border-radius:6px;cursor:pointer}.tools button.alt{background:#fff;color:#1E5BA8}.editable{background:#FFF3B0;border-bottom:1px dotted #9A6A00;padding:0 2px;min-width:45px;display:inline-block}.editnote{font-family:system-ui,sans-serif;background:#FFF7D6;border:1px solid #E4C46B;padding:8px 10px;margin:0 0 12px;font-size:10pt}.authority{width:100%;border-collapse:collapse;margin:8px 0 14px;font-size:10pt}.authority td{border:1px solid #555;padding:5px 7px}.authority td:first-child{font-weight:bold;width:43%;background:#f0f0f0}.invhead{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:12px}.right{text-align:right}.center{text-align:center}.title{font-size:14pt;font-weight:bold;text-align:center;margin:15px 0 4px}.subtitle{text-align:center;font-weight:bold;margin-bottom:14px}h2{font-size:13pt;border-bottom:1.4px solid #333;padding-bottom:3px;margin:20px 0 8px}h3{font-size:11.5pt;margin:12px 0 5px}p{margin:6px 0;text-align:justify}ol,ul{margin:6px 0 8px 22px;padding:0}li{margin:3px 0}table.data{width:100%;border-collapse:collapse;margin:8px 0;font-size:9.7pt}table.data th,table.data td{border:1px solid #555;padding:5px 6px;vertical-align:top}table.data th{background:#eee;text-align:left}.c{text-align:center}.r{text-align:right;white-space:nowrap}.pb{page-break-before:always}.article{break-inside:avoid;border-bottom:1px solid #bbb;padding-bottom:6px}.sign{margin-top:32px;text-align:right}.small{font-size:9.5pt;color:#444}.note{border:1px solid #999;background:#f7f7f7;padding:8px 10px}.annex{font-size:15pt;text-align:center;font-weight:bold;margin:18px 0}.cover{min-height:214mm;display:flex;flex-direction:column;justify-content:center}.cover .box{border:2px solid #333;padding:24px;text-align:center}.cover .big{font-size:17pt;font-weight:bold;margin:16px 0}@media print{.tools,.editnote{display:none}.editable{background:transparent;border:0;padding:0}.pb{page-break-before:always}}</style></head><body>
+<style>@page{size:A4;margin:25mm 22mm}body{font-family:'Times New Roman',Georgia,serif;color:#111;font-size:11pt;line-height:1.42;margin:0}.tools{position:fixed;top:8px;right:8px;display:flex;gap:7px;z-index:30}.tools button{font-family:system-ui,sans-serif;font-size:12px;padding:7px 12px;border:1px solid #1E5BA8;background:#1E5BA8;color:#fff;border-radius:6px;cursor:pointer}.tools button.alt{background:#fff;color:#1E5BA8}.editable{background:#FFF3B0;border-bottom:1px dotted #9A6A00;padding:0 2px;min-width:45px;display:inline-block}.editnote{font-family:system-ui,sans-serif;background:#FFF7D6;border:1px solid #E4C46B;padding:8px 10px;margin:0 0 12px;font-size:10pt}.authority{width:100%;border-collapse:collapse;margin:8px 0 14px;font-size:10pt}.authority td{border:1px solid #555;padding:5px 7px}.authority td:first-child{font-weight:bold;width:43%;background:#f0f0f0}.invhead{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:12px}.right{text-align:right}.center{text-align:center}.title{font-size:14pt;font-weight:bold;text-align:center;margin:15px 0 4px}.subtitle{text-align:center;font-weight:bold;margin-bottom:14px}h2{font-size:13pt;border-bottom:1.4px solid #333;padding-bottom:3px;margin:20px 0 8px}h3{font-size:11.5pt;margin:12px 0 5px}p{margin:6px 0;text-align:justify}ol,ul{margin:6px 0 8px 22px;padding:0}li{margin:3px 0}table.data{width:100%;border-collapse:collapse;margin:8px 0;font-size:9.7pt}table.data th,table.data td{border:1px solid #555;padding:5px 6px;vertical-align:top}table.data th{background:#eee;text-align:left}.c{text-align:center}.r{text-align:right;white-space:nowrap}.pb{page-break-before:always}.article{break-inside:avoid;border-bottom:1px solid #bbb;padding-bottom:6px}.sign{margin-top:32px;text-align:right}.small{font-size:9.5pt;color:#444}.note{border:1px solid #999;background:#f7f7f7;padding:8px 10px}.annex{font-size:15pt;text-align:center;font-weight:bold;margin:18px 0}table.spec{width:100%;border-collapse:collapse;margin:8px 0;font-size:9.7pt}table.spec th,table.spec td{border:1px solid #555;padding:5px 6px;vertical-align:top}table.spec th{background:#eee;text-align:left}table.spec ul{margin:4px 0 0 16px}.cover{min-height:214mm;display:flex;flex-direction:column;justify-content:center}.cover .box{border:2px solid #333;padding:24px;text-align:center}.cover .big{font-size:17pt;font-weight:bold;margin:16px 0}@media print{.tools,.editnote{display:none}.editable{background:transparent;border:0;padding:0}.pb{page-break-before:always}}</style></head><body>
 <div class="tools"><button onclick="window.print()">Εκτύπωση / PDF</button><button class="alt" id="btnWord">Λήψη Word</button><button class="alt" onclick="window.close()">Κλείσιμο</button></div>
-<div class="editnote"><b>Πρότυπη πρόσκληση απευθείας ανάθεσης.</b> Τα κίτρινα πεδία είναι επεξεργάσιμα πριν από την εκτύπωση. Η μελέτη της επιλεγμένης ομάδας και Δημοτικής Ενότητας έχει ενσωματωθεί ως παράρτημα.</div>
-<div class="invhead"><div><b>ΕΛΛΗΝΙΚΗ ΔΗΜΟΚΡΑΤΙΑ</b><br><b>ΝΟΜΟΣ ΔΩΔΕΚΑΝΗΣΟΥ</b><br><b>ΔΗΜΟΣ ΡΟΔΟΥ</b><br>Δ/ΝΣΗ ΟΙΚΟΝΟΜΙΚΩΝ<br>ΤΜΗΜΑ ΠΡΟΜΗΘΕΙΩΝ<br>Πληροφορίες: ${editableField('[ΟΝΟΜΑΤΕΠΩΝΥΜΟ]')}<br>Τηλ.: ${editableField('[ΤΗΛΕΦΩΝΟ]')}<br>e-mail: ${editableField('[EMAIL]')}</div><div class="right">ΚΑΤΑΧΩΡΙΣΤΕΑ ΣΤΟ ΚΗΜΔΗΣ<br>ΑΝΑΡΤΗΤΕΑ ΣΤΗ ΔΙΑΥΓΕΙΑ<br><br>Ρόδος, ${editableField(today)}<br>Αριθμ. Πρωτ.: ${editableField('[ΑΡΙΘΜΟΣ ΠΡΩΤΟΚΟΛΛΟΥ]')}<br>ΑΔΑ: ${editableField('[ΑΔΑ]')}<br>ΑΔΑΜ: ${editableField('[ΑΔΑΜ ΠΡΟΣΚΛΗΣΗΣ]')}</div></div>
-<p><b>ΠΡΟΣ:</b> ${editableField('[ΕΠΩΝΥΜΙΑ ΟΙΚΟΝΟΜΙΚΟΥ ΦΟΡΕΑ]')}<br>${editableField('[ΔΙΕΥΘΥΝΣΗ - Τ.Κ. - ΠΟΛΗ]')}<br>Α.Φ.Μ.: ${editableField('[ΑΦΜ]')} · Δ.Ο.Υ.: ${editableField('[ΔΟΥ]')}<br>Τηλ.: ${editableField('[ΤΗΛΕΦΩΝΟ]')} · e-mail: ${editableField('[EMAIL]')}</p>
-<p><b>ΚΟΙΝ.:</b> Δ/νση Διοικητικών Υπηρεσιών, για τις νόμιμες ενέργειες ανάρτησης.</p>
-<div class="title">ΑΠΟΦΑΣΗ ${editableField('[ΑΡΙΘΜΟΣ ΑΠΟΦΑΣΗΣ]')}/${YEAR}</div>
-<div class="subtitle">ΠΡΟΣΚΛΗΣΗ ΕΚΔΗΛΩΣΗΣ ΕΝΔΙΑΦΕΡΟΝΤΟΣ<br>(με τη διαδικασία της απευθείας ανάθεσης)</div>
+<div class="editnote"><b>Πρότυπη πρόσκληση απευθείας ανάθεσης (άρθρο 118 Ν. 4412/2016) — πρότυπο Δήμου Ρόδου.</b> Τα κίτρινα πεδία συμπληρώνονται/επεξεργάζονται πριν την εκτύπωση. Οι τεχνικές προδιαγραφές δίνονται <b>ομαδοποιημένες ανά τύπο</b> (μία προδιαγραφή για τα ομοειδή είδη). Ελέγξτε τα διοικητικά στοιχεία (Αρ. Πρωτ., ΑΔΑ/ΑΔΑΜ, Κ.Α., ποσά, ημερομηνίες) πριν την υπογραφή.</div>
+<div class="invhead"><div><b>ΕΛΛΗΝΙΚΗ ΔΗΜΟΚΡΑΤΙΑ</b><br><b>ΝΟΜΟΣ ΔΩΔΕΚΑΝΗΣΟΥ</b><br><b>ΔΗΜΟΣ ΡΟΔΟΥ</b><br>Δ/ΝΣΗ ΟΙΚΟΝΟΜΙΚΩΝ<br>ΤΜΗΜΑ ΠΡΟΜΗΘΕΙΩΝ<br>Πληροφορίες: ${editableField('[ΟΝΟΜΑΤΕΠΩΝΥΜΟ]')}<br>Τηλ.: ${editableField('22410-35445')}<br>e-mail: ${editableField('periousia@rhodes.gr')}</div><div class="right">ΚΑΤΑΧΩΡΙΣΤΕΑ ΣΤΟ ΚΗΜΔΗΣ<br>ΑΝΑΡΤΗΤΕΑ ΣΤΟ ΔΙΑΔΙΚΤΥΟ<br><br>Ρόδος, ${editableField(today)}<br>Αριθμ. Πρωτ.: ${editableField('[ΑΡΙΘΜΟΣ ΠΡΩΤΟΚΟΛΛΟΥ]')}<br>ΑΔΑ: ${editableField('[ΑΔΑ]')}<br>ΑΔΑΜ: ${editableField('[ΑΔΑΜ ΠΡΟΣΚΛΗΣΗΣ]')}</div></div>
+<p><b>ΠΡΟΣ:</b> 1) ${editableField('[ΕΠΩΝΥΜΙΑ ΟΙΚΟΝΟΜΙΚΟΥ ΦΟΡΕΑ]')}, ${editableField('[ΔΙΕΥΘΥΝΣΗ - Τ.Κ. - ΠΟΛΗ]')}, Α.Φ.Μ.: ${editableField('[ΑΦΜ]')}, Δ.Ο.Υ.: ${editableField('[ΔΟΥ]')}, e-mail: ${editableField('[EMAIL]')}<br>&nbsp;&nbsp;&nbsp;&nbsp;2) Πίνακα Αποδεκτών</p>
+<div class="title">ΑΠΟΦΑΣΗ ΔΗΜΑΡΧΟΥ ${editableField('[ΑΡΙΘΜΟΣ]')}/${YEAR}</div>
+<div class="subtitle">Θέμα: ΠΡΟΣΚΛΗΣΗ ΕΚΔΗΛΩΣΗΣ ΕΝΔΙΑΦΕΡΟΝΤΟΣ<br>(με τη διαδικασία της απευθείας ανάθεσης του Δημάρχου)</div>
 <p class="center"><b>«${esc(procurementTitle)}»</b></p>
-<table class="authority"><tr><td>Επωνυμία</td><td>ΔΗΜΟΣ ΡΟΔΟΥ</td></tr><tr><td>Α.Φ.Μ.</td><td>997561152</td></tr><tr><td>Κωδικός ηλεκτρονικής τιμολόγησης</td><td>1007.E86901.0001</td></tr><tr><td>Ταχυδρομική διεύθυνση</td><td>${editableField('[ΔΙΕΥΘΥΝΣΗ ΥΠΗΡΕΣΙΑΣ]')}</td></tr><tr><td>Πόλη / Τ.Κ.</td><td>ΡΟΔΟΣ / 85100</td></tr><tr><td>Χώρα / NUTS</td><td>ΕΛΛΑΔΑ / GR 421</td></tr><tr><td>Αρμόδιος για πληροφορίες</td><td>${editableField('[ΟΝΟΜΑ - ΤΗΛΕΦΩΝΟ - EMAIL]')}</td></tr><tr><td>Διεύθυνση διαδικτύου</td><td>www.rhodes.gr</td></tr></table>
-<h2>Έχοντας υπόψη</h2><ol><li>Τις διατάξεις του Ν. 3852/2010, όπως ισχύει.</li><li>Τις διατάξεις του Ν. 4412/2016, όπως ισχύει, ιδίως όσες αφορούν την απευθείας ανάθεση και την εκτέλεση συμβάσεων προμηθειών.</li><li>Το άρθρο 209 του Ν. 3463/2006, όπως ισχύει.</li><li>Το Π.Δ. 80/2016 και τις διατάξεις περί ανάληψης υποχρεώσεων.</li><li>Τις διατάξεις περί ΚΗΜΔΗΣ, Διαύγειας και ηλεκτρονικής τιμολόγησης, όπως ισχύουν.</li><li>Το πρωτογενές αίτημα με ΑΔΑΜ ${editableField('[ΑΔΑΜ ΠΡΩΤΟΓΕΝΟΥΣ]')}.</li><li>Το τεκμηριωμένο αίτημα με αριθμό ${editableField('[ΑΡΙΘΜΟΣ / ΗΜΕΡΟΜΗΝΙΑ]')}.</li><li>Την απόφαση ανάληψης υποχρέωσης με ΑΔΑ ${editableField('[ΑΔΑ ΑΝΑΛΗΨΗΣ]')} και ποσό ${fmtE(tot)}.</li><li>Το εγκεκριμένο αίτημα με ΑΔΑΜ ${editableField('[ΑΔΑΜ ΕΓΚΕΚΡΙΜΕΝΟΥ]')}.</li><li>Την ισχύουσα απόφαση μεταβίβασης αρμοδιοτήτων ${editableField('[ΑΡΙΘΜΟΣ / ΑΔΑ]')}.</li><li>Την εγγεγραμμένη πίστωση στον ${editableField('[Κ.Α. / ΑΛΕ]')}.</li></ol>
-<h2>Αποφασίζει</h2><p><b>Α.</b> Τη διεξαγωγή διαδικασίας απευθείας ανάθεσης για την προμήθεια «${esc(procurementTitle)}», συνολικής ενδεικτικής δαπάνης <b>${fmtE(tot)}</b> με Φ.Π.Α. 24%.</p><p><b>Β.</b> Την έγκριση της τεχνικής έκθεσης, των τεχνικών προδιαγραφών, του ενδεικτικού προϋπολογισμού, του τιμολογίου μελέτης και της συγγραφής υποχρεώσεων που περιλαμβάνονται στα παραρτήματα και αποτελούν αναπόσπαστο μέρος της παρούσας.</p><p><b>Γ.</b> Την πρόσκληση του ανωτέρω οικονομικού φορέα για υποβολή έγγραφης οικονομικής και τεχνικής προσφοράς, με κριτήριο ανάθεσης την πλέον συμφέρουσα από οικονομική άποψη προσφορά βάσει τιμής, υπό την προϋπόθεση πλήρους συμμόρφωσης με τις τεχνικές προδιαγραφές.</p>
-<h2>Αντικείμενο - προϋπολογισμός</h2><p>Το αντικείμενο αφορά την προμήθεια ειδών της ομάδας «${esc(g?g.name:'')}» για τις ανάγκες της ${esc(scope)}. Ενδεικτικός CPV: <b>${esc(pkg.cpv)}</b>. Η καθαρή αξία ανέρχεται σε <b>${fmtE(net)}</b>, ο Φ.Π.Α. 24% σε <b>${fmtE(vat)}</b> και η συνολική δαπάνη σε <b>${fmtE(tot)}</b>.</p>
-<h2>Δικαιολογητικά και περιεχόμενο προσφοράς</h2><ul><li>Υπεύθυνη δήλωση αποδοχής όλων των όρων της πρόσκλησης, της μελέτης και της συγγραφής υποχρεώσεων.</li><li>Δικαιολογητικά περί μη συνδρομής λόγων αποκλεισμού, σύμφωνα με τα άρθρα 73 και 74 του Ν. 4412/2016, όπως ισχύουν.</li><li>Αποδεικτικό φορολογικής ενημερότητας και αποδεικτικό ασφαλιστικής ενημερότητας σε ισχύ.</li><li>Νομιμοποιητικά έγγραφα και στοιχεία εκπροσώπησης του οικονομικού φορέα.</li><li>Τεχνική προσφορά, τεχνικά φυλλάδια, δηλώσεις συμμόρφωσης, πιστοποιητικά και λοιπά αποδεικτικά που απαιτούνται από τη μελέτη.</li><li>Συμπληρωμένο έντυπο οικονομικής προσφοράς.</li></ul>
-<h2>Υποβολή προσφοράς</h2><p>Η προσφορά θα υποβληθεί έως ${editableField('[ΗΜΕΡΟΜΗΝΙΑ]')} και ώρα ${editableField('[ΩΡΑ]')}, ${editableField('[ΤΡΟΠΟΣ ΚΑΙ ΤΟΠΟΣ ΥΠΟΒΟΛΗΣ / EMAIL]')}.</p><p>Η προσφορά πρέπει να αφορά ${editableField('[ΟΛΑ ΤΑ ΕΙΔΗ / ΤΜΗΜΑΤΑ]')} της παρούσας. Η διάρκεια της σύμβασης ορίζεται ${editableField('[ΔΙΑΡΚΕΙΑ ΣΥΜΒΑΣΗΣ]')}. Ο τόπος και ο χρόνος παράδοσης ορίζονται ${editableField('[ΤΟΠΟΣ ΚΑΙ ΧΡΟΝΟΣ ΠΑΡΑΔΟΣΗΣ]')}.</p><p>Εγγύηση συμμετοχής: δεν απαιτείται. Εγγύηση καλής εκτέλεσης: ${editableField('[ΔΕΝ ΑΠΑΙΤΕΙΤΑΙ / ΑΠΑΙΤΕΙΤΑΙ ΚΑΙ ΠΟΣΟΣΤΟ]')}.</p>
-<h2>Ηλεκτρονική τιμολόγηση</h2><p>Για την πληρωμή του αναδόχου απαιτείται η έκδοση ηλεκτρονικού τιμολογίου σύμφωνα με το ισχύον θεσμικό πλαίσιο. Το ηλεκτρονικό τιμολόγιο πρέπει να δρομολογείται στον Δήμο Ρόδου με κωδικό ηλεκτρονικής τιμολόγησης <b>1007.E86901.0001</b>.</p>
-<div class="sign"><b>${editableField('[ΑΡΜΟΔΙΟΣ ΑΝΤΙΔΗΜΑΡΧΟΣ / ΔΗΜΑΡΧΟΣ]')}</b><br><br><br>${editableField('[ΟΝΟΜΑΤΕΠΩΝΥΜΟ]')}</div>
-
-<div class="pb annex">ΠΑΡΑΡΤΗΜΑ Α<br>ΜΕΛΕΤΗ ΠΡΟΜΗΘΕΙΑΣ</div>
-<section class="cover"><div class="box"><div><b>ΕΛΛΗΝΙΚΗ ΔΗΜΟΚΡΑΤΙΑ - ΔΗΜΟΣ ΡΟΔΟΥ</b><br>Διεύθυνση Τεχνικών Έργων & Υποδομών</div><div class="big">ΜΕΛΕΤΗ ΠΡΟΜΗΘΕΙΑΣ</div><h1>«${esc(procurementTitle)}»</h1><p class="center"><b>${esc(scope)}</b><br>Έτος ${YEAR}<br>Ενδεικτικός CPV: ${esc(pkg.cpv)}<br>Προϋπολογισμός με Φ.Π.Α.: <b>${fmtE(tot)}</b></p></div></section>
-<h2 class="pb">1. Τεχνική έκθεση</h2><p>Η παρούσα μελέτη αφορά την προμήθεια ειδών της κατηγορίας «${esc(g?g.name:'')}» για ${esc(pkg.purpose)}, για τις ανάγκες ${isC?'του Δήμου Ρόδου και των Δημοτικών του Ενοτήτων':'της '+esc('Δ.Ε. '+unitName(cur.unitId))}. Το αντικείμενο περιλαμβάνει την πλήρη προμήθεια, μεταφορά και παράδοση των ειδών στους χώρους που θα υποδείξει η Υπηρεσία.</p><p>Η συνολική ενδεικτική δαπάνη ανέρχεται σε <b>${fmtE(tot)}</b>, συμπεριλαμβανομένου Φ.Π.Α. 24%.</p><div class="note">Πριν από την υπογραφή και δημοσίευση πρέπει να ελεγχθούν τα διοικητικά στοιχεία της πρόσκλησης, οι πιστώσεις, οι κωδικοί ΑΔΑ/ΑΔΑΜ, οι χρόνοι παράδοσης και τυχόν ειδικές απαιτήσεις.</div>
-<h2>2. Τεχνικό και κανονιστικό πλαίσιο</h2>${htmlList(framework)}
-<h2>3. Γενικές τεχνικές προδιαγραφές</h2>${htmlList(common.requirements)}
-<h2>4. Ειδικές τεχνικές προδιαγραφές ομάδας</h2><h3>${esc(pkg.title)}</h3>${htmlList(pkg.technical)}
-<h2>5. Προδιαγραφές ανά είδος</h2>${itemSpecs}
-<h2>6. Αποδεικτικά τεχνικής συμμόρφωσης</h2>${htmlList(evidence)}
-<h2 class="pb">7. Ενδεικτικός προϋπολογισμός</h2><table class="data"><thead><tr><th class="c">Α/Α</th><th>Περιγραφή είδους</th><th class="c">Μον.</th><th class="r">Ποσότητα</th><th class="r">Τιμή μον. χωρίς ΦΠΑ</th><th class="r">Δαπάνη</th></tr></thead><tbody>${budgetRows}</tbody><tfoot><tr><td colspan="5" class="r"><b>Καθαρή αξία</b></td><td class="r"><b>${fmtE(net)}</b></td></tr><tr><td colspan="5" class="r"><b>ΦΠΑ 24%</b></td><td class="r"><b>${fmtE(vat)}</b></td></tr><tr><td colspan="5" class="r"><b>ΓΕΝΙΚΟ ΣΥΝΟΛΟ</b></td><td class="r"><b>${fmtE(tot)}</b></td></tr></tfoot></table>
-<h2>8. Τιμολόγιο μελέτης - άρθρα προμήθειας</h2><p class="small">Τιμές μονάδος ανά άρθρο. Στην προσφερόμενη τιμή κάθε άρθρου περιλαμβάνονται όλες οι δαπάνες πλήρους παράδοσης, σύμφωνα με τις τεχνικές προδιαγραφές.</p>${articleTariff}
-<h2 class="pb">9. Ειδική συγγραφή υποχρεώσεων</h2><h3>Άρθρο 1 - Αντικείμενο</h3><p>Αντικείμενο είναι η πλήρης προμήθεια των ειδών του προϋπολογισμού, σύμφωνα με τις τεχνικές προδιαγραφές και τις έγγραφες εντολές της Υπηρεσίας.</p><h3>Άρθρο 2 - Ισχύουσες διατάξεις</h3><p>Η ανάθεση και εκτέλεση διέπονται από τον Ν. 4412/2016, όπως ισχύει, και από το λοιπό εφαρμοστέο πλαίσιο οικονομικής διαχείρισης των Ο.Τ.Α.</p><h3>Άρθρο 3 - Συμβατικά στοιχεία</h3><p>Συμβατικά στοιχεία, κατά σειρά ισχύος, είναι η σύμβαση, η πρόσκληση, η προσφορά του αναδόχου, η μελέτη, οι τεχνικές προδιαγραφές, η συγγραφή υποχρεώσεων, ο προϋπολογισμός και το τιμολόγιο.</p><h3>Άρθρο 4 - Παράδοση</h3><p>Η παράδοση γίνεται εφάπαξ ή τμηματικά στους χώρους που θα υποδείξει η Υπηρεσία, με όλες τις δαπάνες μεταφοράς, εκφόρτωσης και τακτοποίησης να περιλαμβάνονται στις τιμές.</p><h3>Άρθρο 5 - Έλεγχος και παραλαβή</h3>${htmlList(pkg.acceptance)}<h3>Άρθρο 6 - Απόρριψη και αντικατάσταση</h3><p>Είδη που δεν πληρούν τις προδιαγραφές απορρίπτονται και αντικαθίστανται άμεσα με δαπάνη του αναδόχου.</p><h3>Άρθρο 7 - Εγγύηση</h3><p>${esc(pkg.warranty)}.</p><h3>Άρθρο 8 - Τιμές και πληρωμή</h3><p>Οι τιμές περιλαμβάνουν κάθε δαπάνη πλήρους παράδοσης. Η πληρωμή γίνεται μετά την οριστική παραλαβή και την υποβολή των νόμιμων παραστατικών.</p><h3>Άρθρο 9 - Ειδικοί όροι</h3>${htmlList(clauses)}
-<h2 class="pb">10. Έντυπο οικονομικής προσφοράς</h2><table class="data"><thead><tr><th class="c">Α/Α</th><th>Περιγραφή είδους</th><th class="c">Μον.</th><th class="r">Ποσότητα</th><th class="r">Τιμή μον.</th><th class="r">Δαπάνη</th></tr></thead><tbody>${offerRows}</tbody><tfoot><tr><td colspan="5" class="r">Καθαρή αξία</td><td></td></tr><tr><td colspan="5" class="r">ΦΠΑ 24%</td><td></td></tr><tr><td colspan="5" class="r">ΓΕΝΙΚΟ ΣΥΝΟΛΟ</td><td></td></tr></tfoot></table>
-<p>Τόπος/ημερομηνία: .............................................</p><p>Ο προσφέρων: ....................................................</p>
+<table class="authority"><tr><td>Επωνυμία</td><td>ΔΗΜΟΣ ΡΟΔΟΥ</td></tr><tr><td>Αριθμός Φορολογικού Μητρώου (Α.Φ.Μ.)</td><td>997561152</td></tr><tr><td>Κωδικός Αναθέτουσας Αρχής για την ηλεκτρονική τιμολόγηση</td><td>1007.E86901.0001</td></tr><tr><td>Ταχυδρομική διεύθυνση</td><td>ΚΑΠΟΔΙΣΤΡΙΟΥ 3-5</td></tr><tr><td>Πόλη / Ταχ. Κώδικας</td><td>ΡΟΔΟΣ / 85100</td></tr><tr><td>Χώρα</td><td>ΕΛΛΑΔΑ</td></tr><tr><td>Κωδικός NUTS</td><td>EL421</td></tr><tr><td>Τηλέφωνο</td><td>${editableField('22410-35445')}</td></tr><tr><td>Ηλεκτρονικό Ταχυδρομείο (e-mail)</td><td>periousia@rhodes.gr</td></tr><tr><td>Αρμόδιος για πληροφορίες</td><td>${editableField('[ΟΝΟΜΑΤΕΠΩΝΥΜΟ]')}</td></tr><tr><td>Γενική Διεύθυνση στο διαδίκτυο (URL)</td><td>www.rhodes.gr</td></tr></table>
+<p><b>Ο Αντιδήμαρχος Ρόδου έχοντας υπόψη:</b></p>
+<ol><li>Τις διατάξεις του Ν. 3852/2010 (Πρόγραμμα «Καλλικράτης»), όπως ισχύει.</li><li>Τις διατάξεις του Ν. 4412/2016, όπως ισχύει.</li><li>Το άρθρο 209 του Ν. 3463/2006, όπως ισχύει.</li><li>Το Π.Δ. 80/2016 και τον Ν. 4555/2018.</li><li>Τις διατάξεις του Ν. 3861/2010 (Πρόγραμμα «Διαύγεια»).</li><li>Τις διατάξεις του Ν. 2859/2000 (Κώδικας Φ.Π.Α.).</li><li>Τις διατάξεις του Ν. 4270/2014 και το δημόσιο λογιστικό.</li><li>Τις διατάξεις του άρθρου 11 του Ν. 4013/2011 για τη λειτουργία του ΚΗΜΔΗΣ.</li><li>Την υπ' αριθ. 231/2017 Πράξη του Τμήματος VII του Ελεγκτικού Συνεδρίου (όμοιες 269/2017, 311/2017, 312/2017, 313/2017) περί νομιμότητας της αυτοτελούς εκτέλεσης εγγεγραμμένων πιστώσεων σε ξεχωριστούς Κ.Α.Ε. ανά Δημοτική Ενότητα (άρθρο 6 παρ. 14 Ν. 4071/2012).</li><li>Την απόφαση ορισμού Αντιδημάρχου Οικονομικών με μεταβίβαση αρμοδιοτήτων, με ΑΔΑ ${editableField('[ΑΔΑ ΟΡΙΣΜΟΥ]')}.</li><li>Τις διατάξεις του Ν. 4782/2021, άρθρο 53 παρ. 3α (δεν λαμβάνονται υπόψη προσφορές οικονομικών φορέων που δεν προσκλήθηκαν να υποβάλουν προσφορά).</li><li>Το γεγονός ότι η δαπάνη έχει αναληφθεί νόμιμα στον Κ.Α. ${editableField('[Κ.Α.]')} «${esc(procurementTitle)}».</li><li>Το πρωτογενές αίτημα του ΚΗΜΔΗΣ με ΑΔΑΜ ${editableField('[ΑΔΑΜ ΠΡΩΤΟΓΕΝΟΥΣ]')}.</li><li>Το τεκμηριωμένο αίτημα με αρ. πρωτ. ${editableField('[ΑΡΙΘΜΟΣ / ΗΜΕΡΟΜΗΝΙΑ]')}.</li><li>Το εγκεκριμένο αίτημα του ΚΗΜΔΗΣ με ΑΔΑΜ ${editableField('[ΑΔΑΜ ΕΓΚΕΚΡΙΜΕΝΟΥ]')}.</li><li>Την απόφαση ανάληψης υποχρέωσης με ΑΔΑ ${editableField('[ΑΔΑ ΑΝΑΛΗΨΗΣ]')} ποσού ${fmtE(tot)}.</li><li>Τον προϋπολογισμό του Δήμου Ρόδου έτους ${YEAR}, στον οποίο υπάρχει εγγεγραμμένη πίστωση στον Κ.Α. ${editableField('[Κ.Α.]')}.</li></ol>
+<h2>Αποφασίζει</h2>
+<p><b>Α.</b> Τη διεξαγωγή της διαδικασίας της απευθείας ανάθεσης του Δημάρχου (άρθρο 118 του Ν. 4412/2016) για την προμήθεια «${esc(procurementTitle)}», συνολικής ενδεικτικής δαπάνης <b>${fmtE(tot)}</b> με Φ.Π.Α. 24%.</p>
+<p><b>Β.</b> Την έγκριση της τεχνικής έκθεσης και των τεχνικών προδιαγραφών, του ενδεικτικού προϋπολογισμού και της συγγραφής υποχρεώσεων της προμήθειας, που περιέχονται στα ΠΑΡΑΡΤΗΜΑΤΑ Α, Β και Γ αντίστοιχα και αποτελούν αναπόσπαστο μέρος της παρούσας.</p>
+<p><b>Γ.</b> Ανακοινώνει τη διενέργεια Εκδήλωσης Ενδιαφέροντος, με κατάθεση έγγραφων προσφορών από τους προσκεκλημένους οικονομικούς φορείς και με κριτήριο κατακύρωσης την πλέον συμφέρουσα από οικονομική άποψη προσφορά βάσει τιμής (χαμηλότερη τιμή), για την προμήθεια ως κάτωθι:</p>
+<p>Η διαδικασία που θα ακολουθηθεί είναι αυτή της απευθείας ανάθεσης του Δημάρχου, με κατάθεση έγγραφων προσφορών από τους προσκεκλημένους οικονομικούς φορείς που διαθέτουν όλα τα απαραίτητα δικαιολογητικά. Απαραίτητη προϋπόθεση για την επιλογή αναδόχου είναι η προμήθεια να καλύπτει τις τεχνικές προδιαγραφές που έχουν τεθεί στην παρούσα.</p>
+<p>Οι υποψήφιοι θα καταθέσουν Υπεύθυνη Δήλωση στην οποία θα αναφέρεται: α) ότι συμφωνούν με όλους τους όρους της Πρόσκλησης· β) ότι δεν συντρέχουν στο πρόσωπό τους λόγοι αποκλεισμού της παραγράφου 1 (περ. 1α έως 1στ) του άρθρου 73 του Ν. 4412/2016.</p>
+<p>Επιπλέον, για τη συμμετοχή απαιτείται η προσκόμιση φορολογικής και ασφαλιστικής ενημερότητας σε ισχύ. Από τον μειοδότη δεν απαιτείται εγγυητική επιστολή καλής εκτέλεσης επί του συμβατικού ποσού άνευ Φ.Π.Α.</p>
+<p>Οι συμμετέχοντες πρέπει να δώσουν προσφορά αποκλειστικά για όλα τα μέρη (όλα τα είδη/ομάδες) της προμήθειας της παρούσας πρόσκλησης. Η σύμβαση θα έχει διάρκεια από την υπογραφή της και για ένα (1) έτος ή μέχρι εξαντλήσεως του οικονομικού αντικειμένου.</p>
+<p>Σύμφωνα με την παρ. 2γ της ΚΥΑ 52445 ΕΞ 2023 (ΦΕΚ 2385/Β/2023), οι οικονομικοί φορείς υποχρεούνται να υποβάλλουν ηλεκτρονικά τιμολόγια σύμφωνα με το ευρωπαϊκό πρότυπο (PEPPOL) και τον εθνικό μορφότυπο (Ν. 4601/2019, ΚΥΑ 63446/2021). Το τιμολόγιο πρέπει να δρομολογείται στον Δήμο Ρόδου με κωδικό ηλεκτρονικής τιμολόγησης <b>1007.E86901.0001</b> (μέσω του Κέντρου Διαλειτουργικότητας — ΚΕΔ).</p>
+<p>Η διενέργεια της διαδικασίας θα πραγματοποιηθεί την ${editableField('[ΗΜΕΡΑ / ΗΜΕΡΟΜΗΝΙΑ]')} και ώρα ${editableField('[ΩΡΑ]')}. Η προσφορά θα κατατεθεί στο Τμήμα Προμηθειών (Καποδιστρίου 3-5, 85100 Ρόδος) έως την ${editableField('[ΗΜΕΡΟΜΗΝΙΑ]')} και ώρα ${editableField('[ΩΡΑ]')}, ή ηλεκτρονικά στη διεύθυνση ${editableField('[EMAIL ΥΠΗΡΕΣΙΑΣ]')}.</p>
+<p>Ο φάκελος συμμετοχής θα αναγράφει εξωτερικά τα στοιχεία του συμμετέχοντος (επωνυμία, διεύθυνση, τηλέφωνα, Α.Φ.Μ., e-mail) καθώς και την ένδειξη «ΠΡΟΣ ΔΗΜΟ ΡΟΔΟΥ — ΤΜΗΜΑ ΠΡΟΜΗΘΕΙΩΝ» και τον τίτλο της διαδικασίας. Στην παρούσα ισχύουν και εφαρμόζονται οι διατάξεις του Ν. 4412/2016.</p>
+<p>Η παρούσα να αναρτηθεί στον πίνακα ανακοινώσεων του Δήμου έως την ημερομηνία της πρόσκλησης.</p>
+<div class="sign"><b>Ο ΑΝΤΙΔΗΜΑΡΧΟΣ ΟΙΚΟΝΟΜΙΚΩΝ</b><br><br><br>${editableField('[ΟΝΟΜΑΤΕΠΩΝΥΜΟ]')}</div>
+<div class="pb annex">ΠΑΡΑΡΤΗΜΑ Α — ΤΕΧΝΙΚΗ ΠΕΡΙΓΡΑΦΗ</div>
+<p><b>ΧΡΗΜΑΤΟΔΟΤΗΣΗ:</b> Κ.Α. ${editableField('[Κ.Α.]')}</p>
+<p><b>CPV:</b> ${cpvAll}</p>
+<p><b>NUTS:</b> EL421</p>
+<p class="center"><b>«${esc(procurementTitle)}»</b></p>
+<p class="center">ΠΡΟΫΠΟΛΟΓΙΣΜΟΣ ΔΑΠΑΝΗΣ: <b>${fmtE(net)}</b> &nbsp;·&nbsp; Φ.Π.Α. 24%: <b>${fmtE(vat)}</b> &nbsp;·&nbsp; ΣΥΝΟΛΙΚΗ ΔΑΠΑΝΗ: <b>${fmtE(tot)}</b></p>
+<h2>Τεχνική έκθεση</h2><p>Με την παρούσα μελέτη προβλέπεται η εκτέλεση της προμήθειας «${esc(procurementTitle)}». Τα προς προμήθεια είδη θα καλύψουν τις ανάγκες ${isC?'του Δήμου Ρόδου και των Δημοτικών του Ενοτήτων':'της '+esc(scope)} για το έτος ${YEAR}.</p>
+<h3>Γενικά</h3><p>Όλα τα προσφερόμενα υλικά θα είναι αρίστης ποιότητας, χωρίς ελαττώματα, και θα ανταποκρίνονται στις ισχύουσες Ελληνικές Τεχνικές Προδιαγραφές (ΕΤΕΠ) και στα εναρμονισμένα ευρωπαϊκά πρότυπα, όπου αυτά εφαρμόζονται. Ο συμμετέχων οφείλει να καταθέσει προσφορά υποχρεωτικά για όλα τα είδη του ενδεικτικού προϋπολογισμού. Τα αναφερόμενα στις τεχνικές προδιαγραφές στοιχεία πρέπει να συμφωνούν με τα υποβαλλόμενα τεχνικά φυλλάδια, τα οποία μπορούν να προσκομιστούν στην ελληνική ή στην αγγλική γλώσσα χωρίς μετάφραση.</p>
+<h2>Τεχνικές προδιαγραφές ανά τύπο/ομάδα ειδών</h2>${renderSpecTable(specGroupsFor(rows,groupCode))}
+<div class="pb annex">ΠΑΡΑΡΤΗΜΑ Β — ΕΝΔΕΙΚΤΙΚΟΣ ΠΡΟΫΠΟΛΟΓΙΣΜΟΣ</div>
+<table class="data"><thead><tr><th class="c">Α/Α</th><th>Περιγραφή είδους</th><th class="c">Μον.</th><th class="r">Ποσότητα</th><th class="r">Τιμή μον. (χωρίς ΦΠΑ)</th><th class="r">Δαπάνη</th></tr></thead><tbody>${budgetRows}</tbody><tfoot><tr><td colspan="5" class="r"><b>ΣΥΝΟΛΟ (καθαρή αξία)</b></td><td class="r"><b>${fmtE(net)}</b></td></tr><tr><td colspan="5" class="r"><b>Φ.Π.Α. 24%</b></td><td class="r"><b>${fmtE(vat)}</b></td></tr><tr><td colspan="5" class="r"><b>ΓΕΝΙΚΟ ΣΥΝΟΛΟ ΜΕ Φ.Π.Α.</b></td><td class="r"><b>${fmtE(tot)}</b></td></tr></tfoot></table>
+<div class="pb annex">ΠΑΡΑΡΤΗΜΑ Γ — ΣΥΓΓΡΑΦΗ ΥΠΟΧΡΕΩΣΕΩΝ</div>
+<h3>Άρθρο 1ο — Αντικείμενο της προμήθειας</h3><p>Με την παρούσα προβλέπεται η εκτέλεση της προμήθειας «${esc(procurementTitle)}», για τις ανάγκες ${isC?'του Δήμου Ρόδου':'της '+esc(scope)}.</p>
+<h3>Άρθρο 2ο — Ισχύουσες διατάξεις</h3><p>Η εκτέλεση της προμήθειας διέπεται από τον Ν. 4412/2016, τον Ν. 3852/2010, τον Ν. 3463/2006, το άρθρο 14 του Ν. 4071/2012, τον Ν. 4013/2011, τον Ν. 4555/2018, τον Ν. 4270/2014, το Π.Δ. 80/2016 και τον Ν. 3861/2010, όπως εκάστοτε ισχύουν.</p>
+<h3>Άρθρο 3ο — Συμβατικά στοιχεία</h3><p>Τα συμβατικά στοιχεία, κατά σειρά ισχύος, είναι: (I) η σύμβαση· (II) η οικονομική προσφορά του αναδόχου· (III) ο ενδεικτικός προϋπολογισμός· (IV) η συγγραφή υποχρεώσεων· (V) οι τεχνικές προδιαγραφές.</p>
+<h3>Άρθρο 4ο — Τρόπος ανάθεσης</h3><p>Η ανάθεση θα γίνει απευθείας με απόφαση του Δημάρχου σύμφωνα με το άρθρο 118 του Ν. 4412/2016, κατόπιν πρόσκλησης εκδήλωσης ενδιαφέροντος και με κριτήριο τη χαμηλότερη τιμή, τηρουμένων των τεχνικών προδιαγραφών. Δεν απαιτείται εγγυητική επιστολή συμμετοχής ή καλής εκτέλεσης (άρθρο 80 Ν. 4412/2016).</p>
+<h3>Άρθρο 5ο — Οικονομική προσφορά</h3><p>Η προσφερόμενη τιμή μονάδας παραμένει σταθερή καθ' όλη τη διάρκεια ισχύος της σύμβασης. Η οικονομική προσφορά συνοδεύεται, επί ποινή αποκλεισμού, από Υπεύθυνη Δήλωση του οικονομικού φορέα ότι έλαβε γνώση των όρων και συμφωνεί με αυτούς. Η ισχύς της προσφοράς δεν μπορεί να είναι μικρότερη των <b>δώδεκα (12)</b> μηνών, με δυνατότητα παράτασης κατά τις διατάξεις του Ν. 4412/2016.</p>
+<h3>Άρθρο 6ο — Σύμβαση</h3><p>Ο ανάδοχος υποχρεούται να προσέλθει για υπογραφή σύμβασης εντός δεκαπέντε (15) ημερών από την κοινοποίηση της απόφασης ανάθεσης. Η διάρκεια ορίζεται για ένα (1) έτος από την υπογραφή ή έως τη λήξη του φυσικού/οικονομικού αντικειμένου. Τροποποίηση επιτρέπεται μόνο υπό τις προϋποθέσεις του άρθρου 132 του Ν. 4412/2016.</p>
+<h3>Άρθρο 7ο — Εκτέλεση της σύμβασης (άρθρα 129–133 Ν. 4412/2016)</h3><p>Κατά την εκτέλεση εφαρμόζονται οι διατάξεις του Ν. 4412/2016, οι όροι της σύμβασης και συμπληρωματικά ο Αστικός Κώδικας. Ο ανάδοχος τηρεί τις υποχρεώσεις των άρθρων 18 και 130 (περιβαλλοντικό, κοινωνικοασφαλιστικό, εργατικό δίκαιο). Οι εντολές παραγγελίας για τις τμηματικές παραλαβές δίνονται από την οργανική μονάδα παρακολούθησης [Δ/νση Τεχνικών Έργων & Υποδομών / Τμήμα Εκτέλεσης Έργων Αυτεπιστασίας και Καθημερινότητας]${isC?'':' της '+esc(scope)}.</p>
+<h3>Άρθρο 8ο — Ανεπαρκής ποιότητα</h3><p>Είδη που δεν είναι σύμφωνα με τις προδιαγραφές απορρίπτονται και ο ανάδοχος υποχρεούται να συμμορφωθεί, διαφορετικά κηρύσσεται έκπτωτος σύμφωνα με τον Ν. 4412/2016.</p>
+<h3>Άρθρο 9ο — Παραλαβή</h3><p>Η παραλαβή είναι τμηματική, για τις ποσότητες που προκύπτουν από τις ανάγκες των συνεργείων του Τμήματος Εκτέλεσης Έργων Αυτεπιστασίας και Καθημερινότητας της Δ/νσης Τεχνικών Έργων & Υποδομών, από την αρμόδια επιτροπή παραλαβής ${isC?'του Δήμου':'της '+esc(scope)}, μετά από μακροσκοπικό και ποσοτικό έλεγχο. Το πρωτόκολλο τμηματικής παραλαβής κοινοποιείται στον ανάδοχο.</p>
+<h3>Άρθρο 10ο — Τρόπος πληρωμής</h3><p>Η πληρωμή γίνεται σύμφωνα με τον Ν. 4412/2016 και δύναται να είναι τμηματική, βάσει των πραγματοποιηθεισών ποσοτήτων, μετά την έκδοση ηλεκτρονικού τιμολογίου (κωδικός 1007.E86901.0001) και την οριστική παραλαβή.</p>
+<h3>Άρθρο 11ο — Ποινικές ρήτρες</h3><p>Σε περίπτωση αδικαιολόγητης υπέρβασης της συμβατικής προθεσμίας επιβάλλονται ποινικές ρήτρες σύμφωνα με τον Ν. 4412/2016.</p>
+<h3>Άρθρο 12ο — Εκχώρηση</h3><p>Ο ανάδοχος δεν δικαιούται να μεταβιβάσει ή εκχωρήσει τη σύμβαση ή μέρος αυτής χωρίς την έγγραφη συναίνεση της αναθέτουσας αρχής.</p>
+<h3>Άρθρο 13ο — Επίλυση διαφορών</h3><p>Σύμφωνα με το άρθρο 205Α του Ν. 4412/2016, κάθε διαφορά μεταξύ των μερών επιλύεται με προσφυγή ή αγωγή στο αρμόδιο Διοικητικό Εφετείο, προηγουμένης της ενδικοφανούς διαδικασίας του άρθρου 205 όπου απαιτείται.</p>
+<h2 class="pb">ΠΙΝΑΚΑΣ ΑΠΟΔΕΚΤΩΝ</h2>
+<ol><li>Αντιδήμαρχο Οικονομικών Υπηρεσιών</li><li>Δ/νση Οικονομικών</li><li>Δ/νση Τεχνικών Έργων &amp; Υποδομών</li><li>${isC?'Δημοτικές Ενότητες Δήμου Ρόδου':esc(scope)}</li><li>Δ/νση Διοικητικών Υπηρεσιών, για άμεση ανάρτηση στον πίνακα ανακοινώσεων με απόδειξη</li></ol>
 </body></html>`;
   const w=window.open('','_blank'); if(!w){toast('Επέτρεψε τα αναδυόμενα παράθυρα για τα τεύχη.','err');return;}
   w.document.open(); w.document.write(doc); w.document.close(); w.focus();
