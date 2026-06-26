@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Δήμος Ρόδου · Προμήθειες υλικών v22</title>
+<title>Δήμος Ρόδου · Προμήθειες υλικών v23</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Commissioner:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap&subset=greek,greek-ext,latin" rel="stylesheet">
@@ -58,6 +58,62 @@ button{font-family:var(--font-ui);cursor:pointer}
 .icon-btn:hover{background:rgba(255,255,255,.2)}
 .icon-btn svg{width:17px;height:17px}
 .year-pill{font-family:var(--font-ui);font-weight:600;font-size:12.5px;color:#BCD4F2;border:1px solid rgba(255,255,255,.16);padding:6px 11px;border-radius:999px}
+/* ===== v23 cap / lock / history ===== */
+.year-pick{display:inline-flex;align-items:center;gap:7px;font-family:var(--font-ui);font-weight:600;font-size:12.5px;color:#BCD4F2}
+.year-pick select{font-family:var(--font-ui);font-weight:600;font-size:12.5px;color:#0D2138;background:#EAF2FC;border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:6px 12px;cursor:pointer}
+.year-pick select:focus{outline:none;box-shadow:0 0 0 3px rgba(120,170,235,.4)}
+.cap-strip{margin:0 0 12px}
+.cap-main{display:flex;flex-wrap:wrap;align-items:center;gap:14px 22px;justify-content:space-between;border:1px solid var(--line);border-left:5px solid #2E75B6;border-radius:12px;padding:12px 16px;background:linear-gradient(180deg,#F7FBFF,#EEF5FD)}
+.cap-main.cap-warn{border-left-color:#E2A12C;background:linear-gradient(180deg,#FFFBF2,#FDF4E1)}
+.cap-main.cap-over{border-left-color:#D7493B;background:linear-gradient(180deg,#FEF4F2,#FBE6E2)}
+.cap-figs{display:flex;align-items:center;gap:22px;flex:1 1 360px;min-width:260px;flex-wrap:wrap}
+.cap-fig{display:flex;flex-direction:column;gap:1px}
+.cap-fig .cl{font-family:var(--font-ui);font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.02em}
+.cap-fig .cv{font-family:var(--font-data);font-size:18px;font-weight:700;color:var(--ink)}
+.cap-rem .cv{color:#1B6B3A}
+.cap-over .cap-rem .cv{color:#D7493B}
+.cap-bar{position:relative;flex:1 1 150px;min-width:130px;height:9px;border-radius:999px;background:#DCE7F3;overflow:hidden}
+.cap-fill{position:absolute;left:0;top:0;height:100%;background:#2E75B6;border-radius:999px}
+.cap-proj{position:absolute;left:0;top:0;height:100%;background:#9DC3E6;border-radius:999px}
+.cap-warn .cap-fill{background:#E2A12C}.cap-warn .cap-proj{background:#F0CF8E}
+.cap-over .cap-fill{background:#D7493B}.cap-over .cap-proj{background:#EBA79E}
+.cap-act{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.cap-draft{font-family:var(--font-ui);font-size:12px;font-weight:600;color:#1B5B96;background:#E5F0FB;border:1px solid #BBD6F0;padding:6px 10px;border-radius:999px}
+.cap-draft.bad{color:#A52A1C;background:#FBE6E2;border-color:#EBB7AE}
+.btn--lock{background:#B9711A;border-color:#B9711A;color:#fff}
+.btn--lock:hover{background:#A6630F;border-color:#A6630F}
+.btn--lock svg{color:#FFE6BE}
+.sheet--narrow{max-width:480px}
+.sheet--wide{max-width:920px}
+.lock-ctx{margin:0 0 12px;font-family:var(--font-ui);font-weight:600;color:var(--teal-700)}
+.lock-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:0 0 14px}
+.lock-stat{border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:#F8FBFE;text-align:center}
+.lock-stat .ls-k{display:block;font-family:var(--font-ui);font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.02em;margin-bottom:3px}
+.lock-stat .ls-v{display:block;font-family:var(--font-data);font-size:17px;font-weight:700;color:var(--ink)}
+.lock-warn{margin:0 0 12px;border:1px solid #EBB7AE;background:#FBE9E5;color:#A52A1C;border-radius:9px;padding:9px 12px;font-size:13px;font-weight:600}
+.field{margin:0 0 12px}
+.lock-note{margin:6px 0 0;font-size:12px;color:var(--muted);line-height:1.5}
+.hist-summary{margin:0 0 12px;font-family:var(--font-ui);font-size:13px;color:var(--ink)}
+.hist-summary .rem-over{color:#D7493B}.hist-summary .rem-ok{color:#1B6B3A}
+.hist-wrap{overflow:auto;border:1px solid var(--line);border-radius:10px;max-height:58vh}
+.hist-table{width:100%;border-collapse:collapse;font-size:13px}
+.hist-table th{position:sticky;top:0;background:var(--teal-700);color:#fff;font-family:var(--font-ui);font-weight:600;font-size:12px;text-align:left;padding:9px 11px;white-space:nowrap}
+.hist-table td{border-top:1px solid var(--line-2);padding:9px 11px;vertical-align:top}
+.hist-table td.c{text-align:center}.hist-table td.r{text-align:right;white-space:nowrap}
+.hist-table tr:nth-child(even) td{background:#F8FBFE}
+.hist-lbl{font-size:11.5px;color:var(--muted);margin-top:2px}
+.hist-date{font-size:11px;color:var(--muted);margin-top:2px}
+.hist-run{font-size:11px;color:var(--muted);font-family:var(--font-data);margin-top:2px}
+.hist-link{color:#1B5B96;font-weight:600;text-decoration:none;border-bottom:1px solid #9DC3E6}
+.hist-link:hover{color:#0E4377}
+.hist-table .muted{color:#9AA7B4}
+.hist-actions{display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
+.hist-actions .mini{font-family:var(--font-ui);font-size:11.5px;font-weight:600;border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:7px;padding:5px 9px;cursor:pointer}
+.hist-actions .mini:hover{border-color:var(--teal-500);color:var(--teal-700)}
+.hist-actions .mini--danger{color:#C0392B;border-color:#E3B6AF}
+.hist-actions .mini--danger:hover{background:#FBE9E5;border-color:#C0392B;color:#A52A1C}
+.hist-empty{text-align:center;color:var(--muted);padding:18px}
+@media(max-width:640px){.lock-grid{grid-template-columns:1fr}.cap-fig .cv{font-size:16px}}
 .shell{max-width:1280px;margin:0 auto;padding:clamp(14px,2.4vw,26px) clamp(12px,3vw,30px) calc(var(--totals-height) + 22px)}
 .nav{margin-bottom:14px}
 .nav-label{font-family:var(--font-ui);font-size:11px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--faint2);margin:0 2px 8px}
@@ -334,7 +390,7 @@ table.mat{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
   </div>
   <div class="appbar-right">
     <span class="who"><b id="whoName">—</b><span class="role" id="whoRole">—</span></span>
-    <span class="year-pill" id="yearPill">Έτος —</span>
+    <label class="year-pick" title="Έτος μελέτης"><span>Έτος</span><select id="yearSel" aria-label="Έτος μελέτης"></select></label>
     <button class="icon-btn hidden" id="settingsBtn" title="Ρυθμίσεις"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg></button>
     <button class="icon-btn" id="logoutBtn" title="Αποσύνδεση"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5M21 12H9"/></svg></button>
   </div>
@@ -381,6 +437,7 @@ table.mat{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
       <button class="btn" id="btnCopyGroup" title="Αντιγραφή της τρέχουσας ομάδας σε άλλη Δ.Ε."><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Αντιγραφή ομάδας</button>
     </div>
     <div class="banner hidden" id="banner"></div>
+    <div class="cap-strip hidden" id="capStrip"></div>
     <div class="tablewrap">
       <table class="mat">
         <thead><tr>
@@ -413,6 +470,38 @@ table.mat{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
     </div>
   </div>
 </footer>
+</div>
+
+<div class="modal" id="lockModal" role="dialog" aria-modal="true" aria-labelledby="lockTitle">
+  <div class="sheet sheet--narrow">
+    <div class="sheet__h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><b id="lockTitle">Κλείδωμα μελέτης</b></div>
+    <div class="sheet__b">
+      <p class="lock-ctx" id="lockCtx">—</p>
+      <div class="lock-grid">
+        <div class="lock-stat"><span class="ls-k">Αριθμός</span><span class="ls-v" id="lockSeq">#1</span></div>
+        <div class="lock-stat"><span class="ls-k">Είδη</span><span class="ls-v" id="lockItems">0</span></div>
+        <div class="lock-stat"><span class="ls-k">Καθαρή αξία</span><span class="ls-v" id="lockNet">0,00 €</span></div>
+      </div>
+      <div class="lock-warn hidden" id="lockWarn"></div>
+      <div class="field"><label for="lockSupplier">Προμηθευτής (προαιρετικό)</label><input id="lockSupplier" type="text" placeholder="Επωνυμία αναδόχου"></div>
+      <div class="field"><label for="lockKimdis">Σύνδεσμος ΚΗΜΔΗΣ (προαιρετικό)</label><input id="lockKimdis" type="url" placeholder="https://www.eprocurement.gov.gr/…"></div>
+      <div class="field"><label for="lockLabel">Σχόλιο/τίτλος (προαιρετικό)</label><input id="lockLabel" type="text" placeholder="π.χ. 1η ανάθεση"></div>
+      <p class="lock-note">Με το κλείδωμα, η μελέτη παγώνει με τις τρέχουσες ποσότητες και τιμές, προσμετράται στο όριο των 30.000 € και το φύλλο εργασίας καθαρίζει για την επόμενη μελέτη.</p>
+    </div>
+    <div class="sheet__f"><button class="btn" id="lockCancel" type="button">Άκυρο</button><button class="btn btn--lock" id="lockConfirm" type="button">Κλείδωμα μελέτης</button></div>
+  </div>
+</div>
+
+<div class="modal" id="historyModal" role="dialog" aria-modal="true" aria-labelledby="histTitle">
+  <div class="sheet sheet--wide">
+    <div class="sheet__h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l3 2"/></svg><b id="histTitle">Ιστορικό κλειδωμένων μελετών</b></div>
+    <div class="sheet__b">
+      <p class="lock-ctx" id="histCtx">—</p>
+      <p class="hist-summary" id="histSummary"></p>
+      <div class="hist-wrap"><table class="hist-table"><thead><tr><th>Μελέτη</th><th class="c">Είδη</th><th class="r">Καθαρή αξία</th><th>Προμηθευτής</th><th class="c">ΚΗΜΔΗΣ</th><th class="c">Ενέργειες</th></tr></thead><tbody id="histBody"></tbody></table></div>
+    </div>
+    <div class="sheet__f"><button class="btn" id="histClose" type="button">Κλείσιμο</button></div>
+  </div>
 </div>
 
 <div class="toast-wrap" id="toasts"></div>
@@ -1228,7 +1317,7 @@ window.TenderSpecs = (() => {
 <script>
 const SUPABASE_URL='https://hafaxrebjzootjzzqkzx.supabase.co';
 const SUPABASE_KEY='sb_publishable_15lh0rfRuRqFCz_lPZV1hA_CPKGSn_a';
-const YEAR=2026, VAT=0.24, CENTRAL_UNIT=11;
+let YEAR=2026; const VAT=0.24, CENTRAL_UNIT=11, DIRECT_AWARD_CAP=30000;
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 const $=s=>document.querySelector(s);
@@ -1243,6 +1332,7 @@ const ROLE_LABEL={admin:'Διαχειριστής',unit_user:'Δ.Ε.',viewer:'Π
 let ME={id:null,role:null,unitId:null,name:''};
 let UNITS=[], GROUPS=[], MAT_BY_GROUP={}, COUNTS={};
 let cur={unitId:null, groupId:null};
+let LOCKED=[];
 let reqId=null, lines={}, baseline={}, dirty=false, prefillHint=false, cleanView=false;
 let hiddenMaterials=new Set(), undoStack=[], redoStack=[], sortState={key:'sort_order',dir:'asc'};
 
@@ -1280,7 +1370,7 @@ async function boot(){
   $('#login').classList.add('hidden');$('#app').classList.remove('hidden');
   $('#whoName').textContent=ME.name;
   $('#whoRole').textContent=ROLE_LABEL[ME.role]||ME.role;
-  $('#yearPill').textContent='Έτος '+YEAR;
+  initYearSelector();
   $('#settingsBtn').classList.toggle('hidden', !isAdminUser());
   updateAdminControls();
   await loadCatalog();
@@ -1442,7 +1532,7 @@ async function openView(){
   $('#banner').classList.add('hidden');
   reqId=null; lines={}; baseline={}; prefillHint=false; cleanView=false; hiddenMaterials=new Set(); undoStack=[]; redoStack=[]; sortState={key:'sort_order',dir:'asc'}; setDirty(false); updateAdminControls();
   renderLoading();
-  try{ await loadUnitRequest(); }
+  try{ await loadUnitRequest(); await loadLocked(); }
   catch(e){ toast('Σφάλμα φόρτωσης: '+(e.message||e),'err'); }
   render();
 }
@@ -1603,6 +1693,7 @@ function computeTotals(){
   $('#tNet').innerHTML=fmtE(net).replace(' ','&nbsp;');
   $('#tVat').innerHTML=fmtE(net*VAT).replace(' ','&nbsp;');
   $('#tGrand').innerHTML=fmtE(net*(1+VAT)).replace(' ','&nbsp;');
+  renderCapStrip();
 }
 
 async function ensureRequest(){
@@ -1644,6 +1735,212 @@ async function saveAll(clean){
   }catch(e){ toast('Σφάλμα αποθήκευσης: '+(e.message||e),'err'); }
   finally{ btn.disabled=false; btn.innerHTML=old; }
 }
+/* ===== v23: επιλογή έτους, όριο 30.000€, κλείδωμα & ιστορικό μελετών ===== */
+function initYearSelector(){
+  const sel=$('#yearSel'); if(!sel)return;
+  const now=new Date().getFullYear();
+  const ys=new Set([2024,2025,2026,2027,now,now+1]);
+  const arr=[...ys].filter(y=>y>=2023&&y<=now+2).sort((a,b)=>a-b);
+  sel.innerHTML=arr.map(y=>'<option value="'+y+'"'+(y===YEAR?' selected':'')+'>'+y+'</option>').join('');
+  sel.value=String(YEAR);
+  sel.onchange=async()=>{
+    const y=Number(sel.value)||YEAR;
+    if(y===YEAR)return;
+    if(!(await guardDirty())){sel.value=String(YEAR);return;}
+    YEAR=y;
+    await openView();
+  };
+}
+
+async function loadLocked(){
+  LOCKED=[];
+  if(!cur.unitId||!cur.groupId||cur.unitId===CENTRAL_UNIT)return;
+  const {data,error}=await sb.from('locked_studies')
+    .select('id,seq,label,net_total,item_count,lines,supplier_name,kimdis_url,locked_at,source_request_id,municipal_unit_id,group_id,request_year')
+    .eq('municipal_unit_id',cur.unitId).eq('group_id',cur.groupId).eq('request_year',YEAR)
+    .order('seq',{ascending:true});
+  if(error){console.warn('loadLocked',error);return;}
+  LOCKED=data||[];
+}
+function lockedNetSum(){return Math.round(LOCKED.reduce((s,r)=>s+Number(r.net_total||0),0)*100)/100;}
+const LOCK_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>';
+const HIST_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l3 2"/></svg>';
+
+function renderCapStrip(){
+  const el=$('#capStrip'); if(!el)return;
+  const g=GROUPS.find(x=>x.id===cur.groupId);
+  if(!g||cur.unitId===CENTRAL_UNIT){el.classList.add('hidden');el.innerHTML='';return;}
+  el.classList.remove('hidden');
+  const committed=lockedNetSum();
+  const remaining=Math.max(0,DIRECT_AWARD_CAP-committed);
+  const draft=currentNet();
+  const after=Math.round((committed+draft)*100)/100;
+  const pct=Math.max(0,Math.min(100,committed/DIRECT_AWARD_CAP*100));
+  const projPct=Math.max(0,Math.min(100,after/DIRECT_AWARD_CAP*100));
+  let state='ok'; if(after>DIRECT_AWARD_CAP)state='over'; else if(after>DIRECT_AWARD_CAP*0.9)state='warn';
+  const admin=isAdminUser();
+  const n=LOCKED.length;
+  let draftHtml='';
+  if(draft>0){
+    const over=after>DIRECT_AWARD_CAP;
+    draftHtml='<span class="cap-draft'+(over?' bad':'')+'">\u03a4\u03c1\u03ad\u03c7\u03bf\u03c5\u03c3\u03b1 \u03bc\u03b5\u03bb\u03ad\u03c4\u03b7: '+fmtE(draft)+(over?(' \u00b7 \u03c5\u03c0\u03ad\u03c1\u03b2\u03b1\u03c3\u03b7 '+fmtE(after-DIRECT_AWARD_CAP)):(' \u00b7 \u03b8\u03b1 \u03bc\u03b5\u03af\u03bd\u03b5\u03b9 '+fmtE(DIRECT_AWARD_CAP-after)))+'</span>';
+  }
+  el.innerHTML='<div class="cap-main cap-'+state+'">'
+    +'<div class="cap-figs">'
+      +'<div class="cap-fig"><span class="cl">\u0394\u03b5\u03c3\u03bc\u03b5\u03c5\u03bc\u03ad\u03bd\u03bf '+YEAR+'</span><span class="cv">'+fmtE(committed)+'</span></div>'
+      +'<div class="cap-fig cap-rem"><span class="cl">\u03a5\u03c0\u03cc\u03bb\u03bf\u03b9\u03c0\u03bf \u03ad\u03c9\u03c2 '+fmtN(DIRECT_AWARD_CAP)+' \u20ac</span><span class="cv">'+fmtE(remaining)+'</span></div>'
+      +'<div class="cap-bar" title="'+fmtN(Math.round(pct))+'% \u03b4\u03b5\u03c3\u03bc\u03b5\u03c5\u03bc\u03ad\u03bd\u03bf"><span class="cap-proj" style="width:'+projPct+'%"></span><span class="cap-fill" style="width:'+pct+'%"></span></div>'
+    +'</div>'
+    +'<div class="cap-act">'+draftHtml
+      +'<button class="btn cap-hist" id="btnHistory" type="button">'+HIST_SVG+'\u0399\u03c3\u03c4\u03bf\u03c1\u03b9\u03ba\u03cc'+(n?(' ('+n+')'):'')+'</button>'
+      +(admin?('<button class="btn btn--lock" id="btnLock" type="button">'+LOCK_SVG+'\u039a\u03bb\u03b5\u03af\u03b4\u03c9\u03bc\u03b1 \u03bc\u03b5\u03bb\u03ad\u03c4\u03b7\u03c2</button>'):'')
+    +'</div></div>';
+  const bh=$('#btnHistory'); if(bh)bh.onclick=openHistoryModal;
+  const bl=$('#btnLock'); if(bl)bl.onclick=openLockModal;
+}
+
+function openLockModal(){
+  if(!isAdminUser()){toast('\u039c\u03cc\u03bd\u03bf \u03bf \u03b4\u03b9\u03b1\u03c7\u03b5\u03b9\u03c1\u03b9\u03c3\u03c4\u03ae\u03c2 \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03ba\u03bb\u03b5\u03b9\u03b4\u03ce\u03c3\u03b5\u03b9 \u03bc\u03b5\u03bb\u03ad\u03c4\u03b7.','err');return;}
+  if(cur.unitId===CENTRAL_UNIT){toast('\u03a4\u03bf \u03ba\u03bb\u03b5\u03af\u03b4\u03c9\u03bc\u03b1 \u03b3\u03af\u03bd\u03b5\u03c4\u03b1\u03b9 \u03b1\u03bd\u03ac \u0394\u03b7\u03bc\u03bf\u03c4\u03b9\u03ba\u03ae \u0395\u03bd\u03cc\u03c4\u03b7\u03c4\u03b1.','err');return;}
+  const mats=MAT_BY_GROUP[cur.groupId]||[];
+  let n=0; mats.forEach(m=>{const qv=(lines[m.id]&&lines[m.id].q)||0; if(qv>0)n++;});
+  const net=currentNet();
+  if(net<=0||n===0){toast('\u0394\u03b5\u03bd \u03c5\u03c0\u03ac\u03c1\u03c7\u03b5\u03b9 \u03bc\u03b5\u03bb\u03ad\u03c4\u03b7 \u03bc\u03b5 \u03c0\u03bf\u03c3\u03cc\u03c4\u03b7\u03c4\u03b5\u03c2 \u03b3\u03b9\u03b1 \u03ba\u03bb\u03b5\u03af\u03b4\u03c9\u03bc\u03b1.','err');return;}
+  const committed=lockedNetSum();
+  const after=Math.round((committed+net)*100)/100;
+  const g=GROUPS.find(x=>x.id===cur.groupId)||{};
+  const seq=(LOCKED.reduce((mx,r)=>Math.max(mx,Number(r.seq||0)),0))+1;
+  $('#lockCtx').textContent='\u0394.\u0395. '+unitName(cur.unitId)+' \u00b7 '+(g.short_name||g.name||'')+' \u00b7 \u03ad\u03c4\u03bf\u03c2 '+YEAR;
+  $('#lockSeq').textContent='#'+seq;
+  $('#lockItems').textContent=fmtN(n);
+  $('#lockNet').textContent=fmtE(net);
+  const warn=$('#lockWarn');
+  if(after>DIRECT_AWARD_CAP){warn.classList.remove('hidden');warn.textContent='\u03a0\u03c1\u03bf\u03c3\u03bf\u03c7\u03ae: \u03c4\u03bf \u03c3\u03cd\u03bd\u03bf\u03bb\u03bf \u03b3\u03af\u03bd\u03b5\u03c4\u03b1\u03b9 '+fmtE(after)+' \u03ba\u03b1\u03b9 \u03c5\u03c0\u03b5\u03c1\u03b2\u03b1\u03af\u03bd\u03b5\u03b9 \u03c4\u03bf \u03cc\u03c1\u03b9\u03bf \u03c4\u03c9\u03bd '+fmtN(DIRECT_AWARD_CAP)+' \u20ac \u03ba\u03b1\u03c4\u03ac '+fmtE(after-DIRECT_AWARD_CAP)+'.';}
+  else{warn.classList.add('hidden');warn.textContent='';}
+  $('#lockSupplier').value=''; $('#lockKimdis').value=''; $('#lockLabel').value='';
+  const m=$('#lockModal'); m._seq=seq; m.classList.add('open');
+  setTimeout(()=>{try{$('#lockSupplier').focus();}catch(e){}},60);
+}
+
+async function doLock(){
+  if(!isAdminUser())return;
+  const btn=$('#lockConfirm'), old=btn.innerHTML; btn.disabled=true; btn.innerHTML='<span class="spin" style="width:14px;height:14px;margin:0 6px 0 0"></span>\u039a\u03bb\u03b5\u03af\u03b4\u03c9\u03bc\u03b1\u2026';
+  try{
+    await ensureRequest();
+    const mats=MAT_BY_GROUP[cur.groupId]||[];
+    const snap=[];
+    mats.forEach(m=>{const l=lines[m.id]; const qv=normalizeQuantityForMaterial(m,l?l.q:0); const p=priceOf(m);
+      if(qv>0)snap.push({material_id:m.id,code:m.code||'',name:m.name||'',short_name:m.short_name||'',unit:m.unit||'',cpv:m.cpv||'',quantity:qv,unit_price:p==null?0:Number(p),subtotal:Math.round((p==null?0:Number(p))*qv*100)/100});
+    });
+    if(!snap.length)throw new Error('\u0394\u03b5\u03bd \u03c5\u03c0\u03ac\u03c1\u03c7\u03bf\u03c5\u03bd \u03b5\u03af\u03b4\u03b7 \u03bc\u03b5 \u03c0\u03bf\u03c3\u03cc\u03c4\u03b7\u03c4\u03b1.');
+    const net=Math.round(snap.reduce((s,r)=>s+r.subtotal,0)*100)/100;
+    const itemCount=snap.length;
+    const seq=($('#lockModal')._seq)||((LOCKED.reduce((mx,r)=>Math.max(mx,Number(r.seq||0)),0))+1);
+    const supplier=($('#lockSupplier').value||'').trim()||null;
+    let kimdis=($('#lockKimdis').value||'').trim(); if(kimdis&&!/^https?:\/\//i.test(kimdis))kimdis='https://'+kimdis; kimdis=kimdis||null;
+    const label=($('#lockLabel').value||'').trim()||null;
+    const {error:ie}=await sb.from('locked_studies').insert({municipal_unit_id:cur.unitId,group_id:cur.groupId,request_year:YEAR,source_request_id:reqId,seq:seq,label:label,net_total:net,item_count:itemCount,lines:snap,supplier_name:supplier,kimdis_url:kimdis,locked_by:ME.id});
+    if(ie)throw ie;
+    await sb.from('request_lines').delete().eq('request_id',reqId);
+    await sb.from('unit_requests').update({status:'draft',updated_by:ME.id,updated_at:new Date().toISOString()}).eq('id',reqId);
+    try{await sb.from('saved_versions').insert({request_id:reqId,action:'lock',created_by:ME.id,snapshot:{seq:seq,net:net,items:itemCount,supplier:supplier,kimdis:kimdis}});}catch(e){}
+    lines={}; baseline={}; hiddenMaterials=new Set(); cleanView=false; prefillHint=false; setDirty(false);
+    await loadLocked(); render();
+    $('#lockModal').classList.remove('open');
+    toast('\u039a\u03bb\u03b5\u03b9\u03b4\u03ce\u03b8\u03b7\u03ba\u03b5 \u03b7 \u03bc\u03b5\u03bb\u03ad\u03c4\u03b7 #'+seq+' ('+fmtE(net)+'). \u03a4\u03bf \u03c6\u03cd\u03bb\u03bb\u03bf \u03ba\u03b1\u03b8\u03b1\u03c1\u03af\u03c3\u03c4\u03b7\u03ba\u03b5 \u03b3\u03b9\u03b1 \u03c4\u03b7\u03bd \u03b5\u03c0\u03cc\u03bc\u03b5\u03bd\u03b7 \u03bc\u03b5\u03bb\u03ad\u03c4\u03b7.','accent');
+  }catch(e){toast('\u03a3\u03c6\u03ac\u03bb\u03bc\u03b1 \u03ba\u03bb\u03b5\u03b9\u03b4\u03ce\u03bc\u03b1\u03c4\u03bf\u03c2: '+(e.message||e),'err');}
+  finally{btn.disabled=false; btn.innerHTML=old;}
+}
+
+function openHistoryModal(){ renderHistory(); $('#historyModal').classList.add('open'); }
+function renderHistory(){
+  const g=GROUPS.find(x=>x.id===cur.groupId)||{};
+  $('#histCtx').textContent='\u0394.\u0395. '+unitName(cur.unitId)+' \u00b7 '+(g.short_name||g.name||'')+' \u00b7 \u03ad\u03c4\u03bf\u03c2 '+YEAR;
+  const committed=lockedNetSum();
+  const remaining=Math.max(0,DIRECT_AWARD_CAP-committed);
+  $('#histSummary').innerHTML='\u039a\u03bb\u03b5\u03b9\u03b4\u03c9\u03bc\u03ad\u03bd\u03b5\u03c2 \u03bc\u03b5\u03bb\u03ad\u03c4\u03b5\u03c2: <b>'+LOCKED.length+'</b> &nbsp;\u00b7&nbsp; \u0394\u03b5\u03c3\u03bc\u03b5\u03c5\u03bc\u03ad\u03bd\u03bf: <b>'+fmtE(committed)+'</b> &nbsp;\u00b7&nbsp; \u03a5\u03c0\u03cc\u03bb\u03bf\u03b9\u03c0\u03bf \u03ad\u03c9\u03c2 '+fmtN(DIRECT_AWARD_CAP)+' \u20ac: <b class="'+(remaining<=0?'rem-over':'rem-ok')+'">'+fmtE(remaining)+'</b>';
+  const admin=isAdminUser();
+  const body=$('#histBody');
+  if(!LOCKED.length){body.innerHTML='<tr><td colspan="6" class="hist-empty">\u0394\u03b5\u03bd \u03c5\u03c0\u03ac\u03c1\u03c7\u03bf\u03c5\u03bd \u03ba\u03bb\u03b5\u03b9\u03b4\u03c9\u03bc\u03ad\u03bd\u03b5\u03c2 \u03bc\u03b5\u03bb\u03ad\u03c4\u03b5\u03c2 \u03b3\u03b9\u03b1 \u03c4\u03bf \u03ad\u03c4\u03bf\u03c2 '+YEAR+'.</td></tr>';return;}
+  let run=0;
+  body.innerHTML=LOCKED.map(r=>{
+    run=Math.round((run+Number(r.net_total||0))*100)/100;
+    const d=r.locked_at?new Date(r.locked_at).toLocaleDateString('el-GR'):'';
+    const sup=r.supplier_name?esc(r.supplier_name):'<span class="muted">\u2014</span>';
+    const kim=r.kimdis_url?('<a class="hist-link" href="'+escAttr(r.kimdis_url)+'" target="_blank" rel="noopener">\u0386\u03bd\u03bf\u03b9\u03b3\u03bc\u03b1</a>'):'<span class="muted">\u2014</span>';
+    return '<tr>'
+      +'<td class="c"><b>#'+r.seq+'</b>'+(r.label?('<div class="hist-lbl">'+esc(r.label)+'</div>'):'')+'<div class="hist-date">'+d+'</div></td>'
+      +'<td class="c">'+fmtN(r.item_count||0)+'</td>'
+      +'<td class="r"><b>'+fmtE(r.net_total)+'</b><div class="hist-run">\u03ac\u03b8\u03c1\u03bf\u03b9\u03c3\u03bc\u03b1: '+fmtE(run)+'</div></td>'
+      +'<td>'+sup+'</td>'
+      +'<td class="c">'+kim+'</td>'
+      +'<td class="c"><div class="hist-actions"><button class="mini" data-act="xlsx" data-id="'+r.id+'">Excel</button>'
+        +(admin?('<button class="mini" data-act="edit" data-id="'+r.id+'">\u03a3\u03c4\u03bf\u03b9\u03c7\u03b5\u03af\u03b1</button>'):'')
+        +(admin?('<button class="mini mini--danger" data-act="del" data-id="'+r.id+'">\u0394\u03b9\u03b1\u03b3\u03c1\u03b1\u03c6\u03ae</button>'):'')
+      +'</div></td>'
+      +'</tr>';
+  }).join('');
+  body.querySelectorAll('button[data-act]').forEach(b=>{
+    b.onclick=()=>{const id=b.dataset.id,act=b.dataset.act; if(act==='xlsx')exportLockedStudy(id); else if(act==='edit')editLockedMeta(id); else if(act==='del')unlockStudy(id);};
+  });
+}
+
+function exportLockedStudy(id){
+  const r=LOCKED.find(x=>String(x.id)===String(id)); if(!r){toast('\u0394\u03b5\u03bd \u03b2\u03c1\u03ad\u03b8\u03b7\u03ba\u03b5 \u03b7 \u03bc\u03b5\u03bb\u03ad\u03c4\u03b7.','err');return;}
+  if(!window.XLSX){toast('\u0394\u03b5\u03bd \u03c6\u03bf\u03c1\u03c4\u03ce\u03b8\u03b7\u03ba\u03b5 \u03b2\u03b9\u03b2\u03bb\u03b9\u03bf\u03b8\u03ae\u03ba\u03b7 Excel.','err');return;}
+  const g=GROUPS.find(x=>x.id===cur.groupId)||{};
+  const lns=Array.isArray(r.lines)?r.lines:[];
+  const data=[['\u0391/\u0391','\u039a\u03c9\u03b4\u03b9\u03ba\u03cc\u03c2','\u03a0\u03b5\u03c1\u03b9\u03b3\u03c1\u03b1\u03c6\u03ae \u03b5\u03af\u03b4\u03bf\u03c5\u03c2','\u039c\u03bf\u03bd\u03ac\u03b4\u03b1','CPV','\u03a0\u03bf\u03c3\u03cc\u03c4\u03b7\u03c4\u03b1','\u03a4\u03b9\u03bc\u03ae (\u03c7\u03c9\u03c1\u03af\u03c2 \u03a6\u03a0\u0391)','\u0394\u03b1\u03c0\u03ac\u03bd\u03b7 (\u03c7\u03c9\u03c1\u03af\u03c2 \u03a6\u03a0\u0391)']];
+  lns.forEach((l,i)=>data.push([i+1,l.code||'',l.name||'',l.unit||'',l.cpv||'',Number(l.quantity)||0,Number(l.unit_price)||0,Number(l.subtotal)||0]));
+  const net=Number(r.net_total||0);
+  data.push([]);
+  data.push(['','','','','','','\u039a\u03b1\u03b8\u03b1\u03c1\u03ae \u03b1\u03be\u03af\u03b1',net]);
+  data.push(['','','','','','','\u03a6\u03a0\u0391 24%',Math.round(net*VAT*100)/100]);
+  data.push(['','','','','','','\u0393\u03b5\u03bd\u03b9\u03ba\u03cc \u03c3\u03cd\u03bd\u03bf\u03bb\u03bf',Math.round(net*(1+VAT)*100)/100]);
+  const wb=XLSX.utils.book_new(); const ws=XLSX.utils.aoa_to_sheet(data);
+  ws['!cols']=[{wch:6},{wch:14},{wch:60},{wch:12},{wch:14},{wch:12},{wch:16},{wch:18}];
+  XLSX.utils.book_append_sheet(wb,ws,('\u039c\u03b5\u03bb\u03ad\u03c4\u03b7 '+r.seq).slice(0,28));
+  const lbl=unitName(cur.unitId).replace(/\s+/g,'_'); const gl=(g.short_name||g.name||'\u03a5\u039b\u0399\u039a\u0391').replace(/\s+/g,'_');
+  XLSX.writeFile(wb,('\u039a\u039b\u0395\u0399\u0394\u03a9\u039c\u0395\u039d\u0397_'+lbl+'_'+gl+'_'+YEAR+'_\u039d\u03bf'+r.seq+'.xlsx'));
+  toast('\u0395\u03be\u03ae\u03c7\u03b8\u03b7 \u03b7 \u03ba\u03bb\u03b5\u03b9\u03b4\u03c9\u03bc\u03ad\u03bd\u03b7 \u03bc\u03b5\u03bb\u03ad\u03c4\u03b7 #'+r.seq+'.','accent');
+}
+
+async function editLockedMeta(id){
+  if(!isAdminUser())return;
+  const r=LOCKED.find(x=>String(x.id)===String(id)); if(!r)return;
+  const sup=prompt('\u03a0\u03c1\u03bf\u03bc\u03b7\u03b8\u03b5\u03c5\u03c4\u03ae\u03c2 (\u03b5\u03c0\u03c9\u03bd\u03c5\u03bc\u03af\u03b1) \u03b3\u03b9\u03b1 \u03c4\u03b7 \u03bc\u03b5\u03bb\u03ad\u03c4\u03b7 #'+r.seq+':',r.supplier_name||'');
+  if(sup===null)return;
+  let kim=prompt('\u03a3\u03cd\u03bd\u03b4\u03b5\u03c3\u03bc\u03bf\u03c2 \u039a\u0397\u039c\u0394\u0397\u03a3 (URL) \u03b3\u03b9\u03b1 \u03c4\u03b7 \u03bc\u03b5\u03bb\u03ad\u03c4\u03b7 #'+r.seq+':',r.kimdis_url||'');
+  if(kim===null)kim=r.kimdis_url||'';
+  kim=(kim||'').trim(); if(kim&&!/^https?:\/\//i.test(kim))kim='https://'+kim;
+  try{
+    const {error}=await sb.from('locked_studies').update({supplier_name:(sup.trim()||null),kimdis_url:(kim||null)}).eq('id',id);
+    if(error)throw error;
+    await loadLocked(); renderHistory(); renderCapStrip();
+    toast('\u0395\u03bd\u03b7\u03bc\u03b5\u03c1\u03ce\u03b8\u03b7\u03ba\u03b1\u03bd \u03c4\u03b1 \u03c3\u03c4\u03bf\u03b9\u03c7\u03b5\u03af\u03b1 \u03c4\u03b7\u03c2 \u03bc\u03b5\u03bb\u03ad\u03c4\u03b7\u03c2 #'+r.seq+'.','accent');
+  }catch(e){toast('\u03a3\u03c6\u03ac\u03bb\u03bc\u03b1 \u03b5\u03bd\u03b7\u03bc\u03ad\u03c1\u03c9\u03c3\u03b7\u03c2: '+(e.message||e),'err');}
+}
+
+async function unlockStudy(id){
+  if(!isAdminUser())return;
+  const r=LOCKED.find(x=>String(x.id)===String(id)); if(!r)return;
+  if(!confirm('\u0394\u03b9\u03b1\u03b3\u03c1\u03b1\u03c6\u03ae \u03c4\u03b7\u03c2 \u03ba\u03bb\u03b5\u03b9\u03b4\u03c9\u03bc\u03ad\u03bd\u03b7\u03c2 \u03bc\u03b5\u03bb\u03ad\u03c4\u03b7\u03c2 #'+r.seq+' ('+fmtE(r.net_total)+');\n\u0398\u03b1 \u03b1\u03c6\u03b1\u03b9\u03c1\u03b5\u03b8\u03b5\u03af \u03b1\u03c0\u03cc \u03c4\u03bf \u03b9\u03c3\u03c4\u03bf\u03c1\u03b9\u03ba\u03cc \u03ba\u03b1\u03b9 \u03b8\u03b1 \u03b1\u03c0\u03bf\u03b4\u03b5\u03c3\u03bc\u03b5\u03c5\u03c4\u03b5\u03af \u03c4\u03bf \u03c0\u03bf\u03c3\u03cc \u03b1\u03c0\u03cc \u03c4\u03bf \u03cc\u03c1\u03b9\u03bf \u03c4\u03c9\u03bd '+fmtN(DIRECT_AWARD_CAP)+' \u20ac.'))return;
+  try{
+    const {error}=await sb.from('locked_studies').delete().eq('id',id);
+    if(error)throw error;
+    if(r.source_request_id){try{await sb.from('saved_versions').insert({request_id:r.source_request_id,action:'unlock',created_by:ME.id,snapshot:{seq:r.seq,net:r.net_total}});}catch(e){}}
+    await loadLocked(); renderHistory(); renderCapStrip();
+    toast('\u0397 \u03bc\u03b5\u03bb\u03ad\u03c4\u03b7 #'+r.seq+' \u03b1\u03c6\u03b1\u03b9\u03c1\u03ad\u03b8\u03b7\u03ba\u03b5 \u03b1\u03c0\u03cc \u03c4\u03bf \u03b9\u03c3\u03c4\u03bf\u03c1\u03b9\u03ba\u03cc.','accent');
+  }catch(e){toast('\u03a3\u03c6\u03ac\u03bb\u03bc\u03b1: '+(e.message||e),'err');}
+}
+
+$('#lockConfirm').onclick=doLock;
+$('#lockCancel').onclick=()=>$('#lockModal').classList.remove('open');
+$('#lockModal').addEventListener('click',e=>{if(e.target.id==='lockModal')$('#lockModal').classList.remove('open');});
+$('#histClose').onclick=()=>$('#historyModal').classList.remove('open');
+$('#historyModal').addEventListener('click',e=>{if(e.target.id==='historyModal')$('#historyModal').classList.remove('open');});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){var lm=$('#lockModal'),hm=$('#historyModal');if(lm)lm.classList.remove('open');if(hm)hm.classList.remove('open');}});
+
 function currentNet(){const mats=MAT_BY_GROUP[cur.groupId]||[];let net=0;mats.forEach(m=>{const p=priceOf(m);const qv=(lines[m.id]&&lines[m.id].q)||0;if(p!=null&&qv>0)net+=p*qv;});return Math.round(net*100)/100;}
 
 $('#btnRefresh').onclick=async()=>{
@@ -1700,7 +1997,7 @@ function currentExcelContext(){
   const contextKey=[YEAR,cur.unitId,cur.groupId,g.code||'',unitLabel,g.name||g.short_name||''].join('|');
   return {
     signature:'RHODES_PROCUREMENT_EXPORT_V2',
-    appVersion:'v22',
+    appVersion:'v23',
     year:String(YEAR),
     unitId:String(cur.unitId),
     unitName:unitLabel,
@@ -2723,6 +3020,6 @@ $('#selfSave').onclick=async()=>{
 
 boot();
 </script>
-<div class="dev-credit">developer Vasilis Diakolios · v13</div>
+<div class="dev-credit">developer Vasilis Diakolios · v23</div>
 </body>
 </html>
