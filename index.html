@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Δήμος Ρόδου · Προμήθειες υλικών v23</title>
+<title>Δήμος Ρόδου · Προμήθειες υλικών v24</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Commissioner:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap&subset=greek,greek-ext,latin" rel="stylesheet">
@@ -114,6 +114,50 @@ button{font-family:var(--font-ui);cursor:pointer}
 .hist-actions .mini--danger:hover{background:#FBE9E5;border-color:#C0392B;color:#A52A1C}
 .hist-empty{text-align:center;color:var(--muted);padding:18px}
 @media(max-width:640px){.lock-grid{grid-template-columns:1fr}.cap-fig .cv{font-size:16px}}
+/* v24 — εποπτική εικόνα Δήμου Ρόδου */
+#deNav .pill--ov{position:relative;overflow:hidden;padding-right:48px}
+#deNav .pill--ov .pf{position:absolute;left:0;top:0;height:100%;z-index:0;border-radius:inherit}
+#deNav .pill--ov .pf-proj{width:var(--projw,0%)}
+#deNav .pill--ov .pf-lock{width:var(--lockw,0%)}
+#deNav .pill--ov .pill-txt{position:relative;z-index:1}
+#deNav .pill--ov .pill-pct{position:absolute;right:10px;top:50%;transform:translateY(-50%);z-index:1;font-family:var(--font-data);font-size:11px;font-weight:700;color:#0D2138}
+#deNav .pill--ov.ov-ok .pf-lock{background:rgba(46,117,182,.55)}#deNav .pill--ov.ov-ok .pf-proj{background:rgba(46,117,182,.16)}
+#deNav .pill--ov.ov-warn .pf-lock{background:rgba(214,150,30,.62)}#deNav .pill--ov.ov-warn .pf-proj{background:rgba(214,150,30,.18)}
+#deNav .pill--ov.ov-over .pf-lock{background:rgba(208,64,50,.6)}#deNav .pill--ov.ov-over .pf-proj{background:rgba(208,64,50,.18)}
+.ov-wrap{margin-top:2px}
+.ov-summary{display:flex;flex-wrap:wrap;gap:12px 26px;align-items:center;border:1px solid var(--line);border-left:5px solid #2E75B6;border-radius:12px;padding:12px 16px;background:linear-gradient(180deg,#F7FBFF,#EEF5FD);margin-bottom:12px}
+.ovs-fig{display:flex;flex-direction:column;gap:1px}
+.ovs-k{font-family:var(--font-ui);font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.02em}
+.ovs-v{font-family:var(--font-data);font-size:18px;font-weight:700;color:var(--ink)}
+.ovs-v.ovs-lock{color:#1B5B96}.ovs-v.ovs-draft{color:#8A6D3B}
+.ov-tablewrap{overflow:auto;max-height:calc(100vh - 430px - var(--totals-height));min-height:180px;border:1px solid var(--line);border-radius:10px}
+.ov-table{width:100%;border-collapse:collapse;font-size:13.5px}
+.ov-table thead th{position:sticky;top:0;z-index:2;background:#F1F6FD;color:var(--teal-700);font-family:var(--font-ui);font-weight:600;font-size:11.5px;letter-spacing:.3px;text-transform:uppercase;text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
+.ov-table thead th.num{text-align:right}.ov-table thead th.c{text-align:center}
+.ov-table tbody td{border-top:1px solid var(--line-2);padding:9px 12px;vertical-align:middle}
+.ov-table td.num{text-align:right;font-variant-numeric:tabular-nums}.ov-table td.c{text-align:center}
+.ov-row{cursor:pointer;transition:background .12s}
+.ov-row:hover{background:#F2F8FF}
+.ov-row.ov-open{background:#E9F2FC}
+.ov-name{font-weight:500}
+.ov-caret{display:inline-block;width:14px;color:var(--teal-500);font-size:10px;transition:transform .15s}
+.ov-row.ov-open .ov-caret{transform:rotate(90deg)}
+.ov-table .u{display:inline-block;background:#EEF4FB;color:var(--teal-600);font-size:11px;font-weight:600;padding:2px 8px;border-radius:999px;font-family:var(--font-ui)}
+.ov-table td.ov-lock{font-weight:700;color:#1B5B96}
+.ov-table td.ov-draft{color:#8A6D3B}
+.ov-table td.ov-total{font-weight:700;color:var(--ink)}
+.ov-table td.ov-val{font-weight:600;color:var(--teal-700)}
+.ov-table td.ov-units{color:var(--muted);font-variant-numeric:tabular-nums}
+.ov-empty{text-align:center;color:var(--muted);padding:20px}
+.ov-detail>td{background:#FAFCFE;padding:0}
+.ovd-wrap{padding:6px 10px 12px 34px}
+.ovd-table{width:100%;border-collapse:collapse;font-size:12.5px;background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.ovd-table th{background:#EEF4FB;color:var(--teal-700);font-family:var(--font-ui);font-weight:600;font-size:11px;text-transform:uppercase;text-align:left;padding:7px 10px}
+.ovd-table th.num{text-align:right}
+.ovd-table td{border-top:1px solid var(--line-2);padding:7px 10px}
+.ovd-table td.num{text-align:right;font-variant-numeric:tabular-nums}
+.ovd-table td.ov-lock{color:#1B5B96;font-weight:600}.ovd-table td.ov-draft{color:#8A6D3B}
+@media(max-width:680px){.ov-summary{gap:10px 18px}.ovs-v{font-size:16px}.ov-tablewrap{max-height:none}}
 .shell{max-width:1280px;margin:0 auto;padding:clamp(14px,2.4vw,26px) clamp(12px,3vw,30px) calc(var(--totals-height) + 22px)}
 .nav{margin-bottom:14px}
 .nav-label{font-family:var(--font-ui);font-size:11px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--faint2);margin:0 2px 8px}
@@ -452,6 +496,7 @@ table.mat{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
         <tbody id="tbody"></tbody>
       </table>
     </div>
+    <div class="ov-wrap hidden" id="overviewWrap"></div>
   </section>
 </div>
 
@@ -1333,6 +1378,7 @@ let ME={id:null,role:null,unitId:null,name:''};
 let UNITS=[], GROUPS=[], MAT_BY_GROUP={}, COUNTS={};
 let cur={unitId:null, groupId:null};
 let LOCKED=[];
+let OVERVIEW={byUnit:{},byMaterial:{}};
 let reqId=null, lines={}, baseline={}, dirty=false, prefillHint=false, cleanView=false;
 let hiddenMaterials=new Set(), undoStack=[], redoStack=[], sortState={key:'sort_order',dir:'asc'};
 
@@ -1532,7 +1578,7 @@ async function openView(){
   $('#banner').classList.add('hidden');
   reqId=null; lines={}; baseline={}; prefillHint=false; cleanView=false; hiddenMaterials=new Set(); undoStack=[]; redoStack=[]; sortState={key:'sort_order',dir:'asc'}; setDirty(false); updateAdminControls();
   renderLoading();
-  try{ await loadUnitRequest(); await loadLocked(); }
+  try{ await loadUnitRequest(); await loadLocked(); await loadOverview(); }
   catch(e){ toast('Σφάλμα φόρτωσης: '+(e.message||e),'err'); }
   render();
 }
@@ -1578,6 +1624,9 @@ async function computeSumFromUnits(groupId){
 }
 
 function render(){
+  renderUnitFills();
+  if(cur.unitId===CENTRAL_UNIT){ renderCentralOverview(); return; }
+  { const tw=$('.tablewrap'); if(tw)tw.classList.remove('hidden'); const ow=$('#overviewWrap'); if(ow)ow.classList.add('hidden'); }
   const allMats=MAT_BY_GROUP[cur.groupId]||[];
   const writable=canWrite(cur.unitId);
   const q=norm(($('#search').value||'').trim());
@@ -1685,6 +1734,7 @@ function bindPermanentDeleteButtons(){
 }
 
 function computeTotals(){
+  if(cur.unitId===CENTRAL_UNIT){ computeCentralTotals(); return; }
   const mats=MAT_BY_GROUP[cur.groupId]||[]; let net=0,qsum=0,n=0;
   mats.forEach(m=>{const price=priceOf(m);const qty=(lines[m.id]&&lines[m.id].q)||0;
     if(qty>0){n++;qsum+=qty;if(price!=null)net+=price*qty;}});
@@ -1765,6 +1815,159 @@ async function loadLocked(){
 function lockedNetSum(){return Math.round(LOCKED.reduce((s,r)=>s+Number(r.net_total||0),0)*100)/100;}
 const LOCK_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>';
 const HIST_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l3 2"/></svg>';
+
+/* ===== v24: εποπτική εικόνα Δήμου Ρόδου (συγκεντρωτικά ανά Δ.Ε. & υλικό) ===== */
+async function loadOverview(){
+  OVERVIEW={byUnit:{},byMaterial:{}};
+  if(cur.unitId!==CENTRAL_UNIT||!cur.groupId)return;
+  const gid=cur.groupId;
+  const eu=u=>(OVERVIEW.byUnit[u]=OVERVIEW.byUnit[u]||{locked:0,draft:0});
+  const em=mid=>(OVERVIEW.byMaterial[mid]=OVERVIEW.byMaterial[mid]||{name:'',unit:'',lockedQty:0,draftQty:0,lockedVal:0,draftVal:0,perUnit:{}});
+  const emu=(m,u)=>(m.perUnit[u]=m.perUnit[u]||{lockedQty:0,draftQty:0,lockedVal:0,draftVal:0});
+  try{
+    const {data:locks}=await sb.from('locked_studies').select('municipal_unit_id,net_total,lines').eq('group_id',gid).eq('request_year',YEAR).lt('municipal_unit_id',CENTRAL_UNIT);
+    (locks||[]).forEach(r=>{
+      const u=r.municipal_unit_id; eu(u).locked+=Number(r.net_total||0);
+      (Array.isArray(r.lines)?r.lines:[]).forEach(l=>{
+        const mid=l.material_id; if(!mid)return;
+        const q=Number(l.quantity||0), v=Number(l.subtotal!=null?l.subtotal:Number(l.unit_price||0)*q);
+        const m=em(mid); if(!m.name&&l.name)m.name=l.name; if(!m.unit&&l.unit)m.unit=l.unit; m.lockedQty+=q; m.lockedVal+=v;
+        const mu=emu(m,u); mu.lockedQty+=q; mu.lockedVal+=v;
+      });
+    });
+    const {data:reqs}=await sb.from('unit_requests').select('id,municipal_unit_id').eq('group_id',gid).eq('request_year',YEAR).lt('municipal_unit_id',CENTRAL_UNIT);
+    const rm={}; (reqs||[]).forEach(r=>rm[r.id]=r.municipal_unit_id);
+    const ids=(reqs||[]).map(r=>r.id);
+    if(ids.length){
+      const {data:ls}=await sb.from('request_lines').select('request_id,material_id,quantity,unit_price,comments').in('request_id',ids);
+      (ls||[]).forEach(l=>{
+        if(l.comments==='__hidden__')return;
+        const u=rm[l.request_id]; if(!u)return;
+        const q=Number(l.quantity||0); if(q<=0)return;
+        const v=q*Number(l.unit_price||0);
+        eu(u).draft+=v;
+        const m=em(l.material_id); m.draftQty+=q; m.draftVal+=v;
+        const mu=emu(m,u); mu.draftQty+=q; mu.draftVal+=v;
+      });
+    }
+  }catch(e){console.warn('loadOverview',e);}
+}
+
+function renderUnitFills(){
+  const nav=$('#deNav'); if(!nav)return;
+  const central=(cur.unitId===CENTRAL_UNIT);
+  [...nav.children].forEach(c=>{
+    if(!c.dataset||!c.dataset.uid)return;
+    const uid=Number(c.dataset.uid);
+    if(uid===CENTRAL_UNIT)return;
+    if(!central){
+      c.classList.remove('pill--ov','ov-ok','ov-warn','ov-over');
+      c.style.removeProperty('--lockw'); c.style.removeProperty('--projw');
+      c.textContent=unitName(uid);
+      return;
+    }
+    const d=OVERVIEW.byUnit[uid]||{locked:0,draft:0};
+    const locked=Number(d.locked||0), draft=Number(d.draft||0), total=locked+draft;
+    const lockPct=Math.max(0,Math.min(100,locked/DIRECT_AWARD_CAP*100));
+    const projPct=Math.max(0,Math.min(100,total/DIRECT_AWARD_CAP*100));
+    const totalPct=total/DIRECT_AWARD_CAP*100;
+    let st='ok'; if(totalPct>100)st='over'; else if(totalPct>75)st='warn';
+    c.classList.add('pill--ov');
+    c.classList.remove('ov-ok','ov-warn','ov-over'); c.classList.add('ov-'+st);
+    c.style.setProperty('--lockw',lockPct.toFixed(1)+'%');
+    c.style.setProperty('--projw',projPct.toFixed(1)+'%');
+    c.title=unitName(uid)+' — Ανατεθειμένα: '+fmtE(locked)+' · Σε εξέλιξη: '+fmtE(draft)+' · Σύνολο: '+fmtE(total)+' / '+fmtN(DIRECT_AWARD_CAP)+' €';
+    c.innerHTML='<span class="pf pf-proj"></span><span class="pf pf-lock"></span><span class="pill-txt">'+esc(unitName(uid))+'</span><span class="pill-pct">'+Math.round(totalPct)+'%</span>';
+  });
+}
+
+function computeCentralTotals(){
+  let items=0,qty=0,net=0;
+  Object.keys(OVERVIEW.byMaterial).forEach(mid=>{
+    const m=OVERVIEW.byMaterial[mid];
+    const tq=(m.lockedQty||0)+(m.draftQty||0);
+    if(tq>0){items++; qty+=tq; net+=(m.lockedVal||0)+(m.draftVal||0);}
+  });
+  net=Math.round(net*100)/100;
+  $('#tItems').textContent=fmtN(items);
+  $('#tQty').textContent=fmtN(Math.round(qty));
+  $('#tNet').innerHTML=fmtE(net).replace(' ','&nbsp;');
+  $('#tVat').innerHTML=fmtE(net*VAT).replace(' ','&nbsp;');
+  $('#tGrand').innerHTML=fmtE(net*(1+VAT)).replace(' ','&nbsp;');
+  const cs=$('#capStrip'); if(cs){cs.classList.add('hidden'); cs.innerHTML='';}
+}
+
+function renderCentralOverview(){
+  const tw=$('.tablewrap'); if(tw)tw.classList.add('hidden');
+  const ov=$('#overviewWrap'); if(!ov)return;
+  ov.classList.remove('hidden');
+  const bn=$('#banner'); if(bn)bn.classList.add('hidden');
+  const g=GROUPS.find(x=>x.id===cur.groupId)||{};
+  const cat={}; (MAT_BY_GROUP[cur.groupId]||[]).forEach(m=>cat[m.id]=m);
+  const qq=norm(($('#search').value||'').trim());
+  let rows=Object.keys(OVERVIEW.byMaterial).map(mid=>{
+    const d=OVERVIEW.byMaterial[mid]; const cm=cat[mid]||{};
+    return {mid:mid,name:(cm.name||d.name||'—'),unit:(cm.unit||d.unit||''),lockedQty:d.lockedQty||0,draftQty:d.draftQty||0,total:(d.lockedQty||0)+(d.draftQty||0),val:Math.round(((d.lockedVal||0)+(d.draftVal||0))*100)/100,perUnit:d.perUnit||{}};
+  }).filter(r=>r.total>0);
+  if(qq)rows=rows.filter(r=>norm(r.name).includes(qq));
+  rows.sort((a,b)=>b.total-a.total||b.val-a.val);
+  let totLocked=0,totDraft=0,activeUnits=0;
+  Object.keys(OVERVIEW.byUnit).forEach(u=>{const x=OVERVIEW.byUnit[u]; totLocked+=x.locked||0; totDraft+=x.draft||0; if(((x.locked||0)+(x.draft||0))>0)activeUnits++;});
+  totLocked=Math.round(totLocked*100)/100; totDraft=Math.round(totDraft*100)/100;
+  let html='<div class="ov-summary">'
+    +'<div class="ovs-fig"><span class="ovs-k">Δ.Ε. με κίνηση</span><span class="ovs-v">'+fmtN(activeUnits)+' / 10</span></div>'
+    +'<div class="ovs-fig"><span class="ovs-k">Ανατεθειμένα (κλειδωμένα)</span><span class="ovs-v ovs-lock">'+fmtE(totLocked)+'</span></div>'
+    +'<div class="ovs-fig"><span class="ovs-k">Σε εξέλιξη (πρόχειρα)</span><span class="ovs-v ovs-draft">'+fmtE(totDraft)+'</span></div>'
+    +'<div class="ovs-fig"><span class="ovs-k">Σύνολο</span><span class="ovs-v">'+fmtE(Math.round((totLocked+totDraft)*100)/100)+'</span></div>'
+    +'</div>';
+  html+='<div class="ov-tablewrap"><table class="ov-table"><thead><tr>'
+    +'<th class="c">Α/Α</th><th>Είδος</th><th class="c">Μον.</th>'
+    +'<th class="num">Ανατεθειμένα</th><th class="num">Σε εξέλιξη</th><th class="num">Σύνολο ποσ.</th><th class="num">Αξία</th><th class="c">Δ.Ε.</th>'
+    +'</tr></thead><tbody>';
+  if(!rows.length){
+    html+='<tr><td colspan="8" class="ov-empty">'+(qq?'Κανένα είδος δεν ταιριάζει στην αναζήτηση.':('Δεν υπάρχουν προμήθειες για '+esc(g.short_name||g.name||'')+' το '+YEAR+'.'))+'</td></tr>';
+  }else{
+    rows.forEach((r,i)=>{
+      let uc=0; Object.keys(r.perUnit).forEach(u=>{const p=r.perUnit[u]; if(((p.lockedQty||0)+(p.draftQty||0))>0)uc++;});
+      html+='<tr class="ov-row" data-mid="'+escAttr(r.mid)+'">'
+        +'<td class="c ov-aa">'+(i+1)+'</td>'
+        +'<td class="ov-name"><span class="ov-caret">▸</span>'+esc(r.name)+'</td>'
+        +'<td class="c">'+(r.unit?'<span class="u">'+esc(r.unit)+'</span>':'')+'</td>'
+        +'<td class="num ov-lock">'+fmtN(r.lockedQty)+'</td>'
+        +'<td class="num ov-draft">'+fmtN(r.draftQty)+'</td>'
+        +'<td class="num ov-total">'+fmtN(r.total)+'</td>'
+        +'<td class="num ov-val">'+fmtE(r.val)+'</td>'
+        +'<td class="c ov-units">'+uc+'</td>'
+        +'</tr>';
+    });
+  }
+  html+='</tbody></table></div>';
+  ov.innerHTML=html;
+  ov.querySelectorAll('tr.ov-row').forEach(tr=>tr.addEventListener('click',()=>toggleOverviewDetail(tr)));
+  const ps=$('#ptSub'); if(ps)ps.innerHTML='Συγκεντρωτικά '+esc(g.short_name||g.name||'')+' · <b>'+rows.length+'</b> είδη σε <b>'+activeUnits+'</b> Δ.Ε.';
+  computeTotals();
+}
+
+function toggleOverviewDetail(tr){
+  const ov=$('#overviewWrap'); if(!ov)return;
+  const mid=tr.dataset.mid;
+  const nx=tr.nextElementSibling;
+  const wasOpen=nx&&nx.classList.contains('ov-detail');
+  ov.querySelectorAll('tr.ov-detail').forEach(x=>x.remove());
+  ov.querySelectorAll('tr.ov-row.ov-open').forEach(x=>x.classList.remove('ov-open'));
+  if(wasOpen)return;
+  const d=OVERVIEW.byMaterial[mid]; if(!d)return;
+  const pu=d.perUnit||{};
+  const list=Object.keys(pu).map(u=>{const o=pu[u]; return {u:Number(u),lockedQty:o.lockedQty||0,draftQty:o.draftQty||0,total:(o.lockedQty||0)+(o.draftQty||0),val:Math.round(((o.lockedVal||0)+(o.draftVal||0))*100)/100};}).filter(x=>x.total>0).sort((a,b)=>b.total-a.total);
+  let inner='<div class="ovd-wrap"><table class="ovd-table"><thead><tr><th>Δημοτική Ενότητα</th><th class="num">Ανατεθειμένα</th><th class="num">Σε εξέλιξη</th><th class="num">Σύνολο</th><th class="num">Αξία</th></tr></thead><tbody>';
+  list.forEach(x=>{
+    inner+='<tr><td>'+esc(unitName(x.u))+'</td><td class="num ov-lock">'+fmtN(x.lockedQty)+'</td><td class="num ov-draft">'+fmtN(x.draftQty)+'</td><td class="num ov-total">'+fmtN(x.total)+'</td><td class="num">'+fmtE(x.val)+'</td></tr>';
+  });
+  inner+='</tbody></table></div>';
+  const det=document.createElement('tr'); det.className='ov-detail'; det.innerHTML='<td colspan="8">'+inner+'</td>';
+  tr.classList.add('ov-open');
+  tr.parentNode.insertBefore(det,tr.nextSibling);
+}
 
 function renderCapStrip(){
   const el=$('#capStrip'); if(!el)return;
@@ -1997,7 +2200,7 @@ function currentExcelContext(){
   const contextKey=[YEAR,cur.unitId,cur.groupId,g.code||'',unitLabel,g.name||g.short_name||''].join('|');
   return {
     signature:'RHODES_PROCUREMENT_EXPORT_V2',
-    appVersion:'v23',
+    appVersion:'v24',
     year:String(YEAR),
     unitId:String(cur.unitId),
     unitName:unitLabel,
@@ -3020,6 +3223,6 @@ $('#selfSave').onclick=async()=>{
 
 boot();
 </script>
-<div class="dev-credit">developer Vasilis Diakolios · v23</div>
+<div class="dev-credit">developer Vasilis Diakolios · v24</div>
 </body>
 </html>
