@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Δήμος Ρόδου · Προμήθειες υλικών v24</title>
+<title>Δήμος Ρόδου · Προμήθειες υλικών v26</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Commissioner:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap&subset=greek,greek-ext,latin" rel="stylesheet">
@@ -158,6 +158,22 @@ button{font-family:var(--font-ui);cursor:pointer}
 .ovd-table td.num{text-align:right;font-variant-numeric:tabular-nums}
 .ovd-table td.ov-lock{color:#1B5B96;font-weight:600}.ovd-table td.ov-draft{color:#8A6D3B}
 @media(max-width:680px){.ov-summary{gap:10px 18px}.ovs-v{font-size:16px}.ov-tablewrap{max-height:none}}
+/* v26 — chooser & mode switch */
+.chooser{display:flex;align-items:center;justify-content:center;min-height:calc(100vh - 78px);padding:40px 20px}
+.chooser-in{width:100%;max-width:720px;text-align:center}
+.chooser-title{font-family:var(--font-ui);font-weight:700;font-size:26px;color:var(--ink);margin:0 0 6px}
+.chooser-sub{color:var(--muted);margin:0 0 26px;font-size:14px}
+.chooser-cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.chooser-card{display:flex;flex-direction:column;align-items:center;gap:10px;padding:34px 22px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(180deg,#ffffff,#f4f9ff);cursor:pointer;transition:transform .12s,box-shadow .12s,border-color .12s;box-shadow:var(--shadow-sm)}
+.chooser-card:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(20,60,110,.14);border-color:var(--teal-500)}
+.chooser-card svg{width:50px;height:50px;color:var(--teal-600)}
+.chooser-card b{font-family:var(--font-ui);font-size:19px;color:var(--ink)}
+.chooser-card span{color:var(--muted);font-size:13px}
+.mode-switch{display:inline-flex;gap:4px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.28);padding:3px;border-radius:999px;margin-left:14px}
+.mode-switch button{border:0;background:transparent;color:#E7F0FB;font-family:var(--font-ui);font-weight:600;font-size:13px;padding:6px 15px;border-radius:999px;cursor:pointer;opacity:.85;transition:background .12s,opacity .12s;white-space:nowrap}
+.mode-switch button:hover{opacity:1}
+.mode-switch button[aria-selected="true"]{background:#fff;color:var(--teal-700);opacity:1}
+@media(max-width:640px){.chooser-cards{grid-template-columns:1fr}.mode-switch{margin-left:0}.mode-switch button{padding:6px 12px;font-size:12px}}
 .shell{max-width:1280px;margin:0 auto;padding:clamp(14px,2.4vw,26px) clamp(12px,3vw,30px) calc(var(--totals-height) + 22px)}
 .nav{margin-bottom:14px}
 .nav-label{font-family:var(--font-ui);font-size:11px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--faint2);margin:0 2px 8px}
@@ -430,8 +446,9 @@ table.mat{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
 <header class="appbar">
   <div class="brand">
     <svg class="sun" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="8.4" stroke="currentColor" stroke-width="2.6"/><g stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M24 4.5v6"/><path d="M24 37.5v6"/><path d="M4.5 24h6"/><path d="M37.5 24h6"/><path d="M10.2 10.2l4.2 4.2"/><path d="M33.6 33.6l4.2 4.2"/><path d="M37.8 10.2l-4.2 4.2"/><path d="M14.4 33.6l-4.2 4.2"/></g></svg>
-    <div class="brand-txt"><b>Δήμος Ρόδου</b><span>Προμήθειες υλικών — ενοποιημένος προγραμματισμός</span></div>
+    <div class="brand-txt"><b>Δήμος Ρόδου</b><span id="brandSub">Προμήθειες υλικών — ενοποιημένος προγραμματισμός</span></div>
   </div>
+  <div class="mode-switch hidden" id="modeSwitch"><button type="button" data-mode="procurement">Προμήθειες</button><button type="button" data-mode="service">Υπηρεσίες</button></div>
   <div class="appbar-right">
     <span class="who"><b id="whoName">—</b><span class="role" id="whoRole">—</span></span>
     <label class="year-pick" title="Έτος μελέτης"><span>Έτος</span><select id="yearSel" aria-label="Έτος μελέτης"></select></label>
@@ -440,13 +457,15 @@ table.mat{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
   </div>
 </header>
 
-<div class="shell">
+<div class="chooser hidden" id="chooser"><div class="chooser-in"><h1 class="chooser-title">Επιλέξτε ενότητα</h1><p class="chooser-sub">Διαλέξτε με τι θέλετε να εργαστείτε</p><div class="chooser-cards"><button class="chooser-card" data-mode="procurement" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="m3.3 7 8.7 5 8.7-5M12 22V12"/></svg><b>Προμήθειες</b><span>Υλικά ανά ομάδα &amp; Δ.Ε.</span></button><button class="chooser-card" data-mode="service" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg><b>Υπηρεσίες</b><span>Υπηρεσίες ανά Δ.Ε.</span></button></div></div></div>
+
+<div class="shell" id="board">
   <nav class="nav" aria-label="Δημοτική Ενότητα">
     <div class="nav-label">Δημοτική ενότητα</div>
     <div class="pills" id="deNav"></div>
   </nav>
   <nav class="nav" aria-label="Ομάδα υλικών">
-    <div class="nav-label">Ομάδα υλικών</div>
+    <div class="nav-label" id="grpNavLabel">Ομάδα υλικών</div>
     <div class="pills" id="grpNav"></div>
   </nav>
 
@@ -1406,13 +1425,15 @@ async function doLogin(){
   await boot();
 }
 $('#logoutBtn').onclick=async()=>{await sb.auth.signOut();location.reload();};
+document.querySelectorAll('#chooser [data-mode]').forEach(b=>b.addEventListener('click',()=>enterMode(b.dataset.mode)));
+document.querySelectorAll('#modeSwitch [data-mode]').forEach(b=>b.addEventListener('click',()=>switchMode(b.dataset.mode)));
 
 async function boot(){
   const {data:{session}}=await sb.auth.getSession();
   if(!session){$('#login').classList.remove('hidden');$('#app').classList.add('hidden');return;}
   const {data:prof,error}=await sb.from('profiles').select('role,municipal_unit_id,full_name,email').eq('id',session.user.id).single();
   if(error||!prof){toast('Δεν βρέθηκε προφίλ χρήστη.','err');return;}
-  ME={id:session.user.id,role:prof.role,unitId:prof.municipal_unit_id,name:prof.full_name||prof.email||'Χρήστης'};
+  ME={id:session.user.id,role:prof.role,unitId:prof.municipal_unit_id,email:prof.email,name:prof.full_name||prof.email||'Χρήστης'};
   $('#login').classList.add('hidden');$('#app').classList.remove('hidden');
   $('#whoName').textContent=ME.name;
   $('#whoRole').textContent=ROLE_LABEL[ME.role]||ME.role;
@@ -1420,18 +1441,49 @@ async function boot(){
   $('#settingsBtn').classList.toggle('hidden', !isAdminUser());
   updateAdminControls();
   await loadCatalog();
-  buildDENav(); buildGrpNav();
+  buildDENav();
   if(ME.role==='unit_user') cur.unitId=ME.unitId;
   else if(ME.role==='central') cur.unitId=CENTRAL_UNIT;
   else cur.unitId=(UNITS.find(u=>u.id!==CENTRAL_UNIT)||UNITS[0]||{}).id;
-  cur.groupId=(GROUPS[0]||{}).id;
-  syncNav(); await openView();
+  showChooser();
 }
 
+let MODE='procurement';
+const groupsForMode=()=>GROUPS.filter(g=>((g.domain||'procurement')===MODE));
+const firstGroupId=()=>{const a=groupsForMode(); return (a[0]||{}).id;};
+function showChooser(){
+  const c=$('#chooser'); if(c)c.classList.remove('hidden');
+  const b=$('#board'); if(b)b.classList.add('hidden');
+  const f=document.querySelector('footer.totals'); if(f)f.classList.add('hidden');
+  const ms=$('#modeSwitch'); if(ms)ms.classList.add('hidden');
+}
+function applyModeLabels(){
+  const gl=$('#grpNavLabel'); if(gl)gl.textContent=(MODE==='service'?'Υπηρεσία':'Ομάδα υλικών');
+  const bs=$('#brandSub'); if(bs)bs.textContent=(MODE==='service'?'Υπηρεσίες — ενοποιημένος προγραμματισμός':'Προμήθειες υλικών — ενοποιημένος προγραμματισμός');
+}
+function updateModeSwitch(){
+  document.querySelectorAll('#modeSwitch [data-mode]').forEach(b=>b.setAttribute('aria-selected', String(b.dataset.mode===MODE)));
+}
+async function enterMode(mode){
+  MODE=(mode==='service'?'service':'procurement');
+  buildGrpNav(); cur.groupId=firstGroupId();
+  const c=$('#chooser'); if(c)c.classList.add('hidden');
+  const b=$('#board'); if(b)b.classList.remove('hidden');
+  const f=document.querySelector('footer.totals'); if(f)f.classList.remove('hidden');
+  const ms=$('#modeSwitch'); if(ms)ms.classList.remove('hidden');
+  applyModeLabels(); updateModeSwitch(); syncNav(); await openView();
+}
+async function switchMode(mode){
+  const m=(mode==='service'?'service':'procurement');
+  if(m===MODE)return;
+  if(!(await guardDirty()))return;
+  MODE=m; buildGrpNav(); cur.groupId=firstGroupId();
+  applyModeLabels(); updateModeSwitch(); syncNav(); await openView();
+}
 async function loadCatalog(){
   const [{data:u},{data:g},{data:m}]=await Promise.all([
     sb.from('municipal_units').select('id,name,short_name,sort_order').order('sort_order'),
-    sb.from('procurement_groups').select('id,code,name,short_name,sort_order').order('sort_order'),
+    sb.from('procurement_groups').select('id,code,name,short_name,sort_order,domain').order('sort_order'),
     sb.from('materials').select('id,group_id,code,name,short_name,subcategory,unit,cpv,default_unit_price,sort_order,technical_specs,standards,ce_required,notes_for_tender,is_active').eq('is_active',true).order('group_id').order('sort_order',{nullsFirst:false})
   ]);
   UNITS=u||[]; GROUPS=g||[]; MAT_BY_GROUP={}; COUNTS={};
@@ -1442,7 +1494,9 @@ async function loadCatalog(){
 const unitById=id=>UNITS.find(x=>x.id===id)||{};
 const unitName=id=>{const u=unitById(id);return u.short_name||u.name||'';};
 const isAdminUser=()=>String(ME.role||'').toLowerCase()==='admin';
-const canWrite=id=> isAdminUser() || ((ME.role==='unit_user'||ME.role==='central') && id===ME.unitId);
+const SUPERVISOR_EMAILS=['genikigrammateas@rhodes.gr','mkanakas@gmail.com'];
+const isSupervisor=()=>isAdminUser()||SUPERVISOR_EMAILS.indexOf(String(ME.email||'').toLowerCase())!==-1;
+const canWrite=id=> isAdminUser() || (ME.role==='unit_user' && id===ME.unitId);
 const matById=mid=>(MAT_BY_GROUP[cur.groupId]||[]).find(x=>x.id===mid);
 
 
@@ -1541,7 +1595,7 @@ function buildDENav(){
   const list=(ME.role==='unit_user')?UNITS.filter(u=>u.id===ME.unitId):UNITS.slice();
   const des=list.filter(u=>u.id!==CENTRAL_UNIT), central=list.find(u=>u.id===CENTRAL_UNIT);
   des.forEach(u=>{const b=document.createElement('button');b.className='pill';b.type='button';b.textContent=u.short_name||u.name;b.dataset.uid=u.id;b.onclick=()=>selUnit(u.id);n.appendChild(b);});
-  if(central){
+  if(central && isSupervisor()){
     const sep=document.createElement('div');sep.className='nav-sep';n.appendChild(sep);
     const b=document.createElement('button');b.className='pill pill--agg';b.type='button';b.dataset.uid=central.id;
     b.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V8l7-5 7 5v13M9 21v-6h6v6"/></svg> '+(central.short_name||central.name);
@@ -1550,7 +1604,7 @@ function buildDENav(){
 }
 function buildGrpNav(){
   const n=$('#grpNav');n.innerHTML='';
-  GROUPS.forEach((g,i)=>{const c=COUNTS[g.id]||0;const b=document.createElement('button');
+  groupsForMode().forEach((g,i)=>{const c=COUNTS[g.id]||0;const b=document.createElement('button');
     b.className='pill'+(c===0?' pill--zero':'');b.type='button';b.dataset.gid=g.id;
     b.innerHTML=(i+1)+'. '+(g.short_name||g.name)+' <span class="badge">'+c+'</span>';
     b.onclick=()=>selGroup(g.id);n.appendChild(b);});
@@ -1819,7 +1873,7 @@ const HIST_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strok
 /* ===== v24: εποπτική εικόνα Δήμου Ρόδου (συγκεντρωτικά ανά Δ.Ε. & υλικό) ===== */
 async function loadOverview(){
   OVERVIEW={byUnit:{},byMaterial:{}};
-  if(cur.unitId!==CENTRAL_UNIT||!cur.groupId)return;
+  if(!isSupervisor()||!cur.groupId)return;
   const gid=cur.groupId;
   const eu=u=>(OVERVIEW.byUnit[u]=OVERVIEW.byUnit[u]||{locked:0,draft:0});
   const em=mid=>(OVERVIEW.byMaterial[mid]=OVERVIEW.byMaterial[mid]||{name:'',unit:'',lockedQty:0,draftQty:0,lockedVal:0,draftVal:0,perUnit:{}});
@@ -1855,7 +1909,7 @@ async function loadOverview(){
 
 function renderUnitFills(){
   const nav=$('#deNav'); if(!nav)return;
-  const central=(cur.unitId===CENTRAL_UNIT);
+  const central=isSupervisor();
   [...nav.children].forEach(c=>{
     if(!c.dataset||!c.dataset.uid)return;
     const uid=Number(c.dataset.uid);
@@ -1996,14 +2050,14 @@ function renderCapStrip(){
     +'</div>'
     +'<div class="cap-act">'+draftHtml
       +'<button class="btn cap-hist" id="btnHistory" type="button">'+HIST_SVG+'\u0399\u03c3\u03c4\u03bf\u03c1\u03b9\u03ba\u03cc'+(n?(' ('+n+')'):'')+'</button>'
-      +(admin?('<button class="btn btn--lock" id="btnLock" type="button">'+LOCK_SVG+'\u039a\u03bb\u03b5\u03af\u03b4\u03c9\u03bc\u03b1 \u03bc\u03b5\u03bb\u03ad\u03c4\u03b7\u03c2</button>'):'')
+      +(isSupervisor()?('<button class="btn btn--lock" id="btnLock" type="button">'+LOCK_SVG+'\u039a\u03bb\u03b5\u03af\u03b4\u03c9\u03bc\u03b1 \u03bc\u03b5\u03bb\u03ad\u03c4\u03b7\u03c2</button>'):'')
     +'</div></div>';
   const bh=$('#btnHistory'); if(bh)bh.onclick=openHistoryModal;
   const bl=$('#btnLock'); if(bl)bl.onclick=openLockModal;
 }
 
 function openLockModal(){
-  if(!isAdminUser()){toast('\u039c\u03cc\u03bd\u03bf \u03bf \u03b4\u03b9\u03b1\u03c7\u03b5\u03b9\u03c1\u03b9\u03c3\u03c4\u03ae\u03c2 \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03ba\u03bb\u03b5\u03b9\u03b4\u03ce\u03c3\u03b5\u03b9 \u03bc\u03b5\u03bb\u03ad\u03c4\u03b7.','err');return;}
+  if(!isSupervisor()){toast('\u039c\u03cc\u03bd\u03bf \u03bf \u03b4\u03b9\u03b1\u03c7\u03b5\u03b9\u03c1\u03b9\u03c3\u03c4\u03ae\u03c2 \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03ba\u03bb\u03b5\u03b9\u03b4\u03ce\u03c3\u03b5\u03b9 \u03bc\u03b5\u03bb\u03ad\u03c4\u03b7.','err');return;}
   if(cur.unitId===CENTRAL_UNIT){toast('\u03a4\u03bf \u03ba\u03bb\u03b5\u03af\u03b4\u03c9\u03bc\u03b1 \u03b3\u03af\u03bd\u03b5\u03c4\u03b1\u03b9 \u03b1\u03bd\u03ac \u0394\u03b7\u03bc\u03bf\u03c4\u03b9\u03ba\u03ae \u0395\u03bd\u03cc\u03c4\u03b7\u03c4\u03b1.','err');return;}
   const mats=MAT_BY_GROUP[cur.groupId]||[];
   let n=0; mats.forEach(m=>{const qv=(lines[m.id]&&lines[m.id].q)||0; if(qv>0)n++;});
@@ -2020,13 +2074,14 @@ function openLockModal(){
   const warn=$('#lockWarn');
   if(after>DIRECT_AWARD_CAP){warn.classList.remove('hidden');warn.textContent='\u03a0\u03c1\u03bf\u03c3\u03bf\u03c7\u03ae: \u03c4\u03bf \u03c3\u03cd\u03bd\u03bf\u03bb\u03bf \u03b3\u03af\u03bd\u03b5\u03c4\u03b1\u03b9 '+fmtE(after)+' \u03ba\u03b1\u03b9 \u03c5\u03c0\u03b5\u03c1\u03b2\u03b1\u03af\u03bd\u03b5\u03b9 \u03c4\u03bf \u03cc\u03c1\u03b9\u03bf \u03c4\u03c9\u03bd '+fmtN(DIRECT_AWARD_CAP)+' \u20ac \u03ba\u03b1\u03c4\u03ac '+fmtE(after-DIRECT_AWARD_CAP)+'.';}
   else{warn.classList.add('hidden');warn.textContent='';}
+  const _overCap=after>DIRECT_AWARD_CAP; { const _lc=$('#lockConfirm'); if(_lc)_lc.disabled=_overCap; } if(_overCap){warn.classList.remove('hidden');warn.textContent='Το κλείδωμα αποκλείεται: υπέρβαση του ορίου των '+fmtN(DIRECT_AWARD_CAP)+' € (χωρίς ΦΠΑ) κατά '+fmtE(after-DIRECT_AWARD_CAP)+'. Μειώστε ποσότητες ή κλειδώστε λιγότερα είδη.';}
   $('#lockSupplier').value=''; $('#lockKimdis').value=''; $('#lockLabel').value='';
   const m=$('#lockModal'); m._seq=seq; m.classList.add('open');
   setTimeout(()=>{try{$('#lockSupplier').focus();}catch(e){}},60);
 }
 
 async function doLock(){
-  if(!isAdminUser())return;
+  if(!isSupervisor())return;
   const btn=$('#lockConfirm'), old=btn.innerHTML; btn.disabled=true; btn.innerHTML='<span class="spin" style="width:14px;height:14px;margin:0 6px 0 0"></span>\u039a\u03bb\u03b5\u03af\u03b4\u03c9\u03bc\u03b1\u2026';
   try{
     await ensureRequest();
@@ -2038,6 +2093,8 @@ async function doLock(){
     if(!snap.length)throw new Error('\u0394\u03b5\u03bd \u03c5\u03c0\u03ac\u03c1\u03c7\u03bf\u03c5\u03bd \u03b5\u03af\u03b4\u03b7 \u03bc\u03b5 \u03c0\u03bf\u03c3\u03cc\u03c4\u03b7\u03c4\u03b1.');
     const net=Math.round(snap.reduce((s,r)=>s+r.subtotal,0)*100)/100;
     const itemCount=snap.length;
+    const committedNow=lockedNetSum(); const projected=Math.round((committedNow+net)*100)/100;
+    if(projected>DIRECT_AWARD_CAP){throw new Error('Το κλείδωμα αποκλείεται: το σύνολο των κλειδωμένων μελετών γίνεται '+fmtE(projected)+' και υπερβαίνει το όριο των '+fmtN(DIRECT_AWARD_CAP)+' € (χωρίς ΦΠΑ) ανά Δ.Ε. και ανά ομάδα, κατά '+fmtE(Math.round((projected-DIRECT_AWARD_CAP)*100)/100)+'. Μειώστε ποσότητες ή κλειδώστε λιγότερα είδη.');}
     const seq=($('#lockModal')._seq)||((LOCKED.reduce((mx,r)=>Math.max(mx,Number(r.seq||0)),0))+1);
     const supplier=($('#lockSupplier').value||'').trim()||null;
     let kimdis=($('#lockKimdis').value||'').trim(); if(kimdis&&!/^https?:\/\//i.test(kimdis))kimdis='https://'+kimdis; kimdis=kimdis||null;
@@ -2200,7 +2257,7 @@ function currentExcelContext(){
   const contextKey=[YEAR,cur.unitId,cur.groupId,g.code||'',unitLabel,g.name||g.short_name||''].join('|');
   return {
     signature:'RHODES_PROCUREMENT_EXPORT_V2',
-    appVersion:'v24',
+    appVersion:'v26',
     year:String(YEAR),
     unitId:String(cur.unitId),
     unitName:unitLabel,
@@ -3223,6 +3280,6 @@ $('#selfSave').onclick=async()=>{
 
 boot();
 </script>
-<div class="dev-credit">developer Vasilis Diakolios · v24</div>
+<div class="dev-credit">developer Vasilis Diakolios · v26</div>
 </body>
 </html>
