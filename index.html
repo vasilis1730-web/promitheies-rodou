@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Δήμος Ρόδου · Προμήθειες υλικών v26</title>
+<title>Δήμος Ρόδου · Προμήθειες υλικών v27</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Commissioner:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap&subset=greek,greek-ext,latin" rel="stylesheet">
@@ -1480,11 +1480,23 @@ async function switchMode(mode){
   MODE=m; buildGrpNav(); cur.groupId=firstGroupId();
   applyModeLabels(); updateModeSwitch(); syncNav(); await openView();
 }
+async function fetchAllMaterials(){
+  const cols='id,group_id,code,name,short_name,subcategory,unit,cpv,default_unit_price,sort_order,technical_specs,standards,ce_required,notes_for_tender,is_active';
+  const PAGE=1000; let from=0, all=[];
+  for(;;){
+    const {data,error}=await sb.from('materials').select(cols).eq('is_active',true).order('group_id').order('sort_order',{nullsFirst:false}).range(from,from+PAGE-1);
+    if(error){console.warn('fetchAllMaterials',error);break;}
+    const chunk=data||[]; all=all.concat(chunk);
+    if(chunk.length<PAGE)break;
+    from+=PAGE;
+  }
+  return all;
+}
 async function loadCatalog(){
-  const [{data:u},{data:g},{data:m}]=await Promise.all([
+  const [{data:u},{data:g},m]=await Promise.all([
     sb.from('municipal_units').select('id,name,short_name,sort_order').order('sort_order'),
     sb.from('procurement_groups').select('id,code,name,short_name,sort_order,domain').order('sort_order'),
-    sb.from('materials').select('id,group_id,code,name,short_name,subcategory,unit,cpv,default_unit_price,sort_order,technical_specs,standards,ce_required,notes_for_tender,is_active').eq('is_active',true).order('group_id').order('sort_order',{nullsFirst:false})
+    fetchAllMaterials()
   ]);
   UNITS=u||[]; GROUPS=g||[]; MAT_BY_GROUP={}; COUNTS={};
   (m||[]).forEach(x=>{(MAT_BY_GROUP[x.group_id]=MAT_BY_GROUP[x.group_id]||[]).push(x);});
@@ -2257,7 +2269,7 @@ function currentExcelContext(){
   const contextKey=[YEAR,cur.unitId,cur.groupId,g.code||'',unitLabel,g.name||g.short_name||''].join('|');
   return {
     signature:'RHODES_PROCUREMENT_EXPORT_V2',
-    appVersion:'v26',
+    appVersion:'v27',
     year:String(YEAR),
     unitId:String(cur.unitId),
     unitName:unitLabel,
@@ -3280,6 +3292,6 @@ $('#selfSave').onclick=async()=>{
 
 boot();
 </script>
-<div class="dev-credit">developer Vasilis Diakolios · v26</div>
+<div class="dev-credit">developer Vasilis Diakolios · v27</div>
 </body>
 </html>
