@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Δήμος Ρόδου · Προμήθειες υλικών v28</title>
+<title>Δήμος Ρόδου · Προμήθειες υλικών v29</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Commissioner:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap&subset=greek,greek-ext,latin" rel="stylesheet">
@@ -297,6 +297,8 @@ table.mat{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
 .btn--study:hover{background:#E0ECFB;border-color:#5191DD}
 .btn--tender{color:#B45309;border-color:var(--amber-line);background:var(--amber-bg)}
 .btn--tender:hover{background:#FBE0C2;border-color:var(--amber)}
+.btn--specs{color:#0F766E;border-color:#BCE3DD;background:#ECFDF8}
+.btn--specs:hover{background:#D8F5EE;border-color:#14B8A6}
 .btn--danger-soft{color:var(--danger);border-color:#E7BCC2;background:#FFF7F8}
 .btn--danger-soft:hover{background:#FBEAEC;border-color:var(--danger)}
 .target-box{display:flex;flex-direction:row;gap:6px;align-items:center;margin-top:2px}
@@ -488,6 +490,7 @@ table.mat{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
         <button class="btn" id="btnImport"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V9m0 0 4 4m-4-4-4 4"/><path d="M5 3h14"/></svg>Εισαγωγή Excel</button>
         <input id="importFile" class="hidden" type="file" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
         <button class="btn btn--study" id="btnStudy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5V5a2 2 0 0 1 2-2h9l5 5v11.5a1.5 1.5 0 0 1-1.5 1.5H6a2 2 0 0 1-2-2Z"/><path d="M14 3v6h6M8 13h8M8 17h6"/></svg>Μελέτη</button>
+        <button class="btn btn--specs" id="btnSpecs" title="Τεχνικές προδιαγραφές όλων των ειδών της ομάδας, ανεξαρτήτως ποσοτήτων"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4"/></svg>Προδιαγραφές</button>
         <button class="btn btn--tender" id="btnTefxi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6M9 13h6M9 17h6"/><path d="M8 9h2"/></svg>Τεύχη</button>
       </div>
     </div>
@@ -2269,7 +2272,7 @@ function currentExcelContext(){
   const contextKey=[YEAR,cur.unitId,cur.groupId,g.code||'',unitLabel,g.name||g.short_name||''].join('|');
   return {
     signature:'RHODES_PROCUREMENT_EXPORT_V2',
-    appVersion:'v28',
+    appVersion:'v29',
     year:String(YEAR),
     unitId:String(cur.unitId),
     unitName:unitLabel,
@@ -3216,7 +3219,48 @@ function downloadDocAsWord(win,title){
   }catch(e){alert('Σφάλμα εξαγωγής Word: '+(e.message||e));}
 }
 
+function generateSpecsDoc(){
+  const g=GROUPS.find(x=>x.id===cur.groupId); const isSvc=(MODE==='service');
+  const allMats=MAT_BY_GROUP[cur.groupId]||[];
+  if(!allMats.length){toast('Δεν υπάρχουν είδη στην ομάδα.','err');return;}
+  if(!window.TenderSpecs){toast('Δεν φορτώθηκε η βιβλιοθήκη τεχνικών προδιαγραφών.','err');return;}
+  const rows=allMats.map(m=>({m:m,q:0,p:(m.default_unit_price!=null&&m.default_unit_price!==''?Number(m.default_unit_price):null)}));
+  const groupCode=window.TenderSpecs.resolveGroupCode(g);
+  const pkg=window.TenderSpecs.getGroup(groupCode);
+  const common=window.TenderSpecs.COMMON;
+  const isC=cur.unitId===CENTRAL_UNIT;
+  const scope=isC?'Δήμος Ρόδου (σύνολο Δημοτικών Ενοτήτων)':('Δημοτική Ενότητα '+unitName(cur.unitId));
+  const gname=(g?g.name:'').toUpperCase();
+  const today=new Date().toLocaleDateString('el-GR',{day:'2-digit',month:'long',year:'numeric'});
+  const framework=[...common.framework,...pkg.framework];
+  const evidence=[...common.evidence,...pkg.evidence];
+  const itemSpecs=rows.map((x,i)=>{
+    const s=window.TenderSpecs.itemRequirements(groupCode,x.m);
+    const std=s.standards.length?`<p><b>Πρότυπα/αναφορές:</b> ${esc(s.standards.join(' · '))}</p>`:'';
+    return `<div class="article"><h3>Άρθρο ${i+1} — ${esc(x.m.name)}</h3><p><b>Μονάδα:</b> ${esc(x.m.unit||'—')}${x.p!=null?' · <b>Ενδεικτική τιμή μονάδος (χωρίς ΦΠΑ):</b> '+fmtE(x.p):''}</p>${htmlList(s.requirements)}${std}</div>`;
+  }).join('');
+  let doc=`<!doctype html><html lang="el"><head><meta charset="utf-8"><title>Τεχνικές προδιαγραφές — ${esc(g?g.short_name:'')} — ${esc(scope)}</title>
+<style>@page{size:A4;margin:25mm 22mm}body{font-family:'Times New Roman',Georgia,serif;color:#111;font-size:11.5pt;line-height:1.45;margin:0}.tools{position:fixed;top:10px;right:10px;display:flex;gap:8px;z-index:20}.tools button{font-family:system-ui,sans-serif;font-size:13px;padding:8px 14px;border:1px solid #1E5BA8;background:#1E5BA8;color:#fff;border-radius:7px;cursor:pointer}.tools button.alt{background:#fff;color:#1E5BA8}@media print{.tools{display:none}.pb{page-break-before:always}.article{break-inside:avoid}}h1{font-size:15pt;text-align:center;margin:0 0 4pt}h2{font-size:13pt;border-bottom:1.5px solid #333;padding-bottom:3px;margin:20px 0 9px}h3{font-size:11.5pt;margin:13px 0 5px}.hdr{text-align:center;margin-bottom:7px}.hdr .l1{font-weight:bold}.hdr .l2{font-size:10.5pt}.cover{min-height:232mm;display:flex;flex-direction:column;justify-content:center}.cover .box{border:2px solid #333;padding:25px;text-align:center}.cover .big{font-size:17pt;font-weight:bold;margin:18px 0}.cover .info{margin-top:18px;line-height:1.8}table{width:100%;border-collapse:collapse;margin:8px 0;font-size:9.8pt}th,td{border:1px solid #555;padding:5px 6px;vertical-align:top}th{background:#eee;text-align:left}td.c{text-align:center}td.r{text-align:right;white-space:nowrap}p{margin:6px 0;text-align:justify}ol,ul{margin:6px 0 8px 22px;padding:0}li{margin:3px 0}.small{font-size:9.5pt;color:#444}.article{border-bottom:1px solid #bbb;padding-bottom:7px}.note{border:1px solid #999;background:#f7f7f7;padding:8px 10px;font-size:9.5pt}.sign{margin-top:38px;display:flex;justify-content:space-between}.sign div{text-align:center;width:45%}.sign .line{margin-top:45px;border-top:1px solid #333;padding-top:4px;font-size:10pt}</style></head><body>
+<div class="tools"><button onclick="window.print()">Εκτύπωση / PDF</button><button class="alt" id="btnWord">Λήψη Word</button><button class="alt" onclick="window.close()">Κλείσιμο</button></div>
+<section class="cover"><div class="box"><div class="hdr"><div class="l1">ΕΛΛΗΝΙΚΗ ΔΗΜΟΚΡΑΤΙΑ</div><div class="l1">ΔΗΜΟΣ ΡΟΔΟΥ</div><div class="l2">Διεύθυνση Τεχνικών Έργων & Υποδομών</div></div><div class="big">ΤΕΧΝΙΚΕΣ ΠΡΟΔΙΑΓΡΑΦΕΣ</div><h1>«ΠΡΟΜΗΘΕΙΑ: ${esc(gname)}»</h1><div class="info"><b>${esc(scope)}</b><br>Έτος ${YEAR}<br>Ενδεικτικός CPV: ${esc(pkg.cpv)}<br>Πλήθος ειδών/εργασιών: <b>${rows.length}</b></div></div><p class="small" style="text-align:center;margin-top:20px">Ρόδος, ${today}</p></section>
+
+<h2 class="pb">1. Αντικείμενο του τεύχους</h2><p>Το παρόν τεύχος περιλαμβάνει τις τεχνικές προδιαγραφές του συνόλου των ειδών της κατηγορίας «${esc(g?g.name:'')}», ανεξαρτήτως ποσοτήτων, και μπορεί να χρησιμοποιηθεί αυτοτελώς για την ενημέρωση των οικονομικών φορέων και τη σύνταξη τευχών διαδικασιών ανάθεσης. Οι ποσότητες και ο ενδεικτικός προϋπολογισμός καθορίζονται στην αντίστοιχη μελέτη.</p><div class="note">Οι τελικές κλάσεις, διαστάσεις, επιδόσεις, CPV και ειδικοί όροι πρέπει να ελέγχονται από τον αρμόδιο μηχανικό πριν από τη δημοσίευση.</div>
+
+<h2>2. Γενικές τεχνικές προδιαγραφές</h2>${htmlList(common.requirements)}
+<h2>3. Ειδικές τεχνικές προδιαγραφές ομάδας</h2><h3>${esc(pkg.title)}</h3>${htmlList(pkg.technical)}
+<h2>4. Τεχνικές προδιαγραφές ανά τύπο/ομάδα ειδών</h2>${renderSpecTable(specGroupsFor(rows,groupCode))}
+<h2 class="pb">5. Αναλυτικές τεχνικές προδιαγραφές ανά είδος/εργασία</h2>${itemSpecs}
+<h2>6. Τεχνικό και κανονιστικό πλαίσιο</h2>${htmlList(framework)}
+<h2>7. Αποδεικτικά τεχνικής συμμόρφωσης</h2>${htmlList(evidence)}
+<div class="sign"><div><div class="line">Ο/Η Συντάξας/ασα</div></div><div><div class="line">ΘΕΩΡΗΘΗΚΕ<br>Ο/Η Προϊστάμενος/η</div></div></div><p class="small" style="margin-top:18px;text-align:right">Ρόδος, ${today}</p></body></html>`;
+  if(MODE==='service') doc=svcRewriteDoc(doc);
+  const w=window.open('','_blank'); if(!w){toast('Επέτρεψε τα αναδυόμενα παράθυρα για τις προδιαγραφές.','err');return;}
+  w.document.open(); w.document.write(isSvc?svcRewrite(doc):doc); w.document.close(); w.focus();
+  var _wb=w.document.getElementById('btnWord'); if(_wb)_wb.onclick=function(){downloadDocAsWord(w,w.document.title);};
+  toast('Δημιουργήθηκε το τεύχος τεχνικών προδιαγραφών — '+rows.length+' είδη.','accent');
+}
 $('#btnStudy').onclick=generateStudy;
+$('#btnSpecs').onclick=generateSpecsDoc;
 
 function editableField(text){return '<span class="editable" contenteditable="true">'+esc(text)+'</span>';}
 function generateDirectAwardInvitation(){
@@ -3361,6 +3405,6 @@ $('#selfSave').onclick=async()=>{
 
 boot();
 </script>
-<div class="dev-credit">developer Vasilis Diakolios · v28</div>
+<div class="dev-credit">developer Vasilis Diakolios · v29</div>
 </body>
 </html>
