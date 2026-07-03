@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Δήμος Ρόδου · Προμήθειες υλικών v29</title>
+<title>Δήμος Ρόδου · Προμήθειες υλικών v30</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Commissioner:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap&subset=greek,greek-ext,latin" rel="stylesheet">
@@ -299,6 +299,18 @@ table.mat{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
 .btn--tender:hover{background:#FBE0C2;border-color:var(--amber)}
 .btn--specs{color:#0F766E;border-color:#BCE3DD;background:#ECFDF8}
 .btn--specs:hover{background:#D8F5EE;border-color:#14B8A6}
+.edit-item{width:26px;height:26px;border:1px solid #BCD4F2;background:#EEF4FD;color:#1E5BA8;border-radius:7px;display:inline-grid;place-items:center;cursor:pointer;margin-right:6px;vertical-align:middle;transition:background .12s}
+.edit-item:hover{background:#E0ECFB}
+.edit-item svg{width:14px;height:14px}
+.field textarea{width:100%;box-sizing:border-box;font-family:var(--font-ui);font-size:13.5px;padding:9px 11px;border:1px solid var(--line);border-radius:9px;background:#fff;resize:vertical;line-height:1.45}
+.field textarea:focus{outline:none;border-color:var(--teal-500);box-shadow:0 0 0 3px rgba(46,117,182,.12)}
+.ie-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.ie-grid--2{grid-template-columns:1fr 1fr}
+.tefxi-tabs{display:flex;gap:6px;margin:2px 0 12px}
+.tefxi-tabs button{border:1px solid var(--line);background:#F5F8FC;color:var(--teal-700);font-family:var(--font-ui);font-weight:600;font-size:12.5px;padding:7px 14px;border-radius:999px;cursor:pointer}
+.tefxi-tabs button.on{background:var(--teal-700);border-color:var(--teal-700);color:#fff}
+#tefxiModal .sheet__b,#itemEditModal .sheet__b{max-height:70vh;overflow:auto}
+@media(max-width:640px){.ie-grid,.ie-grid--2{grid-template-columns:1fr}}
 .btn--danger-soft{color:var(--danger);border-color:#E7BCC2;background:#FFF7F8}
 .btn--danger-soft:hover{background:#FBEAEC;border-color:var(--danger)}
 .target-box{display:flex;flex-direction:row;gap:6px;align-items:center;margin-top:2px}
@@ -491,6 +503,7 @@ table.mat{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
         <input id="importFile" class="hidden" type="file" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
         <button class="btn btn--study" id="btnStudy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5V5a2 2 0 0 1 2-2h9l5 5v11.5a1.5 1.5 0 0 1-1.5 1.5H6a2 2 0 0 1-2-2Z"/><path d="M14 3v6h6M8 13h8M8 17h6"/></svg>Μελέτη</button>
         <button class="btn btn--specs" id="btnSpecs" title="Τεχνικές προδιαγραφές όλων των ειδών της ομάδας, ανεξαρτήτως ποσοτήτων"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4"/></svg>Προδιαγραφές</button>
+        <button class="btn hidden" id="btnTefxiEdit" title="Επεξεργασία κειμένων μελέτης και τευχών — μόνο administrator"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5V5a2 2 0 0 1 2-2h9l5 5v4"/><path d="M14 3v6h6"/><path d="M15.5 13.5a2.121 2.121 0 0 1 3 3L13 22l-4 1 1-4Z"/></svg>Επεξ. τευχών</button>
         <button class="btn btn--tender" id="btnTefxi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6M9 13h6M9 17h6"/><path d="M8 9h2"/></svg>Τεύχη</button>
       </div>
     </div>
@@ -537,6 +550,55 @@ table.mat{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
     </div>
   </div>
 </footer>
+</div>
+
+<div class="modal" id="itemEditModal" role="dialog" aria-modal="true" aria-labelledby="ieTitle">
+  <div class="sheet sheet--narrow">
+    <div class="sheet__h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg><b id="ieTitle">Επεξεργασία είδους / εργασίας</b></div>
+    <div class="sheet__b">
+      <p class="lock-ctx" id="ieCtx">—</p>
+      <div class="field"><label for="ieName">Περιγραφή (τίτλος)</label><textarea id="ieName" rows="2"></textarea></div>
+      <div class="ie-grid">
+        <div class="field"><label for="ieUnit">Μονάδα</label><input id="ieUnit" type="text" placeholder="π.χ. τεμ"></div>
+        <div class="field"><label for="iePrice">Ενδ. τιμή (χωρίς ΦΠΑ)</label><input id="iePrice" type="text" inputmode="decimal" placeholder="π.χ. 25,00"></div>
+        <div class="field"><label for="ieCpv">CPV</label><input id="ieCpv" type="text" placeholder="π.χ. 50730000-1"></div>
+      </div>
+      <div class="field"><label for="ieSpecs">Τεχνικές προδιαγραφές</label><textarea id="ieSpecs" rows="7" placeholder="Περιγραφή εργασιών, πρότυπα, παραδοτέα…"></textarea></div>
+      <p class="lock-note">Οι αλλαγές ενημερώνουν τον κεντρικό κατάλογο για όλες τις Δ.Ε. και περνούν αυτόματα σε Μελέτη, Προδιαγραφές και Τεύχη.</p>
+    </div>
+    <div class="sheet__f"><button class="btn" id="ieCancel" type="button">Άκυρο</button><button class="btn btn--study" id="ieSave" type="button">Αποθήκευση</button></div>
+  </div>
+</div>
+
+<div class="modal" id="tefxiModal" role="dialog" aria-modal="true" aria-labelledby="teTitleH">
+  <div class="sheet sheet--wide">
+    <div class="sheet__h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5V5a2 2 0 0 1 2-2h9l5 5v4"/><path d="M14 3v6h6"/><path d="M15.5 13.5a2.121 2.121 0 0 1 3 3L13 22l-4 1 1-4Z"/></svg><b id="teTitleH">Επεξεργασία κειμένων μελέτης &amp; τευχών</b></div>
+    <div class="sheet__b">
+      <p class="lock-ctx" id="teCtx">—</p>
+      <div class="tefxi-tabs" id="tefxiTabs"><button type="button" data-tab="group" class="on">Κείμενα ομάδας</button><button type="button" data-tab="common">Γενικά κείμενα (όλες οι ομάδες)</button></div>
+      <div id="tefxiPaneGroup">
+        <div class="ie-grid ie-grid--2">
+          <div class="field"><label for="teTitle">Τίτλος ενότητας προδιαγραφών</label><input id="teTitle" type="text"></div>
+          <div class="field"><label for="teCpv">Ενδεικτικός CPV</label><input id="teCpv" type="text"></div>
+        </div>
+        <div class="field"><label for="tePurpose">Σκοπός (τεχνική έκθεση)</label><textarea id="tePurpose" rows="2"></textarea></div>
+        <div class="field"><label for="teTechnical">Ειδικές τεχνικές προδιαγραφές ομάδας (μία ανά γραμμή)</label><textarea id="teTechnical" rows="6"></textarea></div>
+        <div class="field"><label for="teSpecial">Ειδικοί όροι ομάδας (μία ανά γραμμή)</label><textarea id="teSpecial" rows="4"></textarea></div>
+        <div class="field"><label for="teWarranty">Εγγύηση</label><textarea id="teWarranty" rows="2"></textarea></div>
+        <div class="field"><label for="teFramework">Τεχνικό/κανονιστικό πλαίσιο ομάδας (μία ανά γραμμή)</label><textarea id="teFramework" rows="4"></textarea></div>
+        <div class="field"><label for="teEvidence">Αποδεικτικά συμμόρφωσης ομάδας (μία ανά γραμμή)</label><textarea id="teEvidence" rows="4"></textarea></div>
+        <div class="field"><label for="teAcceptance">Έλεγχος &amp; παραλαβή (μία ανά γραμμή)</label><textarea id="teAcceptance" rows="4"></textarea></div>
+      </div>
+      <div id="tefxiPaneCommon" class="hidden">
+        <div class="field"><label for="tcRequirements">Γενικές τεχνικές προδιαγραφές (μία ανά γραμμή)</label><textarea id="tcRequirements" rows="7"></textarea></div>
+        <div class="field"><label for="tcClauses">Γενικοί όροι συγγραφής υποχρεώσεων (μία ανά γραμμή)</label><textarea id="tcClauses" rows="6"></textarea></div>
+        <div class="field"><label for="tcFramework">Γενικό θεσμικό πλαίσιο (μία ανά γραμμή)</label><textarea id="tcFramework" rows="4"></textarea></div>
+        <div class="field"><label for="tcEvidence">Γενικά αποδεικτικά (μία ανά γραμμή)</label><textarea id="tcEvidence" rows="4"></textarea></div>
+      </div>
+      <p class="lock-note">Κενό πεδίο = χρήση προεπιλογής. Οι αλλαγές αποθηκεύονται κεντρικά και ισχύουν αυτόματα για Μελέτη, Προδιαγραφές και Τεύχη — ξεχωριστά ανά ομάδα προμήθειας ή υπηρεσίας.</p>
+    </div>
+    <div class="sheet__f"><button class="btn" id="teReset" type="button" style="margin-right:auto">Επαναφορά προεπιλογών</button><button class="btn" id="teCancel" type="button">Άκυρο</button><button class="btn btn--study" id="teSave" type="button">Αποθήκευση</button></div>
+  </div>
 </div>
 
 <div class="modal" id="lockModal" role="dialog" aria-modal="true" aria-labelledby="lockTitle">
@@ -1443,7 +1505,7 @@ async function boot(){
   initYearSelector();
   $('#settingsBtn').classList.toggle('hidden', !isAdminUser());
   updateAdminControls();
-  await loadCatalog();
+  await loadCatalog(); await loadTenderOverrides();
   buildDENav();
   if(ME.role==='unit_user') cur.unitId=ME.unitId;
   else if(ME.role==='central') cur.unitId=CENTRAL_UNIT;
@@ -1579,6 +1641,7 @@ function updateAdminControls(){
   const importBtn=$('#btnImport');
   if(importBtn)importBtn.classList.toggle('hidden',!isAdmin);
   $('#thAdminActions')?.classList.toggle('hidden',!isAdmin);
+  $('#btnTefxiEdit')?.classList.toggle('hidden',!isAdmin);
   $('#targetBox')?.classList.toggle('hidden',!writable);
   updateHistoryButtons();
   syncTotalsClearance();
@@ -1723,7 +1786,7 @@ function render(){
         ?'<input class="qin filled" value="'+(qty||0)+'" disabled>'
         :'<input class="qin'+(qty>0?' filled':'')+'" type="number" min="0" step="1" inputmode="numeric" value="'+(qty||'')+'" data-integer="1" data-mid="'+m.id+'">')+'</td>'+ 
       '<td class="col-cost">'+(cost!=null?fmtE(cost):'<span class="none">—</span>')+'</td>'+ 
-      (isAdminUser()?'<td class="col-actions"><button type="button" class="del-item" data-delete-mid="'+m.id+'" title="Αφαίρεση μόνο από το τρέχον δελτίο"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/><path d="M10 11v5M14 11v5"/></svg></button><button type="button" class="catalog-delete" data-purge-mid="'+m.id+'" title="Οριστική αφαίρεση από τον κεντρικό κατάλογο"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m9 9 6 6M15 9l-6 6"/></svg></button></td>':'');
+      (isAdminUser()?'<td class="col-actions"><button type="button" class="edit-item" data-edit-mid="'+m.id+'" title="Επεξεργασία είδους — κεντρικός κατάλογος"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button><button type="button" class="del-item" data-delete-mid="'+m.id+'" title="Αφαίρεση μόνο από το τρέχον δελτίο"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/><path d="M10 11v5M14 11v5"/></svg></button><button type="button" class="catalog-delete" data-purge-mid="'+m.id+'" title="Οριστική αφαίρεση από τον κεντρικό κατάλογο"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m9 9 6 6M15 9l-6 6"/></svg></button></td>':'');
     tb.appendChild(tr);
   });
   if(!mats.length)tb.innerHTML='<tr class="emptyrow"><td colspan="7">'+(q?'Κανένα είδος δεν ταιριάζει στην αναζήτηση.':(cleanView?'Δεν υπάρχουν είδη με συμπληρωμένη ποσότητα στο καθαρισμένο δελτίο.':'Δεν υπάρχουν εμφανιζόμενα είδη.'))+'</td></tr>';
@@ -1758,6 +1821,7 @@ function bindInputs(){
   });
 }
 function bindDeleteButtons(){
+  $('#tbody').querySelectorAll('[data-edit-mid]').forEach(btn=>btn.onclick=()=>openItemEdit(btn.dataset.editMid));
   $('#tbody').querySelectorAll('[data-delete-mid]').forEach(btn=>btn.onclick=()=>{
     const mid=btn.dataset.deleteMid,m=matById(mid); if(!m)return;
     pushUndo('Διαγραφή είδους');
@@ -2272,7 +2336,7 @@ function currentExcelContext(){
   const contextKey=[YEAR,cur.unitId,cur.groupId,g.code||'',unitLabel,g.name||g.short_name||''].join('|');
   return {
     signature:'RHODES_PROCUREMENT_EXPORT_V2',
-    appVersion:'v29',
+    appVersion:'v30',
     year:String(YEAR),
     unitId:String(cur.unitId),
     unitName:unitLabel,
@@ -2376,7 +2440,7 @@ async function buildStyledExcelExport(){
     {key:'aa',width:6},{key:'name',width:78},{key:'unit',width:18},{key:'cpv',width:14},
     {key:'standard',width:36},{key:'price',width:16},{key:'qty',width:13},
     {key:'cost',width:18},{key:'vatprice',width:16},
-    {key:'specs',width:55,hidden:true},{key:'ce',width:14,hidden:true},{key:'notes',width:55,hidden:true}
+    {key:'specs',width:60},{key:'ce',width:14,hidden:true},{key:'notes',width:55,hidden:true}
   ];
 
   const lastCol=12;
@@ -2437,6 +2501,7 @@ async function buildStyledExcelExport(){
     row.getCell(3).alignment={horizontal:'center',vertical:'middle'};
     row.getCell(4).alignment={horizontal:'center',vertical:'middle'};
     row.getCell(5).alignment={horizontal:'left',vertical:'middle',wrapText:true};
+    row.getCell(10).alignment={horizontal:'left',vertical:'middle'};
     [6,7,8,9].forEach(c=>row.getCell(c).alignment={horizontal:'right',vertical:'middle'});
     row.getCell(6).numFmt='#,##0.00 "€"';row.getCell(7).numFmt='0';
     row.getCell(7).dataValidation={type:'whole',operator:'greaterThanOrEqual',showErrorMessage:true,
@@ -2502,9 +2567,9 @@ $('#btnExport').onclick=async()=>{
       return;
     }
     if(!window.XLSX)throw new Error('Δεν φορτώθηκε βιβλιοθήκη δημιουργίας Excel.');
-    const data=[['Α/Α','Περιγραφή είδους','Μονάδα μέτρησης','CPV','Πρότυπο / ΕΤΕΠ','Τιμή μονάδας','Ποσότητα']];
+    const data=[['Α/Α','Περιγραφή είδους','Μονάδα μέτρησης','CPV','Πρότυπο / ΕΤΕΠ','Τιμή μονάδας','Ποσότητα','Τεχνικές προδιαγραφές']];
     const exported=exportCatalogRows();
-    exported.forEach(r=>data.push([r.ordinal,r.name,r.unit,r.cpv,r.standards,r.price,r.qty]));
+    exported.forEach(r=>data.push([r.ordinal,r.name,r.unit,r.cpv,r.standards,r.price,r.qty,r.specs]));
     const wb=XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(data),'Υλικά και ποσότητες');
     const ctx=currentExcelContext();
@@ -3101,6 +3166,163 @@ function svcRewrite(html){
   for(var i=0;i<map.length;i++){ html=html.split(map[i][0]).join(map[i][1]); }
   return html;
 }
+/* ===== v30: επεξεργασία καταλόγου & τευχών (admin) ===== */
+let TENDER_OVR={};
+async function loadTenderOverrides(){
+  TENDER_OVR={};
+  try{
+    const {data,error}=await sb.from('tender_overrides').select('id,data');
+    if(!error)(data||[]).forEach(r=>{TENDER_OVR[r.id]=r.data||{};});
+  }catch(e){console.warn('loadTenderOverrides',e);}
+}
+function _ovrStr(o,b,k){const v=o&&o[k];return (typeof v==='string'&&v.trim())?v.trim():b[k];}
+function _ovrArr(o,b,k){const v=o&&o[k];return (Array.isArray(v)&&v.length)?v:(b[k]||[]);}
+function ovrPkg(g,groupCode){
+  const base=window.TenderSpecs?window.TenderSpecs.getGroup(groupCode):{};
+  const o=(g&&g.code&&TENDER_OVR[g.code])?TENDER_OVR[g.code]:null;
+  const out=Object.assign({},base);
+  ['cpv','purpose','title','warranty'].forEach(k=>{out[k]=_ovrStr(o,base,k);});
+  ['technical','special','framework','evidence','acceptance'].forEach(k=>{out[k]=_ovrArr(o,base,k);});
+  return out;
+}
+function ovrCommon(){
+  const base=window.TenderSpecs?window.TenderSpecs.COMMON:{requirements:[],clauses:[],framework:[],evidence:[]};
+  const o=TENDER_OVR._COMMON||null;
+  const out=Object.assign({},base);
+  ['requirements','clauses','framework','evidence'].forEach(k=>{out[k]=_ovrArr(o,base,k);});
+  return out;
+}
+/* --- Καρτέλα είδους / εργασίας --- */
+let _editMid=null;
+function openItemEdit(mid){
+  if(!isAdminUser())return;
+  const m=matById(mid); if(!m)return;
+  _editMid=mid;
+  const g=GROUPS.find(x=>x.id===cur.groupId)||{};
+  $('#ieCtx').textContent=(g.short_name||g.name||'')+' — οι αλλαγές ισχύουν για όλες τις Δ.Ε.';
+  $('#ieName').value=m.name||'';
+  $('#ieUnit').value=m.unit||'';
+  $('#iePrice').value=(m.default_unit_price!=null&&m.default_unit_price!=='')?String(m.default_unit_price).replace('.',','):'';
+  $('#ieCpv').value=m.cpv||'';
+  $('#ieSpecs').value=m.technical_specs||'';
+  $('#itemEditModal').classList.add('open');
+  setTimeout(()=>{try{$('#ieName').focus();}catch(e){}},60);
+}
+function closeItemEdit(){$('#itemEditModal').classList.remove('open');_editMid=null;}
+async function saveItemEdit(){
+  const m=matById(_editMid); if(!m){closeItemEdit();return;}
+  const name=$('#ieName').value.trim();
+  if(!name){toast('Η περιγραφή του είδους δεν μπορεί να είναι κενή.','err');return;}
+  const unit=$('#ieUnit').value.trim();
+  const priceRaw=$('#iePrice').value.trim().replace(/\./g,'').replace(',','.');
+  const price=priceRaw===''?null:Number(priceRaw);
+  if(priceRaw!==''&&(!isFinite(price)||price<0)){toast('Μη έγκυρη τιμή μονάδας.','err');return;}
+  const cpv=$('#ieCpv').value.trim();
+  const specs=$('#ieSpecs').value.trim();
+  const patch={};
+  if(name!==m.name)patch.name=name;
+  if(name!==(m.short_name||''))patch.short_name=name;
+  if(unit!==(m.unit||''))patch.unit=unit||null;
+  const curP=(m.default_unit_price==null||m.default_unit_price==='')?null:Number(m.default_unit_price);
+  if(((price==null)!==(curP==null))||(price!=null&&curP!=null&&Math.abs(price-curP)>0.00005))patch.default_unit_price=price;
+  if(cpv!==(m.cpv||''))patch.cpv=cpv||null;
+  if(specs!==(m.technical_specs||''))patch.technical_specs=specs||null;
+  if(!Object.keys(patch).length){toast('Δεν υπάρχουν αλλαγές.');closeItemEdit();return;}
+  const btn=$('#ieSave');btn.disabled=true;
+  try{
+    const {error}=await sb.from('materials').update(patch).eq('id',m.id);
+    if(error)throw error;
+    Object.assign(m,patch);
+    closeItemEdit(); render();
+    toast('Το είδος ενημερώθηκε στον κεντρικό κατάλογο.','accent');
+  }catch(e){toast('Σφάλμα αποθήκευσης: '+(e.message||e),'err');}
+  finally{btn.disabled=false;}
+}
+/* --- Επεξεργασία κειμένων τευχών --- */
+let _tefxiTab='group';
+function _linesToArr(v){return String(v||'').split('\n').map(s=>s.trim()).filter(Boolean);}
+function tefxiKeyGroup(){const g=GROUPS.find(x=>x.id===cur.groupId);return (g&&g.code)?g.code:null;}
+function fillTefxiGroup(){
+  const g=GROUPS.find(x=>x.id===cur.groupId);
+  const groupCode=window.TenderSpecs?window.TenderSpecs.resolveGroupCode(g):null;
+  const p=ovrPkg(g,groupCode);
+  $('#teCtx').textContent=((g&&(g.short_name||g.name))||'')+' — τα κείμενα ισχύουν για όλες τις Δ.Ε. αυτής της ομάδας.';
+  $('#teTitle').value=p.title||''; $('#teCpv').value=p.cpv||'';
+  $('#tePurpose').value=p.purpose||''; $('#teWarranty').value=p.warranty||'';
+  $('#teTechnical').value=(p.technical||[]).join('\n');
+  $('#teSpecial').value=(p.special||[]).join('\n');
+  $('#teFramework').value=(p.framework||[]).join('\n');
+  $('#teEvidence').value=(p.evidence||[]).join('\n');
+  $('#teAcceptance').value=(p.acceptance||[]).join('\n');
+}
+function fillTefxiCommon(){
+  const c=ovrCommon();
+  $('#tcRequirements').value=(c.requirements||[]).join('\n');
+  $('#tcClauses').value=(c.clauses||[]).join('\n');
+  $('#tcFramework').value=(c.framework||[]).join('\n');
+  $('#tcEvidence').value=(c.evidence||[]).join('\n');
+}
+function setTefxiTab(tab){
+  _tefxiTab=(tab==='common')?'common':'group';
+  document.querySelectorAll('#tefxiTabs [data-tab]').forEach(b=>b.classList.toggle('on',b.dataset.tab===_tefxiTab));
+  $('#tefxiPaneGroup').classList.toggle('hidden',_tefxiTab!=='group');
+  $('#tefxiPaneCommon').classList.toggle('hidden',_tefxiTab!=='common');
+}
+function openTefxiEdit(){
+  if(!isAdminUser())return;
+  fillTefxiGroup(); fillTefxiCommon(); setTefxiTab('group');
+  $('#tefxiModal').classList.add('open');
+}
+function closeTefxiEdit(){$('#tefxiModal').classList.remove('open');}
+async function saveTefxiEdit(){
+  const btn=$('#teSave');btn.disabled=true;
+  try{
+    let key,data;
+    if(_tefxiTab==='group'){
+      key=tefxiKeyGroup();
+      if(!key){toast('Η ομάδα δεν έχει κωδικό.','err');return;}
+      data={};
+      const s={title:'#teTitle',cpv:'#teCpv',purpose:'#tePurpose',warranty:'#teWarranty'};
+      Object.keys(s).forEach(k=>{const v=$(s[k]).value.trim(); if(v)data[k]=v;});
+      const a={technical:'#teTechnical',special:'#teSpecial',framework:'#teFramework',evidence:'#teEvidence',acceptance:'#teAcceptance'};
+      Object.keys(a).forEach(k=>{const arr=_linesToArr($(a[k]).value); if(arr.length)data[k]=arr;});
+    }else{
+      key='_COMMON'; data={};
+      const a={requirements:'#tcRequirements',clauses:'#tcClauses',framework:'#tcFramework',evidence:'#tcEvidence'};
+      Object.keys(a).forEach(k=>{const arr=_linesToArr($(a[k]).value); if(arr.length)data[k]=arr;});
+    }
+    const {error}=await sb.from('tender_overrides').upsert({id:key,data:data,updated_by:ME.id,updated_at:new Date().toISOString()});
+    if(error)throw error;
+    TENDER_OVR[key]=data;
+    toast('Τα κείμενα αποθηκεύτηκαν. Μελέτη, Προδιαγραφές και Τεύχη θα τα χρησιμοποιούν αυτόματα.','accent');
+    closeTefxiEdit();
+  }catch(e){toast('Σφάλμα αποθήκευσης τευχών: '+(e.message||e),'err');}
+  finally{btn.disabled=false;}
+}
+async function resetTefxiEdit(){
+  const key=(_tefxiTab==='group')?tefxiKeyGroup():'_COMMON';
+  if(!key)return;
+  if(!confirm('Επαναφορά των προεπιλεγμένων κειμένων'+(_tefxiTab==='group'?' της ομάδας':' (γενικά)')+';'))return;
+  try{
+    const {error}=await sb.from('tender_overrides').delete().eq('id',key);
+    if(error)throw error;
+    delete TENDER_OVR[key];
+    if(_tefxiTab==='group')fillTefxiGroup(); else fillTefxiCommon();
+    toast('Έγινε επαναφορά στα προεπιλεγμένα κείμενα.','accent');
+  }catch(e){toast('Σφάλμα επαναφοράς: '+(e.message||e),'err');}
+}
+document.addEventListener('DOMContentLoaded',function(){
+  const b=$('#btnTefxiEdit'); if(b)b.onclick=openTefxiEdit;
+  const ic=$('#ieCancel'); if(ic)ic.onclick=closeItemEdit;
+  const is=$('#ieSave'); if(is)is.onclick=saveItemEdit;
+  const tc=$('#teCancel'); if(tc)tc.onclick=closeTefxiEdit;
+  const ts=$('#teSave'); if(ts)ts.onclick=saveTefxiEdit;
+  const tr=$('#teReset'); if(tr)tr.onclick=resetTefxiEdit;
+  document.querySelectorAll('#tefxiTabs [data-tab]').forEach(x=>x.onclick=()=>setTefxiTab(x.dataset.tab));
+  [['#itemEditModal',closeItemEdit],['#tefxiModal',closeTefxiEdit]].forEach(pair=>{
+    const el=$(pair[0]); if(el)el.addEventListener('click',e=>{if(e.target===el)pair[1]();});
+  });
+});
 function svcRewriteDoc(html){
   var R=[
     ['Η παράδοση γίνεται εφάπαξ ή τμηματικά στους χώρους που θα υποδείξει η Υπηρεσία, εντός της συμβατικής προθεσμίας. Κάθε δαπάνη πλήρους παράδοσης περιλαμβάνεται στην τιμή.','Η εκτέλεση των υπηρεσιών γίνεται τμηματικά, κατόπιν έγγραφων εντολών, στους χώρους και χρόνους που θα υποδείξει η Υπηρεσία, εντός της συμβατικής προθεσμίας. Κάθε δαπάνη πλήρους και έντεχνης εκτέλεσης περιλαμβάνεται στην τιμή.'],
@@ -3143,8 +3365,8 @@ function generateStudy(){
   if(!window.TenderSpecs){toast('Δεν φορτώθηκε η βιβλιοθήκη τεχνικών προδιαγραφών.','err');return;}
 
   const groupCode=window.TenderSpecs.resolveGroupCode(g);
-  const pkg=window.TenderSpecs.getGroup(groupCode);
-  const common=window.TenderSpecs.COMMON;
+  const pkg=ovrPkg(g,groupCode);
+  const common=ovrCommon();
   const isC=cur.unitId===CENTRAL_UNIT;
   const scope=isC?'Δήμος Ρόδου (σύνολο Δημοτικών Ενοτήτων)':('Δημοτική Ενότητα '+unitName(cur.unitId));
   let net=0; rows.forEach(x=>{if(x.p!=null)net+=x.p*x.q;});
@@ -3226,8 +3448,8 @@ function generateSpecsDoc(){
   if(!window.TenderSpecs){toast('Δεν φορτώθηκε η βιβλιοθήκη τεχνικών προδιαγραφών.','err');return;}
   const rows=allMats.map(m=>({m:m,q:0,p:(m.default_unit_price!=null&&m.default_unit_price!==''?Number(m.default_unit_price):null)}));
   const groupCode=window.TenderSpecs.resolveGroupCode(g);
-  const pkg=window.TenderSpecs.getGroup(groupCode);
-  const common=window.TenderSpecs.COMMON;
+  const pkg=ovrPkg(g,groupCode);
+  const common=ovrCommon();
   const isC=cur.unitId===CENTRAL_UNIT;
   const scope=isC?'Δήμος Ρόδου (σύνολο Δημοτικών Ενοτήτων)':('Δημοτική Ενότητα '+unitName(cur.unitId));
   const gname=(g?g.name:'').toUpperCase();
@@ -3268,8 +3490,8 @@ function generateDirectAwardInvitation(){
   if(!rows.length){toast('Δεν υπάρχουν είδη με ποσότητα για τα τεύχη.','err');return;}
   if(!window.TenderSpecs){toast('Δεν φορτώθηκε η βιβλιοθήκη τεχνικών προδιαγραφών.','err');return;}
   const groupCode=window.TenderSpecs.resolveGroupCode(g);
-  const pkg=window.TenderSpecs.getGroup(groupCode);
-  const common=window.TenderSpecs.COMMON;
+  const pkg=ovrPkg(g,groupCode);
+  const common=ovrCommon();
   const isC=cur.unitId===CENTRAL_UNIT;
   const unitLabel=isC?'ΔΗΜΟΥ ΡΟΔΟΥ':('Δ.Ε. '+unitName(cur.unitId));
   const scope=isC?'Δήμος Ρόδου (σύνολο Δημοτικών Ενοτήτων)':('Δημοτική Ενότητα '+unitName(cur.unitId));
@@ -3405,6 +3627,6 @@ $('#selfSave').onclick=async()=>{
 
 boot();
 </script>
-<div class="dev-credit">developer Vasilis Diakolios · v29</div>
+<div class="dev-credit">developer Vasilis Diakolios · v30</div>
 </body>
 </html>
