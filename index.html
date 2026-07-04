@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Δήμος Ρόδου · Προμήθειες υλικών v31</title>
+<title>Δήμος Ρόδου · Προμήθειες υλικών v32</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Commissioner:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap&subset=greek,greek-ext,latin" rel="stylesheet">
@@ -179,6 +179,7 @@ button{font-family:var(--font-ui);cursor:pointer}
 .nav-label{font-family:var(--font-ui);font-size:11px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--faint2);margin:0 2px 8px}
 .pills{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .pill{font-family:var(--font-ui);font-weight:600;font-size:13.5px;color:var(--teal-700);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:8px 15px;display:inline-flex;align-items:center;gap:8px;line-height:1;transition:background .15s,border-color .15s,color .15s,transform .12s,box-shadow .15s;box-shadow:var(--shadow-sm)}
+#deNav .pill{border-radius:6px}
 .pill:hover{border-color:var(--teal-500);transform:translateY(-1px)}
 .pill[aria-selected="true"]{background:var(--teal-700);border-color:var(--teal-700);color:#fff;box-shadow:0 4px 14px rgba(30,91,168,.30)}
 .pill .badge{font-family:var(--font-data);font-weight:600;font-size:11px;min-width:20px;height:18px;padding:0 5px;border-radius:999px;display:inline-grid;place-items:center;background:var(--line-2);color:var(--teal-600)}
@@ -2350,7 +2351,7 @@ function currentExcelContext(){
   const contextKey=[YEAR,cur.unitId,cur.groupId,g.code||'',unitLabel,g.name||g.short_name||''].join('|');
   return {
     signature:'RHODES_PROCUREMENT_EXPORT_V2',
-    appVersion:'v31',
+    appVersion:'v32',
     year:String(YEAR),
     unitId:String(cur.unitId),
     unitName:unitLabel,
@@ -3717,6 +3718,6 @@ $('#selfSave').onclick=async()=>{
 
 boot();
 </script>
-<div class="dev-credit">developer Vasilis Diakolios · v31</div>
+<div class="dev-credit">developer Vasilis Diakolios · v32</div>
 </body>
 </html>
