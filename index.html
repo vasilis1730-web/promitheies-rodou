@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Δήμος Ρόδου · Προμήθειες υλικών v30</title>
+<title>Δήμος Ρόδου · Προμήθειες υλικών v31</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Commissioner:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap&subset=greek,greek-ext,latin" rel="stylesheet">
@@ -310,6 +310,11 @@ table.mat{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
 .tefxi-tabs button{border:1px solid var(--line);background:#F5F8FC;color:var(--teal-700);font-family:var(--font-ui);font-weight:600;font-size:12.5px;padding:7px 14px;border-radius:999px;cursor:pointer}
 .tefxi-tabs button.on{background:var(--teal-700);border-color:var(--teal-700);color:#fff}
 #tefxiModal .sheet__b,#itemEditModal .sheet__b{max-height:70vh;overflow:auto}
+.ie-check{display:flex;align-items:center;gap:8px;font-family:var(--font-ui);font-size:13px;color:var(--ink);margin:2px 0 10px;cursor:pointer}
+.ie-check input{width:16px;height:16px;accent-color:var(--teal-600)}
+.add-row td{border-top:1px dashed var(--teal-500);padding:10px 12px;text-align:center;color:var(--teal-600);font-family:var(--font-ui);font-weight:600;font-size:13px;cursor:pointer;background:#F7FBFF}
+.add-row:hover td{background:#EAF3FC}
+.add-row svg{width:15px;height:15px;vertical-align:-3px;margin-right:6px}
 @media(max-width:640px){.ie-grid,.ie-grid--2{grid-template-columns:1fr}}
 .btn--danger-soft{color:var(--danger);border-color:#E7BCC2;background:#FFF7F8}
 .btn--danger-soft:hover{background:#FBEAEC;border-color:var(--danger)}
@@ -499,6 +504,7 @@ table.mat{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
         <button class="btn btn--primary" id="btnSave"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"/><path d="M17 21v-8H7v8M7 3v5h8"/></svg>Αποθήκευση</button>
         <button class="btn" id="btnClean"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/><path d="M10 11v5M14 11v5"/></svg>Αποθήκευση & καθαρισμός</button>
         <button class="btn" id="btnExport"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4"/><path d="M5 21h14"/></svg>Εξαγωγή Excel</button>
+        <button class="btn hidden" id="btnNewItem" title="Δημιουργία νέου είδους/εργασίας στον κεντρικό κατάλογο — μόνο administrator"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg><span id="btnNewItemLbl">Νέο είδος</span></button>
         <button class="btn" id="btnImport"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V9m0 0 4 4m-4-4-4 4"/><path d="M5 3h14"/></svg>Εισαγωγή Excel</button>
         <input id="importFile" class="hidden" type="file" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
         <button class="btn btn--study" id="btnStudy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5V5a2 2 0 0 1 2-2h9l5 5v11.5a1.5 1.5 0 0 1-1.5 1.5H6a2 2 0 0 1-2-2Z"/><path d="M14 3v6h6M8 13h8M8 17h6"/></svg>Μελέτη</button>
@@ -563,6 +569,11 @@ table.mat{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
         <div class="field"><label for="iePrice">Ενδ. τιμή (χωρίς ΦΠΑ)</label><input id="iePrice" type="text" inputmode="decimal" placeholder="π.χ. 25,00"></div>
         <div class="field"><label for="ieCpv">CPV</label><input id="ieCpv" type="text" placeholder="π.χ. 50730000-1"></div>
       </div>
+      <div class="ie-grid ie-grid--2">
+        <div class="field"><label for="ieSubcat">Υποκατηγορία (ενότητα στον πίνακα προδιαγραφών)</label><input id="ieSubcat" type="text" list="subcatList" placeholder="π.χ. Καλώδια"><datalist id="subcatList"></datalist></div>
+        <div class="field"><label for="ieStandards">Πρότυπα / ΕΤΕΠ</label><input id="ieStandards" type="text" placeholder="π.χ. ΕΛΟΤ ΕΝ 60228, ΕΤΕΠ 05-04-02-00"></div>
+      </div>
+      <label class="ie-check"><input type="checkbox" id="ieCe"> Απαίτηση σήμανσης CE</label>
       <div class="field"><label for="ieSpecs">Τεχνικές προδιαγραφές</label><textarea id="ieSpecs" rows="7" placeholder="Περιγραφή εργασιών, πρότυπα, παραδοτέα…"></textarea></div>
       <p class="lock-note">Οι αλλαγές ενημερώνουν τον κεντρικό κατάλογο για όλες τις Δ.Ε. και περνούν αυτόματα σε Μελέτη, Προδιαγραφές και Τεύχη.</p>
     </div>
@@ -1525,6 +1536,7 @@ function showChooser(){
 function applyModeLabels(){
   const gl=$('#grpNavLabel'); if(gl)gl.textContent=(MODE==='service'?'Υπηρεσία':'Ομάδα υλικών');
   const bs=$('#brandSub'); if(bs)bs.textContent=(MODE==='service'?'Υπηρεσίες — ενοποιημένος προγραμματισμός':'Προμήθειες υλικών — ενοποιημένος προγραμματισμός');
+  const nl=$('#btnNewItemLbl'); if(nl)nl.textContent=(MODE==='service'?'Νέα εργασία':'Νέο είδος');
 }
 function updateModeSwitch(){
   document.querySelectorAll('#modeSwitch [data-mode]').forEach(b=>b.setAttribute('aria-selected', String(b.dataset.mode===MODE)));
@@ -1642,6 +1654,7 @@ function updateAdminControls(){
   if(importBtn)importBtn.classList.toggle('hidden',!isAdmin);
   $('#thAdminActions')?.classList.toggle('hidden',!isAdmin);
   $('#btnTefxiEdit')?.classList.toggle('hidden',!isAdmin);
+  $('#btnNewItem')?.classList.toggle('hidden',!isAdmin);
   $('#targetBox')?.classList.toggle('hidden',!writable);
   updateHistoryButtons();
   syncTotalsClearance();
@@ -1767,7 +1780,7 @@ function render(){
   if(prefillHint){bn.classList.remove('hidden');bn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg> Πρόχειρο άθροισμα των 10 Δ.Ε. — πάτησε «Αποθήκευση» για να οριστικοποιηθεί.';}
   else if(cleanView){bn.classList.remove('hidden');bn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg> Προβολή καθαρισμένου δελτίου: εμφανίζονται μόνο τα είδη με συμπληρωμένη ποσότητα. Με «Επαναφορά όλων των ειδών» εμφανίζεται ξανά ο πλήρης κατάλογος.';}
   else bn.classList.add('hidden');
-  if(!allMats.length){tb.innerHTML='<tr class="emptyrow"><td colspan="7">Δεν υπάρχουν είδη σε αυτή την ομάδα ακόμη.</td></tr>';computeTotals();return;}
+  if(!allMats.length){tb.innerHTML='<tr class="emptyrow"><td colspan="7">Δεν υπάρχουν είδη σε αυτή την ομάδα ακόμη.</td></tr>';appendAddRow(tb);computeTotals();return;}
   let mats=sortedMaterials(allMats).filter(m=>!hiddenMaterials.has(String(m.id))&&!hiddenMaterials.has(m.id));
   if(cleanView)mats=mats.filter(m=>((lines[m.id]&&lines[m.id].q)||0)>0);
   if(q)mats=mats.filter(m=>norm(m.name).includes(q));
@@ -1790,6 +1803,7 @@ function render(){
     tb.appendChild(tr);
   });
   if(!mats.length)tb.innerHTML='<tr class="emptyrow"><td colspan="7">'+(q?'Κανένα είδος δεν ταιριάζει στην αναζήτηση.':(cleanView?'Δεν υπάρχουν είδη με συμπληρωμένη ποσότητα στο καθαρισμένο δελτίο.':'Δεν υπάρχουν εμφανιζόμενα είδη.'))+'</td></tr>';
+  appendAddRow(tb);
   $('#ptSub').innerHTML='Σύνολο καταλόγου: <b>'+allMats.length+'</b> · εμφανίζονται: <b>'+mats.length+'</b>'+(!writable?' · μόνο προβολή':'');
   bindInputs(); bindDeleteButtons(); bindPermanentDeleteButtons(); computeTotals(); updateSortMarks(); updateAdminControls();
 }
@@ -2336,7 +2350,7 @@ function currentExcelContext(){
   const contextKey=[YEAR,cur.unitId,cur.groupId,g.code||'',unitLabel,g.name||g.short_name||''].join('|');
   return {
     signature:'RHODES_PROCUREMENT_EXPORT_V2',
-    appVersion:'v30',
+    appVersion:'v31',
     year:String(YEAR),
     unitId:String(cur.unitId),
     unitName:unitLabel,
@@ -3205,11 +3219,18 @@ function openItemEdit(mid){
   $('#iePrice').value=(m.default_unit_price!=null&&m.default_unit_price!=='')?String(m.default_unit_price).replace('.',','):'';
   $('#ieCpv').value=m.cpv||'';
   $('#ieSpecs').value=m.technical_specs||'';
+  $('#ieSubcat').value=m.subcategory||'';
+  $('#ieStandards').value=m.standards||'';
+  $('#ieCe').checked=!!m.ce_required;
+  $('#ieTitle').textContent='Επεξεργασία είδους / εργασίας';
+  $('#ieSave').textContent='Αποθήκευση';
+  fillSubcatDatalist();
   $('#itemEditModal').classList.add('open');
   setTimeout(()=>{try{$('#ieName').focus();}catch(e){}},60);
 }
 function closeItemEdit(){$('#itemEditModal').classList.remove('open');_editMid=null;}
 async function saveItemEdit(){
+  if(_editMid==null){await saveItemCreate();return;}
   const m=matById(_editMid); if(!m){closeItemEdit();return;}
   const name=$('#ieName').value.trim();
   if(!name){toast('Η περιγραφή του είδους δεν μπορεί να είναι κενή.','err');return;}
@@ -3219,6 +3240,9 @@ async function saveItemEdit(){
   if(priceRaw!==''&&(!isFinite(price)||price<0)){toast('Μη έγκυρη τιμή μονάδας.','err');return;}
   const cpv=$('#ieCpv').value.trim();
   const specs=$('#ieSpecs').value.trim();
+  const subcat=$('#ieSubcat').value.trim();
+  const standards=$('#ieStandards').value.trim();
+  const ceq=$('#ieCe').checked;
   const patch={};
   if(name!==m.name)patch.name=name;
   if(name!==(m.short_name||''))patch.short_name=name;
@@ -3227,6 +3251,9 @@ async function saveItemEdit(){
   if(((price==null)!==(curP==null))||(price!=null&&curP!=null&&Math.abs(price-curP)>0.00005))patch.default_unit_price=price;
   if(cpv!==(m.cpv||''))patch.cpv=cpv||null;
   if(specs!==(m.technical_specs||''))patch.technical_specs=specs||null;
+  if(subcat!==(m.subcategory||''))patch.subcategory=subcat||null;
+  if(standards!==(m.standards||''))patch.standards=standards||null;
+  if(ceq!==Boolean(m.ce_required))patch.ce_required=ceq;
   if(!Object.keys(patch).length){toast('Δεν υπάρχουν αλλαγές.');closeItemEdit();return;}
   const btn=$('#ieSave');btn.disabled=true;
   try{
@@ -3236,6 +3263,68 @@ async function saveItemEdit(){
     closeItemEdit(); render();
     toast('Το είδος ενημερώθηκε στον κεντρικό κατάλογο.','accent');
   }catch(e){toast('Σφάλμα αποθήκευσης: '+(e.message||e),'err');}
+  finally{btn.disabled=false;}
+}
+function fillSubcatDatalist(){
+  const dl=$('#subcatList'); if(!dl)return;
+  const set=new Set(); (MAT_BY_GROUP[cur.groupId]||[]).forEach(m=>{if(m.subcategory)set.add(m.subcategory);});
+  dl.innerHTML=[...set].sort((a,b)=>a.localeCompare(b,'el')).map(s=>'<option value="'+escAttr(s)+'"></option>').join('');
+}
+function appendAddRow(tb){
+  if(!isAdminUser()||!tb)return;
+  const tr=document.createElement('tr'); tr.className='add-row';
+  tr.innerHTML='<td colspan="7"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>'+(MODE==='service'?'Προσθήκη νέας εργασίας':'Προσθήκη νέου είδους')+'</td>';
+  tr.onclick=openItemCreate;
+  tb.appendChild(tr);
+}
+function openItemCreate(){
+  if(!isAdminUser())return;
+  _editMid=null;
+  const g=GROUPS.find(x=>x.id===cur.groupId)||{};
+  const isSvc=(MODE==='service');
+  $('#ieTitle').textContent=isSvc?'Νέα εργασία υπηρεσίας':'Νέο είδος';
+  $('#ieSave').textContent='Δημιουργία';
+  $('#ieCtx').textContent=(g.short_name||g.name||'')+' — θα προστεθεί στο τέλος της ομάδας, για όλες τις Δ.Ε.';
+  $('#ieName').value=''; $('#ieUnit').value=''; $('#iePrice').value=''; $('#ieCpv').value='';
+  $('#ieSpecs').value=''; $('#ieSubcat').value=''; $('#ieStandards').value=''; $('#ieCe').checked=false;
+  fillSubcatDatalist();
+  $('#itemEditModal').classList.add('open');
+  setTimeout(()=>{try{$('#ieName').focus();}catch(e){}},60);
+}
+async function saveItemCreate(){
+  const name=$('#ieName').value.trim();
+  if(!name){toast('Η περιγραφή δεν μπορεί να είναι κενή.','err');return;}
+  const unit=$('#ieUnit').value.trim();
+  if(!unit){toast('Συμπλήρωσε μονάδα μέτρησης (π.χ. τεμ, m², ώρα).','err');return;}
+  const priceRaw=$('#iePrice').value.trim().replace(/\./g,'').replace(',','.');
+  const price=priceRaw===''?null:Number(priceRaw);
+  if(priceRaw!==''&&(!isFinite(price)||price<0)){toast('Μη έγκυρη τιμή μονάδας.','err');return;}
+  const arr=MAT_BY_GROUP[cur.groupId]||[];
+  const maxSort=arr.reduce((mx,m)=>Math.max(mx,Number(m.sort_order)||0),0);
+  const payload={
+    group_id:cur.groupId,
+    code:'ADM-'+cur.groupId+'-'+Date.now(),
+    name:name, short_name:name,
+    unit:unit,
+    cpv:($('#ieCpv').value.trim()||null),
+    default_unit_price:price,
+    technical_specs:($('#ieSpecs').value.trim()||null),
+    subcategory:($('#ieSubcat').value.trim()||null),
+    standards:($('#ieStandards').value.trim()||null),
+    ce_required:$('#ieCe').checked,
+    is_active:true,
+    sort_order:maxSort+1
+  };
+  const btn=$('#ieSave');btn.disabled=true;
+  try{
+    const {data,error}=await sb.from('materials').insert(payload).select('*').single();
+    if(error)throw error;
+    (MAT_BY_GROUP[cur.groupId]=MAT_BY_GROUP[cur.groupId]||[]).push(data);
+    COUNTS[cur.groupId]=(MAT_BY_GROUP[cur.groupId]||[]).length;
+    buildGrpNav(); syncNav();
+    closeItemEdit(); render();
+    toast((MODE==='service'?'Η εργασία προστέθηκε':'Το είδος προστέθηκε')+' στον κεντρικό κατάλογο.','accent');
+  }catch(e){toast('Σφάλμα δημιουργίας: '+(e.message||e),'err');}
   finally{btn.disabled=false;}
 }
 /* --- Επεξεργασία κειμένων τευχών --- */
@@ -3313,6 +3402,7 @@ async function resetTefxiEdit(){
 }
 document.addEventListener('DOMContentLoaded',function(){
   const b=$('#btnTefxiEdit'); if(b)b.onclick=openTefxiEdit;
+  const nb=$('#btnNewItem'); if(nb)nb.onclick=openItemCreate;
   const ic=$('#ieCancel'); if(ic)ic.onclick=closeItemEdit;
   const is=$('#ieSave'); if(is)is.onclick=saveItemEdit;
   const tc=$('#teCancel'); if(tc)tc.onclick=closeTefxiEdit;
@@ -3627,6 +3717,6 @@ $('#selfSave').onclick=async()=>{
 
 boot();
 </script>
-<div class="dev-credit">developer Vasilis Diakolios · v30</div>
+<div class="dev-credit">developer Vasilis Diakolios · v31</div>
 </body>
 </html>
