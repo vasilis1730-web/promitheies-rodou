@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Δήμος Ρόδου · Προμήθειες υλικών v33</title>
+<title>Δήμος Ρόδου · Προμήθειες υλικών v34</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Commissioner:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap&subset=greek,greek-ext,latin" rel="stylesheet">
@@ -363,15 +363,16 @@ table.mat{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
 #deNav .pill:not(.pill--agg)[aria-selected="true"]{
   color:#FFFFFF;
   background:linear-gradient(180deg,#347FD3 0%,#1E5BA8 100%);
-  border-color:#174D91;
-  box-shadow:0 0 0 2px rgba(255,255,255,.95),0 6px 16px rgba(30,91,168,.34);
+  border-width:2px;
+  border-color:#D97706;
+  box-shadow:0 0 0 2px rgba(217,119,6,.45),0 6px 16px rgba(30,91,168,.34);
 }
 #deNav .pill--ov[aria-selected="true"]{
   background:var(--surface);
   color:var(--teal-700);
   border-width:2px;
-  border-color:var(--teal-700);
-  box-shadow:0 0 0 2px rgba(30,91,168,.16),var(--shadow-sm);
+  border-color:#D97706;
+  box-shadow:0 0 0 2px rgba(217,119,6,.30),var(--shadow-sm);
 }
 #deNav .pill--ov[aria-selected="true"] .pill-txt{color:inherit}
 #deNav .pill--ov[aria-selected="true"] .badge{color:#4E6F95;background:#E6F0FA}
@@ -2363,7 +2364,7 @@ function currentExcelContext(){
   const contextKey=[YEAR,cur.unitId,cur.groupId,g.code||'',unitLabel,g.name||g.short_name||''].join('|');
   return {
     signature:'RHODES_PROCUREMENT_EXPORT_V2',
-    appVersion:'v33',
+    appVersion:'v34',
     year:String(YEAR),
     unitId:String(cur.unitId),
     unitName:unitLabel,
@@ -3730,6 +3731,6 @@ $('#selfSave').onclick=async()=>{
 
 boot();
 </script>
-<div class="dev-credit">developer Vasilis Diakolios · v33</div>
+<div class="dev-credit">developer Vasilis Diakolios · v34</div>
 </body>
 </html>
