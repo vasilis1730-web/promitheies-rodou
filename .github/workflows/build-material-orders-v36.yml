@@ -1,0 +1,97 @@
+name: Build integrated material vouchers v36
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feature/material-vouchers-integration
+    paths:
+      - integration/material-orders-v36/**
+      - .github/workflows/build-material-orders-v36.yml
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout integration branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify procurement source
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git hash-object index.html)" = "f67535310f1c4db822922532679151ef3b635176"
+
+      - name: Fetch exact standalone material-orders source
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 3 \
+            https://raw.githubusercontent.com/vasilis1730-web/deltia---Ylikou/main/index.html \
+            --output material-orders.html
+          test "$(git hash-object material-orders.html)" = "73461676619254850fec2a3990cf54c49f3d78bc"
+
+      - name: Apply v36 integration patches
+        shell: bash
+        run: |
+          set -euo pipefail
+          patch -p1 --forward < integration/material-orders-v36/index-v36.patch
+          cat integration/material-orders-v36/material-orders-v36.patch.part01 \
+              integration/material-orders-v36/material-orders-v36.patch.part02 \
+              integration/material-orders-v36/material-orders-v36.patch.part03 \
+              > /tmp/material-orders-v36.patch
+          patch -p1 --forward < /tmp/material-orders-v36.patch
+
+      - name: Validate generated HTML and JavaScript
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          required = {
+              "index.html": [
+                  'data-mode="material_orders"',
+                  'id="materialOrdersFrame"',
+                  'material-orders.html?embedded=1',
+              ],
+              "material-orders.html": [
+                  'data-view="studies"',
+                  'source_study_id',
+                  'municipal_unit_id',
+                  'Το εκδοθέν δελτίο δεν διαγράφεται',
+              ],
+          }
+
+          for filename, markers in required.items():
+              text = Path(filename).read_text(encoding="utf-8")
+              for marker in markers:
+                  if marker not in text:
+                      raise SystemExit(f"Missing marker {marker!r} in {filename}")
+              scripts = re.findall(r'<script(?![^>]*\bsrc=)[^>]*>(.*?)</script>', text, re.S | re.I)
+              for index, script in enumerate(scripts, 1):
+                  Path(f"/tmp/{filename}.{index}.js").write_text(script, encoding="utf-8")
+          PY
+          for js in /tmp/index.html.*.js /tmp/material-orders.html.*.js; do
+            node --check "$js"
+          done
+
+      - name: Commit generated application files
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- index.html material-orders.html; then
+            echo "No generated changes."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html material-orders.html
+          git commit -m "Integrate material vouchers module v36 [skip ci]"
+          git push
