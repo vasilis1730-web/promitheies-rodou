@@ -1,0 +1,101 @@
+@@ -871,9 +908,10 @@
+ async function persistOrder(o){
+   /* header */
+   const header={order_no:o.order_no,order_date:o.order_date,supplier_id:o.supplier_id,contract_id:o.contract_id,
+-    receiver_id:o.receiver_id||null,project_id:o.project_id,usage_location:o.usage_location,notes:o.notes,
++    receiver_id:o.receiver_id||null,project_id:null,usage_location:null,notes:o.notes,municipal_unit_id:o.municipal_unit_id,source_study_id:o.source_study_id,
+     vat_rate:o.vat_rate,subtotal:o.subtotal,vat:o.vat,total:o.total,status:o.status,
+     sent_at:o.sent_at||null,received_at:o.received_at||null};
++  const finalStatus=header.status;header.status="draft";
+   let saved;
+   if(o.id){ saved=await dbUpdate("orders",o.id,header);
+     if(!state.demo){ await state.sb.from(TBL.order_items).delete().eq("order_id",o.id); }
+@@ -883,6 +921,7 @@
+   const rows=o.items.map(it=>({order_id:oid,contract_item_id:it.contract_item_id||null,is_custom:!!it.is_custom,mapping:(it.mapping&&it.mapping.length)?it.mapping:null,description:it.description,unit:it.unit,quantity:it.quantity,unit_price:it.unit_price,line_total:it.quantity*it.unit_price}));
+   if(state.demo){ const rec=byId(demo.orders,oid); rec.items=rows.map(r=>({...r,id:uid()})); }
+   else if(rows.length){ const {error}=await state.sb.from(TBL.order_items).insert(rows); if(error) throw error; }
++  if(finalStatus!=="draft")await dbUpdate("orders",oid,{status:finalStatus,sent_at:o.sent_at||null,received_at:o.received_at||null,issued_at:finalStatus==="sent"?new Date().toISOString():null});
+   return oid;
+ }
+ 
+@@ -1346,12 +1385,12 @@
+ /* ============================================================================
+    ΟΘΟΝΗ: ΜΗΤΡΩΟ ΕΝΤΟΛΩΝ
+ ============================================================================ */
+-const STATUS_LABEL={draft:"Πρόχειρο",sent:"Απεσταλμένο",received:"Παραληφθέν",cancelled:"Ακυρωμένο"};
++const STATUS_LABEL={draft:"Πρόχειρο",sent:"Εκδοθέν",received:"Παραληφθέν",cancelled:"Ακυρωμένο"};
+ const STATUS_CLS={draft:"b-draft",sent:"b-sent",received:"b-received",cancelled:"b-cancelled"};
+ const regFilter={q:"",status:"",supplier:""};
+ 
+ VIEWS.registry=function(root){
+-  root.append(el("h1",{class:"view-title"},"Μητρώο εντολών"));
++  root.append(el("h1",{class:"view-title"},"Μητρώο δελτίων υλικού"));
+   root.append(el("p",{class:"view-sub"},"Ιστορικό εντολών, κατάσταση αποστολής/παραλαβής και ενέργειες."));
+ 
+   const bar=el("div",{class:"filters"});
+@@ -1401,11 +1440,11 @@
+           el("div",{class:"amt"},eur(o.total)),
+           el("div",{class:"orow-actions"},
+             el("button",{class:"btn sm ghost",title:"Προβολή",onclick:()=>viewOrder(o.id)},"👁"),
+-            el("button",{class:"btn sm ghost",title:"Επεξεργασία",onclick:()=>editOrder(o.id)},"✎"),
++            (o.status==="draft"||isAdmin())?el("button",{class:"btn sm ghost",title:"Επεξεργασία",onclick:()=>editOrder(o.id)},"✎"):null,
+             el("button",{class:"btn sm ghost",title:"PDF",onclick:()=>buildAndPrint(hydrate(o))},"🖨"),
+             o.status==="draft"?el("button",{class:"btn sm ghost",title:"Αποστολή",onclick:()=>{editOrder(o.id);setTimeout(()=>sendEmail(),120);}},"✉"):null,
+             o.status==="sent"?el("button",{class:"btn sm ok",title:"Σήμανση ως παραληφθέν",onclick:()=>markReceived(o.id)},"✓ Παρελήφθη"):null,
+-            el("button",{class:"btn sm ghost danger",title:"Διαγραφή",onclick:()=>delOrder(o.id)},"🗑"),
++            (o.status==="draft"||isAdmin())?el("button",{class:"btn sm ghost danger",title:"Διαγραφή",onclick:()=>delOrder(o.id)},"🗑"):null,
+           )
+         )
+       ));
+@@ -1427,8 +1466,10 @@
+ }
+ function editOrder(id){
+   const o=hydrate(byId(cache.orders,id));
++  if(o.status!=="draft"&&!isAdmin()){viewOrder(id);toast("Το εκδοθέν δελτίο είναι μόνο για προβολή. Μόνο ο administrator μπορεί να το επεξεργαστεί.","warn",4800);return;}
++  state.selectedUnitId=o.municipal_unit_id||state.selectedUnitId;state.selectedStudyId=o.source_study_id||state.selectedStudyId;
+   state.form={id:o.id,order_no:o.order_no,order_date:o.order_date,supplier_id:o.supplier_id,contract_id:o.contract_id,
+-    receiver_id:o.receiver_id||"",project_id:o.project_id||"",usage_location:o.usage_location||"",notes:o.notes||"",
++    receiver_id:o.receiver_id||"",project_id:null,usage_location:"",notes:o.notes||"",municipal_unit_id:o.municipal_unit_id||null,source_study_id:o.source_study_id||null,
+     vat_rate:o.vat_rate||state.settings.vat,status:o.status,
+     items:(o.items||[]).map(it=>({key:uid(),ref:it.contract_item_id||"",description:it.description,unit:it.unit,quantity:it.quantity,unit_price:it.unit_price,mapping:parseMapping(it)}))};
+   if(!state.form.items.length) state.form.items.push({key:uid(),ref:"",description:"",unit:"",quantity:"",unit_price:"",mapping:[]});
+@@ -1442,7 +1483,8 @@
+ }
+ async function delOrder(id){
+   const o=byId(cache.orders,id);
+-  if(!confirm(`Διαγραφή εντολής ${o.order_no||""};`)) return;
++  if(!o)return;if(o.status!=="draft"&&!isAdmin()){toast("Το εκδοθέν δελτίο δεν διαγράφεται. Δικαίωμα διαγραφής έχει μόνο ο administrator.","warn",5200);return;}
++  if(!confirm(`Διαγραφή δελτίου ${o.order_no||""};`)) return;
+   try{
+     if(!state.demo) await state.sb.from(TBL.order_items).delete().eq("order_id",id);
+     await dbDelete("orders",id);
+@@ -1902,8 +1944,9 @@
+   $("#loginScreen").classList.add("hidden");
+   $("#app").classList.remove("hidden");
+   $("#whoami").textContent=state.user?.email||"";
+-  $("#whoami").classList.remove("hidden");
+-  $("#logoutBtn").classList.remove("hidden");
++  $("#whoami").classList.toggle("hidden",EMBEDDED);$("#logoutBtn").classList.toggle("hidden",EMBEDDED);
++  if(!state.demo){const {data,error}=await state.sb.from("profiles").select("role,municipal_unit_id,full_name,email").eq("id",state.user.id).single();if(error)throw error;state.profile=data;}
++  document.querySelectorAll(".admin-only").forEach(x=>x.classList.toggle("hidden",!canManage()));
+   await boot();
+ }
+ 
+@@ -1913,8 +1956,7 @@
+ async function boot(){
+   try{ await reloadAll(); }
+   catch(e){ toast("Σφάλμα φόρτωσης δεδομένων: "+(e.message||e),"err",6000); }
+-  state.form=blankForm();
+-  render();
++  state.form=blankForm();state.view="studies";if(EMBEDDED){document.body.classList.add("embedded");window.parent.postMessage({type:"material-orders-ready"},location.origin);}go("studies");
+ }
+ 
+ async function init(){
+@@ -1942,6 +1984,7 @@
+   $("#modePill").textContent="DEMO"; $("#modePill").className="mode-pill mode-demo";
+   await boot();
+ }
++window.addEventListener("message",e=>{if(e.origin!==location.origin)return;if(e.data?.type==="rhodes-year"){const u=new URL(location.href);u.searchParams.set("year",e.data.year);history.replaceState(null,"",u);state.selectedStudyId=null;state.form=blankForm();if(state.user)go("studies");}});
+ document.addEventListener("DOMContentLoaded",init);
+ </script>
+ </body>
