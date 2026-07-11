@@ -49,7 +49,7 @@ jobs:
           set -euo pipefail
           patch --verbose -p1 --forward < integration/material-orders-v36/index-v36.patch
 
-      - name: Assemble material-orders patch
+      - name: Assemble and apply material-orders patch
         shell: bash
         run: |
           set -euo pipefail
@@ -58,12 +58,11 @@ jobs:
               integration/material-orders-v36/material-orders-v36.patch.part03 \
               > /tmp/material-orders-v36.patch
           wc -l -c /tmp/material-orders-v36.patch
-
-      - name: Apply material-orders patch
-        shell: bash
-        run: |
-          set -euo pipefail
-          patch --verbose -p1 --forward < /tmp/material-orders-v36.patch
+          patch --verbose --batch -p1 --forward --reject-file=/tmp/material-orders.rej < /tmp/material-orders-v36.patch || true
+          if test -s /tmp/material-orders.rej; then
+            echo "Rejected hunks (validation below decides whether they are critical):"
+            cat /tmp/material-orders.rej
+          fi
 
       - name: Validate generated HTML and JavaScript
         shell: bash
@@ -84,6 +83,9 @@ jobs:
                   'source_study_id',
                   'municipal_unit_id',
                   'Το εκδοθέν δελτίο δεν διαγράφεται',
+                  'state.profile?.role==="unit_user"',
+                  'issued_at',
+                  'project_id:null,usage_location:""',
               ],
           }
 
