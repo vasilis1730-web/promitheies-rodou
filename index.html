@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Δήμος Ρόδου · Προμήθειες υλικών v35</title>
+<title>Δήμος Ρόδου · Προμήθειες, Υπηρεσίες & Δελτία Υλικών v36</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Commissioner:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap&subset=greek,greek-ext,latin" rel="stylesheet">
@@ -163,7 +163,7 @@ button{font-family:var(--font-ui);cursor:pointer}
 .chooser-in{width:100%;max-width:720px;text-align:center}
 .chooser-title{font-family:var(--font-ui);font-weight:700;font-size:26px;color:var(--ink);margin:0 0 6px}
 .chooser-sub{color:var(--muted);margin:0 0 26px;font-size:14px}
-.chooser-cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.chooser-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
 .chooser-card{display:flex;flex-direction:column;align-items:center;gap:10px;padding:34px 22px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(180deg,#ffffff,#f4f9ff);cursor:pointer;transition:transform .12s,box-shadow .12s,border-color .12s;box-shadow:var(--shadow-sm)}
 .chooser-card:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(20,60,110,.14);border-color:var(--teal-500)}
 .chooser-card svg{width:50px;height:50px;color:var(--teal-600)}
@@ -173,7 +173,7 @@ button{font-family:var(--font-ui);cursor:pointer}
 .mode-switch button{border:0;background:transparent;color:#E7F0FB;font-family:var(--font-ui);font-weight:600;font-size:13px;padding:6px 15px;border-radius:999px;cursor:pointer;opacity:.85;transition:background .12s,opacity .12s;white-space:nowrap}
 .mode-switch button:hover{opacity:1}
 .mode-switch button[aria-selected="true"]{background:#fff;color:var(--teal-700);opacity:1}
-@media(max-width:640px){.chooser-cards{grid-template-columns:1fr}.mode-switch{margin-left:0}.mode-switch button{padding:6px 12px;font-size:12px}}
+@media(max-width:860px){.chooser-cards{grid-template-columns:1fr}.mode-switch{margin-left:0}.mode-switch button{padding:6px 12px;font-size:12px}}
 .shell{max-width:1280px;margin:0 auto;padding:clamp(14px,2.4vw,26px) clamp(12px,3vw,30px) calc(var(--totals-height) + 22px)}
 .nav{margin-bottom:14px}
 .nav-label{font-family:var(--font-ui);font-size:11px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--faint2);margin:0 2px 8px}
@@ -455,6 +455,15 @@ table.mat{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
   color:#D97706;
 }
 
+
+/* ===== v36 — ενσωματωμένο περιβάλλον Δελτίων Υλικών ===== */
+.material-orders-board{width:100%;min-height:calc(100vh - 60px);background:var(--bg)}
+.material-orders-frame{display:block;width:100%;height:calc(100vh - 60px);min-height:720px;border:0;background:var(--bg)}
+.mode-switch button[data-mode="material_orders"]{padding-inline:17px}
+.chooser-card--orders{background:linear-gradient(180deg,#fff,#fff8ee)}
+.chooser-card--orders svg{color:#DB6D14}
+@media(max-width:760px){.material-orders-frame{height:calc(100vh - 108px);min-height:680px}}
+
 </style>
 <!-- v18: very light blue/orange inactive navigation, blue/orange active selections -->
 </head>
@@ -483,7 +492,7 @@ table.mat{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
     <svg class="sun" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="8.4" stroke="currentColor" stroke-width="2.6"/><g stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M24 4.5v6"/><path d="M24 37.5v6"/><path d="M4.5 24h6"/><path d="M37.5 24h6"/><path d="M10.2 10.2l4.2 4.2"/><path d="M33.6 33.6l4.2 4.2"/><path d="M37.8 10.2l-4.2 4.2"/><path d="M14.4 33.6l-4.2 4.2"/></g></svg>
     <div class="brand-txt"><b>Δήμος Ρόδου</b><span id="brandSub">Προμήθειες υλικών — ενοποιημένος προγραμματισμός</span></div>
   </div>
-  <div class="mode-switch hidden" id="modeSwitch"><button type="button" data-mode="procurement">Προμήθειες</button><button type="button" data-mode="service">Υπηρεσίες</button></div>
+  <div class="mode-switch hidden" id="modeSwitch"><button type="button" data-mode="procurement">Προμήθειες</button><button type="button" data-mode="service">Υπηρεσίες</button><button type="button" data-mode="material_orders">Δελτίο υλικού</button></div>
   <div class="appbar-right">
     <span class="who"><b id="whoName">—</b><span class="role" id="whoRole">—</span></span>
     <label class="year-pick" title="Έτος μελέτης"><span>Έτος</span><select id="yearSel" aria-label="Έτος μελέτης"></select></label>
@@ -492,7 +501,9 @@ table.mat{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
   </div>
 </header>
 
-<div class="chooser hidden" id="chooser"><div class="chooser-in"><h1 class="chooser-title">Επιλέξτε ενότητα</h1><p class="chooser-sub">Διαλέξτε με τι θέλετε να εργαστείτε</p><div class="chooser-cards"><button class="chooser-card" data-mode="procurement" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="m3.3 7 8.7 5 8.7-5M12 22V12"/></svg><b>Προμήθειες</b><span>Υλικά ανά ομάδα &amp; Δ.Ε.</span></button><button class="chooser-card" data-mode="service" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg><b>Υπηρεσίες</b><span>Υπηρεσίες ανά Δ.Ε.</span></button></div></div></div>
+<div class="chooser hidden" id="chooser"><div class="chooser-in"><h1 class="chooser-title">Επιλέξτε ενότητα</h1><p class="chooser-sub">Διαλέξτε με τι θέλετε να εργαστείτε</p><div class="chooser-cards"><button class="chooser-card" data-mode="procurement" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="m3.3 7 8.7 5 8.7-5M12 22V12"/></svg><b>Προμήθειες</b><span>Υλικά ανά ομάδα &amp; Δ.Ε.</span></button><button class="chooser-card" data-mode="service" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg><b>Υπηρεσίες</b><span>Υπηρεσίες ανά Δ.Ε.</span></button><button class="chooser-card chooser-card--orders" data-mode="material_orders" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 3h16v18H4z"/><path d="M8 7h8M8 11h8M8 15h5"/><path d="m15 17 2 2 4-4"/></svg><b>Δελτίο υλικού</b><span>Εκτέλεση κλειδωμένων μελετών &amp; συμβάσεων</span></button></div></div></div>
+
+<section id="materialOrdersBoard" class="material-orders-board hidden" aria-label="Δελτία υλικού"><iframe id="materialOrdersFrame" class="material-orders-frame" title="Εντολές και Δελτία Υλικών" loading="eager"></iframe></section>
 
 <div class="shell" id="board">
   <nav class="nav" aria-label="Δημοτική Ενότητα">
@@ -1519,6 +1530,7 @@ async function doLogin(){
 $('#logoutBtn').onclick=async()=>{await sb.auth.signOut();location.reload();};
 document.querySelectorAll('#chooser [data-mode]').forEach(b=>b.addEventListener('click',()=>enterMode(b.dataset.mode)));
 document.querySelectorAll('#modeSwitch [data-mode]').forEach(b=>b.addEventListener('click',()=>switchMode(b.dataset.mode)));
+window.addEventListener('message',e=>{if(e.origin!==location.origin)return;if(e.data&&e.data.type==='material-orders-ready'){const f=$('#materialOrdersFrame');if(f&&f.contentWindow)f.contentWindow.postMessage({type:'rhodes-year',year:YEAR},location.origin);}});
 
 async function boot(){
   const {data:{session}}=await sb.auth.getSession();
@@ -1546,32 +1558,51 @@ const firstGroupId=()=>{const a=groupsForMode(); return (a[0]||{}).id;};
 function showChooser(){
   const c=$('#chooser'); if(c)c.classList.remove('hidden');
   const b=$('#board'); if(b)b.classList.add('hidden');
+  const mo=$('#materialOrdersBoard'); if(mo)mo.classList.add('hidden');
   const f=document.querySelector('footer.totals'); if(f)f.classList.add('hidden');
   const ms=$('#modeSwitch'); if(ms)ms.classList.add('hidden');
 }
 function applyModeLabels(){
   const gl=$('#grpNavLabel'); if(gl)gl.textContent=(MODE==='service'?'Υπηρεσία':'Ομάδα υλικών');
-  const bs=$('#brandSub'); if(bs)bs.textContent=(MODE==='service'?'Υπηρεσίες — ενοποιημένος προγραμματισμός':'Προμήθειες υλικών — ενοποιημένος προγραμματισμός');
+  const bs=$('#brandSub');
+  if(bs)bs.textContent=MODE==='material_orders'?'Δελτία υλικού — εκτέλεση κλειδωμένων μελετών':(MODE==='service'?'Υπηρεσίες — ενοποιημένος προγραμματισμός':'Προμήθειες υλικών — ενοποιημένος προγραμματισμός');
   const nl=$('#btnNewItemLbl'); if(nl)nl.textContent=(MODE==='service'?'Νέα εργασία':'Νέο είδος');
 }
 function updateModeSwitch(){
   document.querySelectorAll('#modeSwitch [data-mode]').forEach(b=>b.setAttribute('aria-selected', String(b.dataset.mode===MODE)));
 }
+function showMaterialOrders(){
+  const c=$('#chooser'); if(c)c.classList.add('hidden');
+  const b=$('#board'); if(b)b.classList.add('hidden');
+  const f=document.querySelector('footer.totals'); if(f)f.classList.add('hidden');
+  const mo=$('#materialOrdersBoard'); if(mo)mo.classList.remove('hidden');
+  const frame=$('#materialOrdersFrame');
+  const wanted='material-orders.html?embedded=1&year='+encodeURIComponent(YEAR);
+  if(frame && (!frame.getAttribute('src') || !frame.getAttribute('src').startsWith('material-orders.html'))) frame.setAttribute('src',wanted);
+  else if(frame && frame.contentWindow) frame.contentWindow.postMessage({type:'rhodes-year',year:YEAR},location.origin);
+}
 async function enterMode(mode){
-  MODE=(mode==='service'?'service':'procurement');
+  MODE=(mode==='material_orders'?'material_orders':(mode==='service'?'service':'procurement'));
+  const ms=$('#modeSwitch'); if(ms)ms.classList.remove('hidden');
+  applyModeLabels(); updateModeSwitch();
+  if(MODE==='material_orders'){showMaterialOrders();return;}
   buildGrpNav(); cur.groupId=firstGroupId();
   const c=$('#chooser'); if(c)c.classList.add('hidden');
+  const mo=$('#materialOrdersBoard'); if(mo)mo.classList.add('hidden');
   const b=$('#board'); if(b)b.classList.remove('hidden');
   const f=document.querySelector('footer.totals'); if(f)f.classList.remove('hidden');
-  const ms=$('#modeSwitch'); if(ms)ms.classList.remove('hidden');
-  applyModeLabels(); updateModeSwitch(); syncNav(); await openView();
+  syncNav(); await openView();
 }
 async function switchMode(mode){
-  const m=(mode==='service'?'service':'procurement');
+  const m=(mode==='material_orders'?'material_orders':(mode==='service'?'service':'procurement'));
   if(m===MODE)return;
-  if(!(await guardDirty()))return;
-  MODE=m; buildGrpNav(); cur.groupId=firstGroupId();
-  applyModeLabels(); updateModeSwitch(); syncNav(); await openView();
+  if(MODE!=='material_orders' && !(await guardDirty()))return;
+  MODE=m; applyModeLabels(); updateModeSwitch();
+  if(MODE==='material_orders'){showMaterialOrders();return;}
+  const mo=$('#materialOrdersBoard'); if(mo)mo.classList.add('hidden');
+  const b=$('#board'); if(b)b.classList.remove('hidden');
+  const f=document.querySelector('footer.totals'); if(f)f.classList.remove('hidden');
+  buildGrpNav(); cur.groupId=firstGroupId(); syncNav(); await openView();
 }
 async function fetchAllMaterials(){
   const cols='id,group_id,code,name,short_name,subcategory,unit,cpv,default_unit_price,sort_order,technical_specs,standards,ce_required,notes_for_tender,is_active';
