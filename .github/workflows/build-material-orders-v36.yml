@@ -8,6 +8,12 @@ on:
     paths:
       - integration/material-orders-v36/**
       - .github/workflows/build-material-orders-v36.yml
+  pull_request:
+    branches:
+      - main
+    paths:
+      - integration/material-orders-v36/**
+      - .github/workflows/build-material-orders-v36.yml
 
 permissions:
   contents: write
@@ -19,6 +25,7 @@ jobs:
       - name: Checkout integration branch
         uses: actions/checkout@v4
         with:
+          ref: feature/material-vouchers-integration
           fetch-depth: 0
 
       - name: Verify procurement source
@@ -94,4 +101,4 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add index.html material-orders.html
           git commit -m "Integrate material vouchers module v36 [skip ci]"
-          git push
+          git push origin HEAD:feature/material-vouchers-integration
