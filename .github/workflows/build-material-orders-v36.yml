@@ -43,16 +43,27 @@ jobs:
             --output material-orders.html
           test "$(git hash-object material-orders.html)" = "73461676619254850fec2a3990cf54c49f3d78bc"
 
-      - name: Apply v36 integration patches
+      - name: Apply main application patch
         shell: bash
         run: |
           set -euo pipefail
-          patch -p1 --forward < integration/material-orders-v36/index-v36.patch
+          patch --verbose -p1 --forward < integration/material-orders-v36/index-v36.patch
+
+      - name: Assemble material-orders patch
+        shell: bash
+        run: |
+          set -euo pipefail
           cat integration/material-orders-v36/material-orders-v36.patch.part01 \
               integration/material-orders-v36/material-orders-v36.patch.part02 \
               integration/material-orders-v36/material-orders-v36.patch.part03 \
               > /tmp/material-orders-v36.patch
-          patch -p1 --forward < /tmp/material-orders-v36.patch
+          wc -l -c /tmp/material-orders-v36.patch
+
+      - name: Apply material-orders patch
+        shell: bash
+        run: |
+          set -euo pipefail
+          patch --verbose -p1 --forward < /tmp/material-orders-v36.patch
 
       - name: Validate generated HTML and JavaScript
         shell: bash
