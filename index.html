@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Δήμος Ρόδου · Προμήθειες υλικών v36</title>
+<title>Δήμος Ρόδου · Προμήθειες υλικών v37</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Commissioner:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap&subset=greek,greek-ext,latin" rel="stylesheet">
@@ -85,6 +85,30 @@ button{font-family:var(--font-ui);cursor:pointer}
 .btn--lock svg{color:#FFE6BE}
 .sheet--narrow{max-width:480px}
 .sheet--wide{max-width:920px}
+.sheet--xl{max-width:1100px}
+.btn--word{color:#1E4E8C;border-color:#C5D8F0;background:#F3F7FD}
+.btn--word:hover{background:#E4EEFA;border-color:#2B579A}
+.wi-meta{display:grid;grid-template-columns:1.2fr .8fr;gap:10px;margin:0 0 12px}
+.wi-opts{display:grid;gap:7px;margin:0 0 12px;padding:10px 12px;border:1px solid var(--line-2);border-radius:10px;background:#F7FBFF}
+.wi-opts label{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--ink);cursor:pointer}
+.wi-opts input{margin-top:2px}
+.wi-files{font-size:12.5px;color:var(--muted);margin:0 0 10px}
+.wi-wrap{overflow:auto;max-height:46vh;border:1px solid var(--line);border-radius:10px}
+.wi-table{width:100%;border-collapse:collapse;font-size:12.5px}
+.wi-table th{position:sticky;top:0;background:var(--teal-700);color:#fff;font-family:var(--font-ui);font-weight:600;font-size:11px;text-align:left;padding:8px 8px;white-space:nowrap}
+.wi-table td{border-top:1px solid var(--line-2);padding:6px 8px;vertical-align:top}
+.wi-table tr:nth-child(even) td{background:#F8FBFE}
+.wi-table input[type="text"],.wi-table input[type="number"]{width:100%;border:1px solid var(--line);border-radius:6px;padding:5px 7px;font-family:var(--font-data);font-size:12.5px}
+.wi-table .wi-name{min-width:220px}
+.wi-table .wi-unit{width:88px}
+.wi-table .wi-num{width:92px}
+.wi-table .wi-specs{font-size:11.5px;color:var(--muted);max-width:240px;line-height:1.35}
+.wi-badge{display:inline-block;font-size:10.5px;font-weight:700;padding:2px 7px;border-radius:999px;white-space:nowrap}
+.wi-badge--new{background:#E8F7EE;color:#157A45;border:1px solid #B7E0C6}
+.wi-badge--exact{background:#E7F0FB;color:#1E5BA8;border:1px solid #B9D2F0}
+.wi-badge--similar{background:#FFF6E5;color:#9A5B00;border:1px solid #F0D29A}
+.wi-empty{text-align:center;color:var(--muted);padding:18px}
+@media(max-width:800px){.wi-meta{grid-template-columns:1fr}}
 .lock-ctx{margin:0 0 12px;font-family:var(--font-ui);font-weight:600;color:var(--teal-700)}
 .lock-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:0 0 14px}
 .lock-stat{border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:#F8FBFE;text-align:center}
@@ -523,6 +547,8 @@ table.mat{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
         <button class="btn hidden" id="btnNewItem" title="Δημιουργία νέου είδους/εργασίας στον κεντρικό κατάλογο — μόνο administrator"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg><span id="btnNewItemLbl">Νέο είδος</span></button>
         <button class="btn btn--import" id="btnImport"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V9m0 0 4 4m-4-4-4 4"/><path d="M5 3h14"/></svg>Εισαγωγή Excel</button>
         <input id="importFile" class="hidden" type="file" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+        <button class="btn btn--word hidden" id="btnWordImport" title="Εισαγωγή ειδών, τιμών και προδιαγραφών από μελέτη Word (.docx) — μόνο administrator"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h5"/></svg>Εισαγωγή Word</button>
+        <input id="wordImportFile" class="hidden" type="file" accept=".docx,.zip,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/zip" multiple>
         <button class="btn btn--study" id="btnStudy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5V5a2 2 0 0 1 2-2h9l5 5v11.5a1.5 1.5 0 0 1-1.5 1.5H6a2 2 0 0 1-2-2Z"/><path d="M14 3v6h6M8 13h8M8 17h6"/></svg>Μελέτη</button>
         <button class="btn btn--specs" id="btnSpecs" title="Τεχνικές προδιαγραφές όλων των ειδών της ομάδας, ανεξαρτήτως ποσοτήτων"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4"/></svg>Προδιαγραφές</button>
         <button class="btn hidden" id="btnTefxiEdit" title="Επεξεργασία κειμένων μελέτης και τευχών — μόνο administrator"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5V5a2 2 0 0 1 2-2h9l5 5v4"/><path d="M14 3v6h6"/><path d="M15.5 13.5a2.121 2.121 0 0 1 3 3L13 22l-4 1 1-4Z"/></svg>Επεξ. τευχών</button>
@@ -698,6 +724,35 @@ table.mat{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
   </div>
 </div>
 
+<div class="modal" id="wordImportModal" role="dialog" aria-modal="true" aria-labelledby="wiTitle">
+  <div class="sheet sheet--xl">
+    <div class="sheet__h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h5"/></svg><b id="wiTitle">Εισαγωγή μελέτης Word</b></div>
+    <div class="sheet__b">
+      <p class="lead" id="wiLead">Η εφαρμογή διαβάζει τιμολόγιο / προϋπολογισμό και τεχνικές προδιαγραφές από αρχεία .docx και τα περνά στον κεντρικό κατάλογο της επιλεγμένης ομάδας.</p>
+      <p class="wi-files" id="wiFiles"></p>
+      <div class="wi-meta">
+        <div class="field" style="margin:0"><label for="wiGroup">Ομάδα καταλόγου</label><select id="wiGroup"></select></div>
+        <div class="field" style="margin:0"><label>Εντοπίστηκαν</label><div id="wiSummary" class="copy-info">—</div></div>
+      </div>
+      <div class="wi-opts">
+        <label><input type="checkbox" id="wiNewItems" checked> Προσθήκη νέων ειδών / εργασιών στον κεντρικό κατάλογο (όλες οι Δ.Ε.)</label>
+        <label><input type="checkbox" id="wiFillSpecs" checked> Εμπλουτισμός προδιαγραφών και προτύπων όταν το πεδίο στον κατάλογο είναι κενό ή η μελέτη έχει πληρέστερο κείμενο</label>
+        <label><input type="checkbox" id="wiFillPrice" checked> Συμπλήρωση ενδεικτικής τιμής μόνο όταν στον κατάλογο είναι κενή</label>
+        <label><input type="checkbox" id="wiQty"> Εισαγωγή ποσοτήτων στο τρέχον δελτίο αυτής της Δημοτικής Ενότητας</label>
+        <label><input type="checkbox" id="wiTefxi" checked> Εμπλουτισμός κειμένων τευχών της ομάδας (τεχνικές προδιαγραφές / σκοπός) χωρίς να σβήνονται τα υπάρχοντα</label>
+      </div>
+      <div class="wi-wrap"><table class="wi-table"><thead><tr>
+        <th class="c"><input type="checkbox" id="wiCheckAll" checked title="Επιλογή όλων"></th>
+        <th>Περιγραφή</th><th>Μονάδα</th><th>Ποσ.</th><th>Τιμή</th><th>Κατάσταση</th><th>Προδιαγραφές</th>
+      </tr></thead><tbody id="wiBody"></tbody></table></div>
+    </div>
+    <div class="sheet__f">
+      <button class="btn" id="wiCancel" type="button">Άκυρο</button>
+      <button class="btn btn--word" id="wiApply" type="button">Καταχώριση στη βάση</button>
+    </div>
+  </div>
+</div>
+
 <style>
 /* ===== v36: Δελτία Υλικών / Εργασιών (MO) ===== */
 :root{--mo-ink:#12233b;--mo-soft:#3f5772;--mo-aegean:#0a63b0;--mo-aegean-d:#084d89;--mo-line:#d7dee6;--mo-line2:#b6c2cf;
@@ -852,6 +907,8 @@ table.mat{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+<script src="study_docx_import.js"></script>
 <script>
 /* Δήμος Ρόδου - Προμήθειες v22: ασφαλής εισαγωγή Excel με έλεγχο ομάδας, Δημοτικής Ενότητας και έτους */
 /* Δήμος Ρόδου — Βιβλιοθήκη 14 ειδικών πακέτων και ασφαλές γενικό πακέτο
@@ -1831,6 +1888,8 @@ function updateAdminControls(){
   if(copy){copy.classList.toggle('hidden',!isAdmin);copy.disabled=!isAdmin||cur.unitId===CENTRAL_UNIT;}
   const importBtn=$('#btnImport');
   if(importBtn)importBtn.classList.toggle('hidden',!isAdmin);
+  const wordBtn=$('#btnWordImport');
+  if(wordBtn)wordBtn.classList.toggle('hidden',!isAdmin);
   $('#thAdminActions')?.classList.toggle('hidden',!isAdmin);
   $('#btnTefxiEdit')?.classList.toggle('hidden',!isAdmin);
   $('#btnNewItem')?.classList.toggle('hidden',!isAdmin);
@@ -2533,7 +2592,7 @@ function currentExcelContext(){
   const contextKey=[YEAR,cur.unitId,cur.groupId,g.code||'',unitLabel,g.name||g.short_name||''].join('|');
   return {
     signature:'RHODES_PROCUREMENT_EXPORT_V2',
-    appVersion:'v36',
+    appVersion:'v37',
     year:String(YEAR),
     unitId:String(cur.unitId),
     unitName:unitLabel,
@@ -3128,6 +3187,308 @@ async function importQuantitiesFromFile(file){
   toast('Η εισαγωγή ολοκληρώθηκε: '+notes.join(', ')+(skipped?' · παραλείφθηκαν '+skipped+' γραμμές':'')+unitNote+'.','accent');
 }
 
+/* ===== v37: εισαγωγή μελέτης Word στον κεντρικό κατάλογο ===== */
+let _wi={studies:[],rows:[]};
+
+function closeWordImport(){
+  $('#wordImportModal')?.classList.remove('open');
+}
+function wiSelectedGroupId(){
+  const v=Number($('#wiGroup')?.value||0);
+  return v||cur.groupId;
+}
+function wiRematch(){
+  const Imp=window.StudyDocxImport;
+  if(!Imp)return;
+  const gid=wiSelectedGroupId();
+  const mats=MAT_BY_GROUP[gid]||[];
+  const items=[];
+  _wi.studies.forEach(st=>{
+    (st.items||[]).forEach(it=>{
+      items.push(Object.assign({},it,{_file:st.fileName||'',_title:st.title||''}));
+    });
+  });
+  _wi.rows=Imp.matchItems(items,mats).map((r,i)=>Object.assign(r,{_i:i,selected:r.selected!==false}));
+  renderWordImportTable();
+}
+function renderWordImportTable(){
+  const tb=$('#wiBody'); if(!tb)return;
+  const gid=wiSelectedGroupId();
+  const g=GROUPS.find(x=>x.id===gid)||{};
+  const files=[...new Set(_wi.studies.map(s=>s.fileName).filter(Boolean))];
+  const titles=[...new Set(_wi.studies.map(s=>s.title).filter(Boolean))];
+  $('#wiFiles').textContent=(files.length?('Αρχεία: '+files.join(', ')):'')+(titles.length?(' · '+titles.join(' · ')):'');
+  const nNew=_wi.rows.filter(r=>r.match==='new').length;
+  const nEx=_wi.rows.filter(r=>r.match!=='new').length;
+  $('#wiSummary').innerHTML='<b>'+_wi.rows.length+'</b> γραμμές · <b>'+nNew+'</b> νέα · <b>'+nEx+'</b> ήδη στον κατάλογο «'+(esc(g.short_name||g.name||''))+'»';
+  const qtyBox=$('#wiQty');
+  if(qtyBox){
+    if(gid!==cur.groupId){qtyBox.checked=false;qtyBox.disabled=true;}
+    else qtyBox.disabled=false;
+  }
+  if(!_wi.rows.length){
+    tb.innerHTML='<tr><td class="wi-empty" colspan="7">Δεν εντοπίστηκαν είδη σε πίνακα τιμολογίου / προϋπολογισμού. Ελέγξτε ότι η μελέτη έχει πίνακα με περιγραφή και μονάδα μέτρησης.</td></tr>';
+    return;
+  }
+  tb.innerHTML=_wi.rows.map(r=>{
+    const badge=r.match==='exact'?'<span class="wi-badge wi-badge--exact">Υπάρχει</span>'
+      :r.match==='similar'?'<span class="wi-badge wi-badge--similar">Παρόμοιο'+(r.material?' · '+esc((r.material.name||'').slice(0,48)):'')+'</span>'
+      :'<span class="wi-badge wi-badge--new">Νέο</span>';
+    const specs=(r.specs||'').trim();
+    return '<tr data-i="'+r._i+'">'+
+      '<td class="c"><input type="checkbox" class="wi-sel"'+(r.selected?' checked':'')+'></td>'+
+      '<td class="wi-name"><input type="text" class="wi-f-name" value="'+escAttr(r.name||'')+'"></td>'+
+      '<td class="wi-unit"><input type="text" class="wi-f-unit" value="'+escAttr(r.unit||'')+'"></td>'+
+      '<td class="wi-num"><input type="text" class="wi-f-qty" value="'+(r.qty==null?'':String(r.qty).replace('.',','))+'"></td>'+
+      '<td class="wi-num"><input type="text" class="wi-f-price" value="'+(r.price==null?'':String(r.price).replace('.',','))+'"></td>'+
+      '<td>'+badge+'</td>'+
+      '<td class="wi-specs">'+(specs?esc(specs.slice(0,220))+(specs.length>220?'…':''):'—')+'</td>'+
+      '</tr>';
+  }).join('');
+}
+function fillWordImportGroups(){
+  const sel=$('#wiGroup'); if(!sel)return;
+  const guessed=(_wi.studies.find(s=>s.guessedGroupCode)||{}).guessedGroupCode;
+  const guessedId=(GROUPS.find(g=>g.code===guessed)||{}).id;
+  const current=guessedId||cur.groupId;
+  sel.innerHTML=GROUPS.map(g=>{
+    const n=g.short_name||g.name;
+    return '<option value="'+g.id+'"'+(g.id===current?' selected':'')+'>'+(g.domain==='service'?'Υπηρεσία · ':'')+esc(n)+'</option>';
+  }).join('');
+}
+function readWordImportRowsFromDom(){
+  const Imp=window.StudyDocxImport;
+  const tb=$('#wiBody');
+  if(!tb)return _wi.rows;
+  [...tb.querySelectorAll('tr[data-i]')].forEach(tr=>{
+    const i=Number(tr.getAttribute('data-i'));
+    const r=_wi.rows[i]; if(!r)return;
+    r.selected=!!tr.querySelector('.wi-sel')?.checked;
+    r.name=(tr.querySelector('.wi-f-name')?.value||'').trim();
+    const unitRaw=(tr.querySelector('.wi-f-unit')?.value||'').trim();
+    r.unit=(Imp&&Imp.normalizeUnit(unitRaw))||unitRaw;
+    const qtyRaw=(tr.querySelector('.wi-f-qty')?.value||'').trim();
+    const priceRaw=(tr.querySelector('.wi-f-price')?.value||'').trim();
+    r.qty=qtyRaw===''?null:(Imp?Imp.parseElNumber(qtyRaw):parseElNumber(qtyRaw));
+    r.price=priceRaw===''?null:(Imp?Imp.parseElNumber(priceRaw):parseElNumber(priceRaw));
+  });
+  return _wi.rows.filter(r=>r.selected&&r.name);
+}
+function richerText(oldS,newS){
+  const a=String(oldS||'').trim();
+  const b=String(newS||'').trim();
+  if(!b)return null;
+  if(!a)return b;
+  if(norm(a)===norm(b)||a.indexOf(b)>=0)return null;
+  if(b.length>a.length*1.1&&b.indexOf(a.slice(0,Math.min(48,a.length)))>=0)return b;
+  return a+'\n'+b;
+}
+function openWordImportModal(studies){
+  _wi.studies=studies||[];
+  fillWordImportGroups();
+  const hasTefxi=_wi.studies.some(s=>(s.groupSpecs&&s.groupSpecs.length)||(s.purpose&&s.purpose.length));
+  const tefxi=$('#wiTefxi'); if(tefxi)tefxi.checked=!!hasTefxi;
+  wiRematch();
+  $('#wordImportModal').classList.add('open');
+}
+async function parseWordImportFiles(fileList){
+  const Imp=window.StudyDocxImport;
+  if(!Imp)throw new Error('Δεν φορτώθηκε η βιβλιοθήκη ανάλυσης μελετών Word.');
+  if(!window.JSZip)throw new Error('Δεν φορτώθηκε η βιβλιοθήκη ανάγνωσης .docx.');
+  const files=[...fileList];
+  if(!files.length)return;
+  const studies=[];
+  for(const f of files){
+    const parsed=await Imp.parseStudyFile(f,window.JSZip);
+    studies.push(...parsed);
+  }
+  const withItems=studies.filter(s=>(s.items||[]).length);
+  if(!withItems.length){
+    throw new Error('Δεν βρέθηκαν είδη στους πίνακες της μελέτης. Χρειάζεται τιμολόγιο ή προϋπολογισμός με στήλες περιγραφής και μονάδας.');
+  }
+  openWordImportModal(studies);
+}
+async function applyWordImport(){
+  if(!isAdminUser()){toast('Η εισαγωγή μελέτης Word επιτρέπεται μόνο στον administrator.','err');return;}
+  const gid=wiSelectedGroupId();
+  const g=GROUPS.find(x=>x.id===gid);
+  if(!g){toast('Επίλεξε ομάδα καταλόγου.','err');return;}
+  const selected=readWordImportRowsFromDom();
+  if(!selected.length){toast('Δεν έχει επιλεγεί καμία γραμμή.','err');return;}
+  const doNew=$('#wiNewItems')?.checked;
+  const doSpecs=$('#wiFillSpecs')?.checked;
+  const doPrice=$('#wiFillPrice')?.checked;
+  const doQty=$('#wiQty')?.checked&&gid===cur.groupId;
+  const doTefxi=$('#wiTefxi')?.checked;
+  const toCreate=doNew?selected.filter(r=>r.match==='new'||!r.material):[];
+  const toUpdate=selected.filter(r=>r.material&&(r.match==='exact'||r.match==='similar'));
+  if(!toCreate.length&&!toUpdate.length&&!doTefxi){
+    toast('Δεν υπάρχουν αλλαγές προς καταχώριση.','err');return;
+  }
+  const preview=[];
+  if(toCreate.length)preview.push(toCreate.length+' νέα είδη');
+  if(toUpdate.length)preview.push(toUpdate.length+' υπάρχοντα προς εμπλουτισμό');
+  if(doQty)preview.push('ποσότητες στο δελτίο της Δ.Ε.');
+  if(doTefxi)preview.push('κείμενα τευχών ομάδας');
+  if(!confirm('Καταχώριση μελέτης Word στην ομάδα «'+(g.short_name||g.name)+'».\n\nΘα γραφτούν: '+preview.join(', ')+'.\n\nΤα νέα/τροποποιημένα είδη εμφανίζονται σε όλες τις Δημοτικές Ενότητες. Συνέχεια;'))return;
+  const btn=$('#wiApply'); const old=btn?btn.textContent:'';
+  if(btn){btn.disabled=true;btn.textContent='Καταχώριση…';}
+  try{
+    const current=MAT_BY_GROUP[gid]||[];
+    const maxSort=current.reduce((mx,m)=>Math.max(mx,Number(m.sort_order)||0),0);
+    const stamp=Date.now();
+    const createdMap=new Map();
+    if(toCreate.length){
+      const payload=toCreate.map((r,i)=>{
+        r._code='WD-'+gid+'-'+stamp+'-'+(i+1);
+        return {
+          group_id:gid,
+          code:r._code,
+          name:r.name,
+          short_name:r.name,
+          unit:r.unit||'τεμ.',
+          cpv:r.cpv||null,
+          default_unit_price:(r.price!=null&&r.price>=0)?r.price:null,
+          technical_specs:(r.specs||'').trim()||null,
+          standards:(r.standards||'').trim()||null,
+          ce_required:/\bce\b|σήμανσ[ηης]+\s*ce|πιστοποίηση\s+ce/i.test(r.specs||''),
+          notes_for_tender:r._title?('Πηγή μελέτης: '+r._title):null,
+          is_active:true,
+          sort_order:maxSort+i+1
+        };
+      });
+      for(let i=0;i<payload.length;i+=80){
+        const chunk=payload.slice(i,i+80);
+        const {data,error}=await sb.from('materials').insert(chunk).select('id,code,name,unit,default_unit_price,technical_specs');
+        if(error)throw new Error('Αποτυχία προσθήκης νέων ειδών: '+error.message);
+        (data||[]).forEach(m=>createdMap.set(m.code,m));
+      }
+    }
+    let updated=0;
+    for(const r of toUpdate){
+      const m=r.material; if(!m)continue;
+      const patch={};
+      if(doSpecs){
+        const nxt=richerText(m.technical_specs,r.specs);
+        if(nxt)patch.technical_specs=nxt;
+        const st=richerText(m.standards,r.standards);
+        if(st)patch.standards=st;
+      }
+      if(doPrice&&(m.default_unit_price==null||m.default_unit_price==='')&&r.price!=null&&r.price>=0){
+        patch.default_unit_price=r.price;
+      }
+      if(Object.keys(patch).length){
+        const {error}=await sb.from('materials').update(patch).eq('id',m.id);
+        if(error)throw new Error('Αποτυχία ενημέρωσης «'+m.name+'»: '+error.message);
+        Object.assign(m,patch);
+        updated++;
+      }
+    }
+    const observations=[];
+    selected.forEach(r=>{
+      if(r.price==null||r.price<0)return;
+      let mid=r.material&&r.material.id;
+      if(!mid&&r._code&&createdMap.get(r._code))mid=createdMap.get(r._code).id;
+      if(!mid)return;
+      observations.push({
+        material_id:mid,
+        observed_year:YEAR,
+        municipal_unit_id:cur.unitId,
+        source_title:(r._title||'').slice(0,240)||null,
+        source_file:(r._file||'').slice(0,180)||null,
+        original_description:r.name,
+        unit:r.unit||'τεμ.',
+        unit_price:r.price,
+        quantity:r.qty,
+        total_cost:r.cost!=null?r.cost:(r.qty!=null?roundMoneySafe(r.qty*r.price):null),
+        method_note:'Εισαγωγή μελέτης Word',
+        is_compatible:r.match!=='new'
+      });
+    });
+    if(observations.length){
+      const {error}=await sb.from('price_observations').insert(observations);
+      if(error)console.warn('price_observations',error);
+    }
+    if(doTefxi){
+      const key=g.code;
+      const prev=Object.assign({},TENDER_OVR[key]||{});
+      const specLines=[];
+      _wi.studies.forEach(s=>(s.groupSpecs||[]).forEach(l=>specLines.push(l)));
+      if(specLines.length){
+        const have=new Set((prev.technical||[]).map(norm));
+        const extra=specLines.filter(l=>l&&!have.has(norm(l)));
+        if(extra.length)prev.technical=(prev.technical||[]).concat(extra);
+      }
+      const purposeLines=[];
+      _wi.studies.forEach(s=>(s.purpose||[]).forEach(l=>purposeLines.push(l)));
+      if(purposeLines.length&&!(prev.purpose&&String(prev.purpose).trim())){
+        prev.purpose=purposeLines.join(' ');
+      }
+      const {error}=await sb.from('tender_overrides').upsert({id:key,data:prev,updated_by:ME.id,updated_at:new Date().toISOString()});
+      if(error)throw new Error('Αποτυχία ενημέρωσης τευχών: '+error.message);
+      TENDER_OVR[key]=prev;
+    }
+    await loadCatalog();
+    buildGrpNav();
+    syncNav();
+    let qtyN=0;
+    if(doQty&&gid===cur.groupId){
+      const snap=captureUiState('Εισαγωγή Word');
+      const refreshed=MAT_BY_GROUP[gid]||[];
+      const byId=new Map(refreshed.map(m=>[''+m.id,m]));
+      const byName=new Map(refreshed.map(m=>[norm(m.name)+'|'+norm(m.unit||''),m]));
+      selected.forEach(r=>{
+        let m=r.material?byId.get(''+r.material.id):null;
+        if(!m&&r._code&&createdMap.get(r._code))m=byId.get(''+createdMap.get(r._code).id);
+        if(!m)m=byName.get(norm(r.name)+'|'+norm(r.unit||''));
+        if(!m||r.qty==null||!(r.qty>0))return;
+        const qv=normalizeQuantityForMaterial(m,r.qty);
+        const p=r.price!=null?r.price:(priceVal(m)==null?0:priceVal(m));
+        lines[m.id]={q:qv,p};
+        qtyN++;
+      });
+      if(qtyN){
+        pushUndo('Εισαγωγή Word',snap);
+        setDirty(true);
+        await saveAll(false);
+      }
+    }
+    render();
+    closeWordImport();
+    const bits=[];
+    if(toCreate.length)bits.push(toCreate.length+' νέα είδη');
+    if(updated)bits.push(updated+' εμπλουτισμένα');
+    if(qtyN)bits.push(qtyN+' ποσότητες');
+    if(doTefxi)bits.push('κείμενα τευχών');
+    toast('Η μελέτη καταχωρίστηκε: '+(bits.join(', ')||'ολοκληρώθηκε')+'.','accent');
+  }catch(e){
+    toast('Σφάλμα καταχώρισης: '+(e.message||e),'err');
+  }finally{
+    if(btn){btn.disabled=false;btn.textContent=old||'Καταχώριση στη βάση';}
+  }
+}
+function roundMoneySafe(n){return Math.round(Number(n)*100)/100;}
+
+$('#btnWordImport')?.addEventListener('click',()=>{
+  if(!isAdminUser()){toast('Η εισαγωγή μελέτης Word επιτρέπεται μόνο στον administrator.','err');return;}
+  $('#wordImportFile').value='';
+  $('#wordImportFile').click();
+});
+$('#wordImportFile')?.addEventListener('change',async e=>{
+  const files=e.target.files;
+  if(!files||!files.length)return;
+  try{ await parseWordImportFiles(files); }
+  catch(err){ toast('Σφάλμα ανάγνωσης μελέτης: '+(err.message||err),'err'); }
+});
+$('#wiCancel')?.addEventListener('click',closeWordImport);
+$('#wiApply')?.addEventListener('click',()=>applyWordImport());
+$('#wiGroup')?.addEventListener('change',()=>{readWordImportRowsFromDom();wiRematch();});
+$('#wiCheckAll')?.addEventListener('click',e=>{
+  const on=!!e.target.checked;
+  _wi.rows.forEach(r=>{r.selected=on;});
+  $('#wiBody')?.querySelectorAll('.wi-sel').forEach(c=>{c.checked=on;});
+});
+$('#wordImportModal')?.addEventListener('click',e=>{if(e.target===$('#wordImportModal'))closeWordImport();});
 
 function applyBudgetTarget(){
   if(!canWrite(cur.unitId)){toast('Δεν έχεις δικαίωμα αλλαγής ποσοτήτων σε αυτή την ενότητα.','err');return;}
@@ -5141,6 +5502,6 @@ return {enter:enter,leaveGuard:leaveGuard};
 
 boot();
 </script>
-<div class="dev-credit">developer Vasilis Diakolios · v36</div>
+<div class="dev-credit">developer Vasilis Diakolios · v37</div>
 </body>
 </html>
